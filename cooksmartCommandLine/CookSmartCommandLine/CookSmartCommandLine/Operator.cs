@@ -74,7 +74,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
-                Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine("failed to connect" + ex + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
             Actions firstAct = new Actions();
