@@ -76,9 +76,21 @@ namespace CookSmartCommandLine
                     //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
                     //command.CommandText = "CREATE PROCEDURE `ViewRecipes`() NOT DETERMINISTIC READS SQL DATA SQL SECURITY DEFINER SELECT Recipe.Title, Recipe.RecipeID FROM Recipe ORDER BY Recipe.Title";
                     MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames=GetDataReaderColumnNames(reader);
                     while (reader.Read())
                     {
-                        Console.WriteLine(reader["Title"].ToString());
+                        for (int b = 0; b < columnNames.Count; b++)
+                        {
+                            Console.Write(columnNames.ElementAt(b) + " ");
+                        }
+                        Console.Write("\n");
+                        //Console.WriteLine(reader["Title"].ToString());
+                        string idString = reader["IngredientID"].ToString();
+                        int id = 9999;
+                        bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
                     }
                     reader.Close();
                 }
@@ -105,6 +117,13 @@ namespace CookSmartCommandLine
             Console.ReadLine();
 
         }
+        static List<string> GetDataReaderColumnNames(IDataReader rdr)
+        {
+            var columnNames = new List<string>();
+            for (int i = 0; i < rdr.FieldCount; i++)
+                columnNames.Add(rdr.GetName(i));
+            return columnNames;
+        }
 
         public void AllRecipes(MySqlConnection conn)
         {
@@ -120,9 +139,7 @@ namespace CookSmartCommandLine
             while (reader.Read())
             {
                 
-           //    Console.Write(reader["RecipeID"].ToString()+" "+reader["Title"].ToString()+" "+reader["Description"].ToString()+" "+reader["ServingSize"].ToString()+"\n");
-                //  public Recipe(int RecipeID, string Title, string Description, int ServingSize)
-                //ingredients.Add(temp);
+       
                 string idString = reader["RecipeID"].ToString();
                 int id = 9999;
                 bool parse = int.TryParse(idString, out id);
