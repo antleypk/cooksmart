@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Actions.cs" />
     <Compile Include="Ingredient.cs" />
+    <Compile Include="Instruction.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

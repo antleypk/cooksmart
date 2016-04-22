@@ -16,6 +16,49 @@ namespace CookSmartCommandLine
 
         }
 
+        public List<Instruction> allInstructions(MySqlConnection conn)
+        {
+            List<Instruction> instructions = new List<Instruction>();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex + "\n");
+                Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
+            }
+            string Action = "AllInstructions";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
+            try
+            {
+                MySqlDataReader reader = command.ExecuteReader();
+                List<String> columnNames = GetDataReaderColumnNames(reader);
+                for (int b = 0; b < columnNames.Count; b++)
+                {
+                    Console.Write(columnNames.ElementAt(b) + " ");
+                }
+                while (reader.Read())
+                {
+                    Console.WriteLine(reader["InstructionID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Order"].ToString());
+                    //string idString = reader["IngredientID"].ToString();
+                    //int id = 9999;
+                    //bool parse = int.TryParse(idString, out id);
+                    //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                    //ingredients.Add(temp);
+                }
+                reader.Close();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Reader failed for ingredients" + "\n");
+            }
+            return instructions;
+        }
+
         public List<Ingredient> allIngredients(MySqlConnection conn)
         {
             List<Ingredient> ingredients = new List<Ingredient>();
@@ -52,12 +95,120 @@ namespace CookSmartCommandLine
             return ingredients;
         }
 
-        public void IngredientsInRecipe(MySqlConnection conn)
+        public void IngredientsInInstruction(MySqlConnection conn)
+        {
+            try
+            {
+
+
+                Console.WriteLine("What instruction would you like to see (id int+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                int instructionID;
+                bool parse = int.TryParse(userInput, out instructionID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "IngredientsInInstruction";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@InputInstruction", instructionID);
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    while (reader.Read())
+                    {
+
+                        //   Console.Write("\n");
+                        Console.WriteLine(reader["Title"].ToString() + " " + reader["Quantity"]);
+                        //string idString = reader["InstructionID"].ToString();
+                        //int id = 9999;
+                        //bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void InstructionsInRecipe(MySqlConnection conn)
+        {
+            try
+            {
+                //   Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("What recipe would you like to see (id int+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                int recipeID;
+                bool parse = int.TryParse(userInput, out recipeID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "InstructionsInRecipe";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RecipeInput", recipeID);
+                    //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
+                    //command.CommandText = "CREATE PROCEDURE `ViewRecipes`() NOT DETERMINISTIC READS SQL DATA SQL SECURITY DEFINER SELECT Recipe.Title, Recipe.RecipeID FROM Recipe ORDER BY Recipe.Title";
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    while (reader.Read())
+                    {
+
+                        //   Console.Write("\n");
+                        Console.WriteLine(reader["Title"].ToString());
+                        //string idString = reader["InstructionID"].ToString();
+                        //int id = 9999;
+                        //bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+ 
+
+
+
+        public void IngredientsInRecipe(MySqlConnection connn)
         {
 
             //   string connString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
             //   MySqlConnection conn = new MySqlConnection(connString);
-         //   MySqlConnection conn = connn;
+            MySqlConnection conn = connn;
             try
             {
                 //   Console.WriteLine("Connecting to MySQL..." + "\n");
@@ -79,21 +230,81 @@ namespace CookSmartCommandLine
                     List<String> columnNames=GetDataReaderColumnNames(reader);
                     for (int b = 0; b < columnNames.Count; b++)
                     {
-                        Console.Write(columnNames.ElementAt(b) + " ");
+                   //     Console.Write(columnNames.ElementAt(b) + " ");
                     }
-                    Console.WriteLine();
                     while (reader.Read())
                     {
-
-                        Console.Write(reader["Title"].ToString());
-                        Console.Write("\n");
-                        //Console.WriteLine(reader["Title"].ToString());
+                       
+                     //   Console.Write("\n");
+                        Console.WriteLine(reader["Title"].ToString() + " " + reader["Quantity"]);
                         string idString = reader["IngredientID"].ToString();
                         int id = 9999;
                         bool parse2 = int.TryParse(idString, out id);
 
-                        Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(),"invald");
-                        temp.printIngredient();
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            //while (reader.Read())
+            //{
+            //    Console.WriteLine(reader["RecipeID"].ToString());
+            //    Console.WriteLine(reader["Title"].ToString());
+            //}
+            conn.Close();
+            Console.WriteLine("done");
+            Console.ReadLine();
+
+        }
+        public void IngredientsInRecipe(MySqlConnection connn, int recipeID)
+        {
+
+            //   string connString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+            //   MySqlConnection conn = new MySqlConnection(connString);
+            MySqlConnection conn = connn;
+            try
+            {
+                //   Console.WriteLine("Connecting to MySQL..." + "\n");
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "IngredientsInRecipe";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RecipeInput", recipeID);
+                    //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
+                    //command.CommandText = "CREATE PROCEDURE `ViewRecipes`() NOT DETERMINISTIC READS SQL DATA SQL SECURITY DEFINER SELECT Recipe.Title, Recipe.RecipeID FROM Recipe ORDER BY Recipe.Title";
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                  //      Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    while (reader.Read())
+                    {
+
+                        //   Console.Write("\n");
+                        Console.WriteLine(reader["Title"].ToString());
+                        string idString = reader["IngredientID"].ToString();
+                        int id = 9999;
+                        bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
                     }
                     reader.Close();
                 }
@@ -138,15 +349,7 @@ namespace CookSmartCommandLine
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
-
             MySqlDataReader reader = command.ExecuteReader();
-            List<String> columnNames = GetDataReaderColumnNames(reader);
-            for (int b = 0; b < columnNames.Count; b++)
-            {
-               // Console.Write(columnNames.ElementAt(b) + "   ");
-            }
-            Console.WriteLine();
-
             while (reader.Read())
             {
                 
@@ -161,18 +364,56 @@ namespace CookSmartCommandLine
                 Recipe tempRecipe = new Recipe(id, reader["Title"].ToString(), reader["Description"].ToString(), servingSize);
                 string relavent=tempRecipe.getRelavent();
                 Console.Write(relavent + "\n");
-
-
-                
-
-                //string RecipeName = reader["Title"].ToString();
-                //Console.Write(idString + "   " + RecipeName + "\n");
             }
             reader.Close();
             conn.Close();
         //    return ingredients;
         }
 
+        public void InstructionsInRecipe(MySqlConnection conn, int recipeID)
+        {
+            try
+            {
+                bool parse = true;
 
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "InstructionsInRecipe";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@RecipeInput", recipeID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                       // Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    while (reader.Read())
+                    {
+
+                        //   Console.Write("\n");
+                        Console.WriteLine(reader["Title"].ToString());
+                        //string idString = reader["InstructionID"].ToString();
+                        //int id = 9999;
+                        //bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
