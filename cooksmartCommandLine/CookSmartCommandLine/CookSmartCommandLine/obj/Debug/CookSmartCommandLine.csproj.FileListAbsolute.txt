@@ -1,0 +1,13 @@
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe.config
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.csprojResolveAssemblyReference.cache
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.pdb
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\MySql.Data.dll
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.exe
+C:\Users\Thomas\Desktop\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.pdb
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe.config
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.exe
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.pdb
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.pdb
+C:\Users\Daily\Desktop\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.csprojResolveAssemblyReference.cache
