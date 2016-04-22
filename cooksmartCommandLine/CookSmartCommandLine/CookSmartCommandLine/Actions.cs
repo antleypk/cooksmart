@@ -19,23 +19,36 @@ namespace CookSmartCommandLine
         public List<Ingredient> allIngredients(MySqlConnection conn)
         {
             List<Ingredient> ingredients = new List<Ingredient>();
-         
-            conn.Open();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex+"\n");
+                Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
+            }
             string Action = "AllIngredientsAlphabetical";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                string idString = reader["IngredientID"].ToString();
-                int id=9999;
-                bool parse = int.TryParse(idString, out id);
-                Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
-                ingredients.Add(temp);
+            try {
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string idString = reader["IngredientID"].ToString();
+                    int id = 9999;
+                    bool parse = int.TryParse(idString, out id);
+                    Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                    ingredients.Add(temp);
+                }
+                reader.Close();
+                conn.Close();
             }
-            reader.Close();
-            conn.Close();
+            catch (Exception ex)
+            {
+                Console.Write("Reader failed for ingredients" + "\n");
+            }
             return ingredients;
         }
 
@@ -98,7 +111,7 @@ namespace CookSmartCommandLine
            // List<Ingredient> ingredients = new List<Ingredient>();
 
             conn.Open();
-            string Action = "AllIngredientsAlphabetical";
+            string Action = "AllRecipesAlphabetical";
             // string Action = "AllIngredientsAlphabetical";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
@@ -106,12 +119,20 @@ namespace CookSmartCommandLine
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                reader["Title"].ToString();
-                //string idString = reader["IngredientID"].ToString();
-                //int id = 9999;
-                //bool parse = int.TryParse(idString, out id);
-                //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                
+           //    Console.Write(reader["RecipeID"].ToString()+" "+reader["Title"].ToString()+" "+reader["Description"].ToString()+" "+reader["ServingSize"].ToString()+"\n");
+                //  public Recipe(int RecipeID, string Title, string Description, int ServingSize)
                 //ingredients.Add(temp);
+                string idString = reader["RecipeID"].ToString();
+                int id = 9999;
+                bool parse = int.TryParse(idString, out id);
+                
+                string servingString = reader["ServingSize"].ToString();
+                int servingSize = 9999;
+                bool parse2 = int.TryParse(servingString, out servingSize);
+                Recipe tempRecipe = new Recipe(id, reader["Title"].ToString(), reader["Description"].ToString(), servingSize);
+                string relavent=tempRecipe.getRelavent();
+                Console.Write(relavent + "\n");
             }
             reader.Close();
             conn.Close();

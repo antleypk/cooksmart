@@ -15,23 +15,12 @@ namespace CookSmartCommandLine
 
         }
 
-        public void firstFunction()
-        {
-          // Console.Write("first function" + "\n");
-            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
-          //   secondFunction(connectionString);
-            Console.Write("third function" + "\n");
-             thirtdFunction(connectionString);
-           // Console.Write("All recip" + "\n");
-          //  allRecipies(connectionString);
-        }
+
 
         public void allIngredients(string connection)
 
         {
             MySqlConnection conn;
-
-            //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
             conn = new MySqlConnection(connection);
             try
             {
@@ -53,15 +42,24 @@ namespace CookSmartCommandLine
                 ingredientsGlobal.Add(temp);
             }
 
-            
-           
-
         }
-
-        public void thirtdFunction(string connection)
+        public void allIngredientInRecipe(string connection)
         {
-            
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.IngredientsInRecipe(conn);
         }
+
 
         public void allRecipies(string connection)
         {
@@ -78,7 +76,7 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine("failed to connect" + "\n");
             }
-            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
             Actions firstAct = new Actions();
            
             firstAct.AllRecipes(conn);
