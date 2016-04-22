@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions.cs" />
+    <Compile Include="CookSmart.cs" />
     <Compile Include="Ingredient.cs" />
     <Compile Include="Instruction.cs" />
     <Compile Include="Operator.cs" />

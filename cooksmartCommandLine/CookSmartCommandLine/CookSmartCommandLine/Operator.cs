@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using MySql.Data;
 using System.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CookSmartCommandLine
 {
@@ -75,6 +76,7 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             firstAct.InstructionsInRecipe(conn);
         }
+        
 
         public void allRecipes(string connection)
         {
@@ -121,25 +123,8 @@ namespace CookSmartCommandLine
 
         public void cookSmart(string connection)
         {
-            allRecipes(connection);
-            Console.WriteLine("Select a Recipe by ID");
-            string userInput = Console.ReadLine();
-            //string idString = reader["IngredientID"].ToString();
-            int id = 9999;
-            bool parse = int.TryParse(userInput, out id);
-            Actions firstAct = new Actions();
-            MySqlConnection conn;
-            conn = new MySqlConnection(connection);
-            try
-            {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("failed to connect" + "\n");
-            }
-            firstAct.IngredientsInRecipe(conn, id);
-            firstAct.InstructionsInRecipe(conn, id);
+            CookSmart cookSmart = new CookSmart();
+            cookSmart.startUpCookSmart(connection);
 
         }
         public void allIngredientInInstruction(string connection)
@@ -158,6 +143,25 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             firstAct.IngredientsInInstruction(conn);
         }
+
+        public void ShoppingListFromRecipe(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.ShoppingListFromRecipe(conn);
+        }
+
+
     }
 
 
