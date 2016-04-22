@@ -63,7 +63,7 @@ namespace CookSmartCommandLine
                 //   Console.WriteLine("Connecting to MySQL..." + "\n");
                 Console.WriteLine("What recipe would you like to see (id int+ENTR)?" + "\n");
                 string userInput = Console.ReadLine();
-                int recipeID = 0;
+                int recipeID;
                 bool parse = int.TryParse(userInput, out recipeID);
 
                 if (parse)
