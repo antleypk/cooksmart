@@ -29,6 +29,7 @@ namespace CookSmartCommandLine
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
             Console.WriteLine("CookSmart '4' ");
+            Console.WriteLine("User Menu '5' ");
             Console.Write("Enter 'exit' to quit" + "\n");
 
             string userInput = Console.ReadLine();
@@ -49,10 +50,15 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Instructions menu");
                 InstructionMenu(operations, connectionString);
             }
-            if (userInput == "4")
+            if (userInput == "4" || userInput == "CookSmart")
             {
                 Console.WriteLine();
                 operations.cookSmart(connectionString);
+            }
+            if(userInput == "5" || userInput == "Users")
+            {
+                Console.WriteLine("User menu");
+                UserMenu(operations, connectionString);
             }
             if (userInput == "exit")
             {
@@ -65,7 +71,6 @@ namespace CookSmartCommandLine
             }
 
         }
-
 
         public void IngredientMenu(Operator operations, string connectionString)
         {
@@ -113,6 +118,29 @@ namespace CookSmartCommandLine
             if(acted == false)
             {
                 InstructionMenu(operations, connectionString);
+            }
+        }
+
+        public void UserMenu(Operator operations, string connectionString)
+        {
+            Console.WriteLine("All Meals by User (1) ");
+            Console.WriteLine("'menu' for main menu");
+            string userInput = Console.ReadLine();
+
+            bool acted = false;
+
+            if(userInput == "1")
+            {
+                operations.AllUsers(connectionString);
+                operations.UserMeals(connectionString);
+            }
+            if(userInput == "menu")
+            {
+                acted = true;
+            }
+            if(acted == false)
+            {
+                UserMenu(operations, connectionString);
             }
         }
 

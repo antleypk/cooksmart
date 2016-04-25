@@ -126,6 +126,46 @@ namespace CookSmartCommandLine
             return ingredients;
         }
 
+
+        public List<User> allUsers(MySqlConnection conn)
+        {
+            List<User> Users = new List<User>();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex + "\n");
+                Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
+            }
+            string Action = "AllUsers";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
+            try
+            {
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string idString = reader["UserID"].ToString();
+                    int id = 9999;
+                    bool parse = int.TryParse(idString, out id);
+                    User temp = new User(id, reader["FirstName"].ToString(), reader["LastName"].ToString(), reader["UserName"].ToString(), reader["DisplayName"].ToString(), reader["Password"].ToString());
+                    Users.Add(temp);
+                }
+                reader.Close();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.Write("Reader failed for users" + "\n");
+            }
+            return Users;
+        }
+
+
+
         public void IngredientsInInstruction(MySqlConnection conn)
         {
             try
@@ -298,6 +338,116 @@ namespace CookSmartCommandLine
             Console.ReadLine();
 
         }
+
+        public void UserMeals(MySqlConnection connn, int userID)
+        {
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "MealsByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            //while (reader.Read())
+            //{
+            //    Console.WriteLine(reader["RecipeID"].ToString());
+            //    Console.WriteLine(reader["Title"].ToString());
+            //}
+            conn.Close();
+            Console.WriteLine("done q");
+            Console.ReadLine();
+
+        }
+    
+
+
+        public void UserMeals(MySqlConnection connn)
+        {
+
+            //   string connString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+            //   MySqlConnection conn = new MySqlConnection(connString);
+
+            MySqlConnection conn = connn;
+            try
+            {
+                //   Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                int userID;
+                bool parse = int.TryParse(userInput, out userID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "MealsByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                    while (reader.Read())
+                    {
+
+                        //   Console.Write("\n");
+                        Console.WriteLine(reader["Name"].ToString() + " " + reader["Description"]);
+                        //   string idString = reader["IngredientID"].ToString();
+                        string idString = " ";
+                        int id = 9999;
+                        bool parse2 = int.TryParse(idString, out id);
+
+                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                        //temp.printIngredient();
+                    }
+                    reader.Close();
+                    if (parse == false)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+             catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            //while (reader.Read())
+            //{
+            //    Console.WriteLine(reader["RecipeID"].ToString());
+            //    Console.WriteLine(reader["Title"].ToString());
+            //}
+            conn.Close();
+            Console.WriteLine("done q");
+            Console.ReadLine();
+
+        }
+
+
 
 
         public void IngredientsInRecipe(MySqlConnection connn)

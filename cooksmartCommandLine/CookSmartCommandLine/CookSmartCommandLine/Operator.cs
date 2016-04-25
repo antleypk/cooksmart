@@ -60,6 +60,43 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             firstAct.IngredientsInRecipe(conn);
         }
+
+
+        public void AllUsers(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.allUsers(conn);
+        }
+
+
+        public void UserMeals(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.UserMeals(conn);
+        }
+
         public void allInstructionInRecipe(string connection)
         {
             MySqlConnection conn;
