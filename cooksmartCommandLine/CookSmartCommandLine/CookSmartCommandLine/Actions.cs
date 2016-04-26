@@ -15,36 +15,90 @@ namespace CookSmartCommandLine
         {
 
         }
-
-        public void AllRecipes(MySqlConnection conn)
+        public void InsertIngredient(MySqlConnection conn)
         {
-            // List<Ingredient> ingredients = new List<Ingredient>();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
+            }
+            string Action = "InsertIngredient";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            Console.WriteLine("Input Ingredient Name");
+            string IngName = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Description");
+            string IngDesc = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Quantity Type");
+            string IngType = Console.ReadLine();
+            List<Ingredient> ings = allIngredients(conn);
+            int IngCount = ings.Count() + 2;
+            command.Parameters.AddWithValue("@id", IngCount);
+            command.Parameters.AddWithValue("@title", IngName);
+            command.Parameters.AddWithValue("@description", IngDesc);
+            command.Parameters.AddWithValue("@quantitytype", IngType);
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+        public List<Ingredient> StoreIngredient(MySqlConnection conn, List<Ingredient> ings)
+        {
+            Console.WriteLine("Input Ingredient Name");
+            string IngName = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Description");
+            string IngDesc = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Quantity Type");
+            string IngType = Console.ReadLine();
+            int IngCount = ings.Count() + 2;
+            Ingredient newing = new Ingredient(IngCount, IngName, IngDesc, IngType);
+            ings.Add(newing);
+            return ings;
+        }
 
-            conn.Open();
-            string Action = "AllRecipesAlphabetical";
-            // string Action = "AllIngredientsAlphabetical";
+        public List<Recipe> AllRecipes(MySqlConnection conn)
+        {
+            List<Recipe> recipes = new List<Recipe>();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex + "\n");
+                Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
+            }
+            string Action = "AllRecipes";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            try
             {
-
-
-                string idString = reader["RecipeID"].ToString();
-                int id = 9999;
-                bool parse = int.TryParse(idString, out id);
-
-                string servingString = reader["ServingSize"].ToString();
-                int servingSize = 9999;
-                bool parse2 = int.TryParse(servingString, out servingSize);
-                Recipe tempRecipe = new Recipe(id, reader["Title"].ToString(), reader["Description"].ToString(), servingSize);
-                string relavent = tempRecipe.getRelavent();
-                Console.Write(relavent + "\n");
+                MySqlDataReader reader = command.ExecuteReader();
+                List<String> columnNames = GetDataReaderColumnNames(reader);
+                for (int b = 0; b < columnNames.Count; b++)
+                {
+                    Console.Write(columnNames.ElementAt(b) + " ");
+                }
+                while (reader.Read())
+                {
+                    Console.WriteLine(reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + reader["ServingSize"].ToString());
+                    //string idString = reader["IngredientID"].ToString();
+                    //int id = 9999;
+                    //bool parse = int.TryParse(idString, out id);
+                    //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                    //ingredients.Add(temp);
+                }
+                reader.Close();
+                conn.Close();
             }
-            reader.Close();
-            conn.Close();
-            //    return ingredients;
+            catch (Exception ex)
+            {
+                Console.Write("Reader failed for ingredients" + "\n");
+            }
+            return recipes;
         }
 
         public List<Instruction> allInstructions(MySqlConnection conn)

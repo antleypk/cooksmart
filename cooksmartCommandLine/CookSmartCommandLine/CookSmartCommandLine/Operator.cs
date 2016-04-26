@@ -16,11 +16,44 @@ namespace CookSmartCommandLine
 
         }
 
-
-
-        public void allIngredients(string connection)
+        public void insertIngredient(string connection)
 
         {
+            MySqlConnection conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect");
+            }
+            Console.WriteLine("Connected to CookSmart Database");
+            Actions firstAct = new Actions();
+            firstAct.InsertIngredient(conn);
+        }
+
+        public void storeIngredient(string connection, List<Ingredient> ings)
+
+        {
+            MySqlConnection conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect");
+            }
+            Console.WriteLine("Connected to CookSmart Database");
+            Actions firstAct = new Actions();
+            firstAct.StoreIngredient(conn,ings);
+        }
+        public List<Ingredient> allIngredients(string connection)
+
+        {
+            List<Ingredient> ingredients = new List<Ingredient>();
+
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -34,14 +67,15 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             //   List<Recipe> recipes = new List<Recipe>();
-            List<Ingredient> ingredients = new List<Ingredient>();
             ingredients = firstAct.allIngredients(conn);
             int ingredientCount=ingredients.Count;
             foreach (Ingredient temp in ingredients )
             {
                 temp.printIngredient();
                 ingredientsGlobal.Add(temp);
+                
             }
+            return ingredients;
 
         }
         public void allIngredientInRecipe(string connection)

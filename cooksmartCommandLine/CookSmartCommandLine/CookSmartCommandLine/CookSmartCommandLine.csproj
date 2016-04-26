@@ -48,6 +48,7 @@
     <Compile Include="CookSmart.cs" />
     <Compile Include="Ingredient.cs" />
     <Compile Include="Instruction.cs" />
+    <Compile Include="newmeal.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

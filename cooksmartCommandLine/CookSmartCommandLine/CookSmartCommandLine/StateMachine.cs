@@ -8,6 +8,8 @@ namespace CookSmartCommandLine
 {
    public class StateMachine
     {
+        List<Ingredient> Ingredients = new List<Ingredient>();
+
         public StateMachine()
         {
 
@@ -60,6 +62,11 @@ namespace CookSmartCommandLine
                 Console.WriteLine("User menu");
                 UserMenu(operations, connectionString);
             }
+            //if(userInput == "6")
+            //{
+            //    Console.WriteLine("New Recipe");
+            //    operations.newmeal(connectionString);
+            //}
             if (userInput == "exit")
             {
                 acted = true;
@@ -75,7 +82,39 @@ namespace CookSmartCommandLine
         public void IngredientMenu(Operator operations, string connectionString)
         {
             Console.Write("All Ingredients" + "\n");
-            operations.allIngredients(connectionString);
+            Console.WriteLine("Show All Ingredients '1'");
+            Console.WriteLine("Insert Ingredient '2'");
+            Console.WriteLine("Main Menu 'Menu'");
+
+            string userInput = Console.ReadLine();
+
+            bool acted = false;
+
+            if (Ingredients.Any<Ingredient>() == false)
+            {
+                Ingredients = operations.allIngredients(connectionString);
+            }
+            if (userInput == "1")
+            {
+                foreach (Ingredient tempIngredient in Ingredients){
+                    tempIngredient.printIngredient();
+                }
+            }
+            if(userInput == "2")
+            {
+                Console.WriteLine();
+
+                //List<Ingredient> Ingredients = operations.allIngredients(connectionString);
+                operations.storeIngredient(connectionString,Ingredients);
+            }
+            if(userInput == "Menu")
+            {
+                acted = true;
+            }
+            if(acted == false)
+            {
+                IngredientMenu(operations, connectionString);
+            }
            
         }
 
