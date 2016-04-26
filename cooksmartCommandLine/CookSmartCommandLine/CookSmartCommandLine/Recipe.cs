@@ -42,7 +42,7 @@ namespace CookSmartCommandLine
             return servingsize;
         }
 
-        public string getRelavent()
+        public string printRecipe()
         {
             string relavent;
             relavent = id + ": " + name + " Description " + description;
