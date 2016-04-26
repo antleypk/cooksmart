@@ -1,0 +1,4 @@
+CookSmartAndriodApp.MainActivity, CookSmartAndriodApp;md54e6f1292e5fe1fe344b3c50d37f8b539.MainActivity
+CookSmartAndriodApp.MainActivity, CookSmartAndriodApp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md54e6f1292e5fe1fe344b3c50d37f8b539.MainActivity
+CookSmartAndriodApp.MainActivity;md54e6f1292e5fe1fe344b3c50d37f8b539.MainActivity
+cooksmartandriodapp.MainActivity;md54e6f1292e5fe1fe344b3c50d37f8b539.MainActivity

@@ -23,3 +23,9 @@ C:\Users\austi_000\Source\Repos\cooksmart\cooksmartCommandLine\CookSmartCommandL
 C:\Users\austi_000\Source\Repos\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe
 C:\Users\austi_000\Source\Repos\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.pdb
 C:\Users\austi_000\Source\Repos\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.csprojResolveAssemblyReference.cache
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe.config
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.exe
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.exe
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\bin\Debug\CookSmartCommandLine.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartCommandLine\obj\Debug\CookSmartCommandLine.csprojResolveAssemblyReference.cache

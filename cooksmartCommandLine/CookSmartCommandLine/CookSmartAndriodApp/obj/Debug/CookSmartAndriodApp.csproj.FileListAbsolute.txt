@@ -1,0 +1,15 @@
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\bin\Debug\CookSmartAndriodApp.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\bin\Debug\CookSmartAndriodApp.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\bin\Debug\CookSmartAndriodApp.CookSmartAndriodApp.apk
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\bin\Debug\CookSmartAndriodApp.CookSmartAndriodApp-Signed.apk
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\CookSmartAndriodApp.csprojResolveAssemblyReference.cache
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\CookSmartAndriodApp.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\CookSmartAndriodApp.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\android\bin\CookSmartAndriodApp.CookSmartAndriodApp.apk
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\res\layout\main.xml
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\res\values\strings.xml
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\res\drawable\icon.png
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\R.cs.flag
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\uploadflags.txt
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\obj\Debug\CookSmartAndriodApp.dll.mdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartAndriodApp\bin\Debug\CookSmartAndriodApp.dll.mdb
