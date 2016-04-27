@@ -13,6 +13,7 @@ namespace CookSmartCommandLine
         List<Recipe> Recipes = new List<Recipe>();
         List<User> Users = new List<User>();
         List<Calendar> Calendar = new List<Calendar>();
+        List<Kitchen> Kitchen = new List<Kitchen>();
 
 
         public StateMachine()
@@ -201,7 +202,14 @@ namespace CookSmartCommandLine
             }
             if(userInput == "3")
             {
-                operations.UserKitchen(connectionString);
+                if(Kitchen.Any<Kitchen>() == false)
+                {
+                    Kitchen = operations.UserKitchen(connectionString);
+                }
+                foreach(Kitchen tempkitchen in Kitchen)
+                {
+                    tempkitchen.printKitchen();
+                }
             }
             if(userInput == "4")
             {
@@ -211,7 +219,7 @@ namespace CookSmartCommandLine
                 }
                 foreach (Calendar tempcalendar in Calendar)
                 {
-                    
+                    tempcalendar.printCalendar();
                 }
             }
             if(userInput == "menu")
