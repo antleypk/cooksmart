@@ -14,6 +14,8 @@ namespace CookSmartCommandLine
 
         private List<Recipe> recipesGlobal = new List<Recipe>();
 
+        private List<Calendar> calendarsGlobal = new List<Calendar>();
+
         public Operator()
         {
 
@@ -99,7 +101,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public void AllUsers(string connection)
+        public List<User> AllUsers(string connection)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -113,7 +115,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.allUsers(conn);
+            return firstAct.allUsers(conn);
         }
 
 
@@ -132,6 +134,41 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             firstAct.UserMeals(conn);
+        }
+
+        public List<Kitchen> UserKitchen(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.UserKitchen(conn);
+        }
+
+        public List<Calendar> UserCalendar(string connection)
+        {
+            List<Calendar> UserCalendar = new List<Calendar>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.UserCalendar(conn);
         }
 
         public void allInstructionInRecipe(string connection)

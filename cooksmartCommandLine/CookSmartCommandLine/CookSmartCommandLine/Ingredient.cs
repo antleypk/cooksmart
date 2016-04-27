@@ -12,7 +12,7 @@ namespace CookSmartCommandLine
         private string name = "Ingredient name failed c#";
         public string description = "Description failed c#";
         private string quantitytype = "QuantityType failed at c#";
-
+        //blank constructor
         public Ingredient()
         {
 
@@ -34,6 +34,11 @@ namespace CookSmartCommandLine
         {
             return name;
         }
+
+        public void setName(string newName)
+        {
+            name = newName;
+        }
         public string getDescription()
         {
             return description;
@@ -50,7 +55,7 @@ namespace CookSmartCommandLine
             //private string name = "Ingredient name failed c#";
             //public string description = "Description failed c#";
             //private string quantitytype = "QuantityType failed at c#";
-            Console.Write("ID: " + id + " Name: " + name + " Description: " + description + " Quantity Type " + quantitytype + "\n");
+            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity Type " + quantitytype + "\n");
         }
     }
 }

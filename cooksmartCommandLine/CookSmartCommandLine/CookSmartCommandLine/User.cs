@@ -21,12 +21,12 @@ namespace CookSmartCommandLine
 
         public User(int UserID, string FirstName, string LastName, string UserName, string DisplayName, string Password)
         {
-            userid = UserID;
-            firstname = FirstName;
-            lastname = LastName;
-            username = UserName;
-            displayname = DisplayName;
-            password = Password;
+           this.userid = UserID;
+           this.firstname = FirstName;
+           this.lastname = LastName;
+           this.username = UserName;
+           this.displayname = DisplayName;
+           this.password = Password;
         }
         public int getID()
         {
@@ -51,6 +51,14 @@ namespace CookSmartCommandLine
         public string getPassword()
         {
             return password;
+        }
+        public void printUser()
+        {
+            //      private int id = 0;
+            //private string name = "Ingredient name failed c#";
+            //public string description = "Description failed c#";
+            //private string quantitytype = "QuantityType failed at c#";
+            Console.Write("ID: " + userid + "\n First Name: " + firstname + "\n Last Name: " + lastname + "\n User Name " + username + "\n Display Name " + displayname + "\n password: " + password  + "\n");
         }
     }
 }
