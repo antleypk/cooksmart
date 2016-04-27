@@ -124,7 +124,7 @@ namespace CookSmartCommandLine
                 }
                 while (reader.Read())
                 {
-                    Console.WriteLine(reader["InstructionID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Order"].ToString());
+                    //Console.WriteLine(reader["InstructionID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Order"].ToString());
                     //string idString = reader["IngredientID"].ToString();
                     //int id = 9999;
                     //bool parse = int.TryParse(idString, out id);

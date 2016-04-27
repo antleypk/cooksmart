@@ -210,6 +210,8 @@ namespace CookSmartCommandLine
             List<Recipe> recipes = firstAct.AllRecipes(conn);
             foreach (Recipe temprec in recipes)
             {
+                int temprecipeid = temprec.getId();
+       
                 temprec.printRecipe();
                 recipesGlobal.Add(temprec);
 
