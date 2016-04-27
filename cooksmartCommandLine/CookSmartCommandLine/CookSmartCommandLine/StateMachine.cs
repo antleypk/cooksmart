@@ -11,6 +11,8 @@ namespace CookSmartCommandLine
         List<Ingredient> Ingredients = new List<Ingredient>();
         String userName;
         List<Recipe> Recipes = new List<Recipe>();
+        List<User> Users = new List<User>();
+        List<Calendar> Calendar = new List<Calendar>();
 
 
         public StateMachine()
@@ -44,7 +46,7 @@ namespace CookSmartCommandLine
         {
             // a menu should be put here
             Operator operations = new Operator();
-            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -173,16 +175,44 @@ namespace CookSmartCommandLine
 
         public void UserMenu(Operator operations, string connectionString)
         {
-            Console.WriteLine("All Meals by User (1) ");
+            Console.WriteLine("All Users (1) ");
+            Console.WriteLine("All Meals by User (2) ");
+            Console.WriteLine("Kitchen by User (3)");
+            Console.WriteLine("Calendar by User (4)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
+
+            if (Users.Any<User>() == false)
+            {
+                Users = operations.AllUsers(connectionString);
+            }
 
             bool acted = false;
 
             if(userInput == "1")
             {
-                operations.AllUsers(connectionString);
+                foreach(User tempuser in Users)
+                {
+                    tempuser.printUser();
+                }
+            }
+            if(userInput == "2"){
                 operations.UserMeals(connectionString);
+            }
+            if(userInput == "3")
+            {
+                operations.UserKitchen(connectionString);
+            }
+            if(userInput == "4")
+            {
+                if(Calendar.Any<Calendar>() == false)
+                {
+                    Calendar = operations.UserCalendar(connectionString);
+                }
+                foreach (Calendar tempcalendar in Calendar)
+                {
+                    
+                }
             }
             if(userInput == "menu")
             {
@@ -239,7 +269,6 @@ namespace CookSmartCommandLine
             {
                 acted = true;
             }
-
 
             if (acted == false)
             {

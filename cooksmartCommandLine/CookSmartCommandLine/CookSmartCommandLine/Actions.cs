@@ -399,11 +399,13 @@ namespace CookSmartCommandLine
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
-                    Console.WriteLine();
+                    Console.WriteLine(reader["Title"].ToString() + "\n" + reader["Description"].ToString() + "\n");
+                    
                 }
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex.Message);
             }
 
@@ -414,7 +416,7 @@ namespace CookSmartCommandLine
             //    Console.WriteLine(reader["Title"].ToString());
             //}
             conn.Close();
-            Console.WriteLine("done q");
+            Console.WriteLine("done");
             Console.ReadLine();
 
         }
@@ -454,7 +456,7 @@ namespace CookSmartCommandLine
                     {
 
                         //   Console.Write("\n");
-                        Console.WriteLine(reader["Name"].ToString() + " " + reader["Description"]);
+                        Console.WriteLine(reader["Name"].ToString() + "\n" + reader["Description"] + "\n");
                         //   string idString = reader["IngredientID"].ToString();
                         string idString = " ";
                         int id = 9999;
@@ -489,7 +491,189 @@ namespace CookSmartCommandLine
         }
 
 
+        //public List<Kitchen> UserKitchen(MySqlConnection connn)
+        //{
+        //    List<Kitchen> UserKitchen = new List<Kitchen>();
+        //    MySqlConnection conn = connn;
+        //    try
+        //    {
+        //        Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
+        //        string userInput = Console.ReadLine();
+        //        int userID;
+        //        bool parse = int.TryParse(userInput, out userID);
 
+        //        if (parse)
+        //        {
+        //            conn.Open();
+        //        }
+        public List<Calendar> UserCalendar(MySqlConnection connn)
+        {
+            List<Calendar> UserCalendar = new List<Calendar>();
+            MySqlConnection conn = connn;
+            try
+            {
+                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                int userID;
+                bool parse = int.TryParse(userInput, out userID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "CalendarByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                    while (reader.Read())
+                    {
+                        string tempDateTimeString = reader["TimeToBeServed"].ToString();
+                        DateTime newDateTime = Convert.ToDateTime(tempDateTimeString);
+                        Console.WriteLine();
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime);
+                        UserCalendar.Add(temp);
+                        Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                    }
+                    reader.Close();
+                    if (parse == false)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            conn.Close();
+            Console.WriteLine("done");
+            Console.ReadLine();
+            return UserCalendar;
+        }
+
+        public void UserCalendar(MySqlConnection connn, int userID)
+        {
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "CalendarByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+            conn.Close();
+            Console.WriteLine("done 8");
+            Console.ReadLine();
+
+        }
+
+        public void UserKitchen(MySqlConnection connn)
+        {
+            
+            MySqlConnection conn = connn;
+            try
+            {
+                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                int userID;
+                bool parse = int.TryParse(userInput, out userID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "KitchenByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                    while (reader.Read())
+                    {
+
+                        Console.WriteLine();
+                        string idString = " ";
+                        int id = 9999;
+                        bool parse2 = int.TryParse(idString, out id);
+
+                        Console.WriteLine(reader["Title"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["Quantity"].ToString() + " \n" + reader["QuantityType"].ToString());
+                    }
+                    reader.Close();
+                    if (parse == false)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            
+            conn.Close();
+            Console.WriteLine("done");
+            Console.ReadLine();
+
+        }
+
+        public void UserKitchen(MySqlConnection connn, int userID)
+        {
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "KitchenByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    Console.WriteLine(reader["Title"].ToString());
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+            conn.Close();
+            Console.WriteLine("done 8");
+            Console.ReadLine();
+
+        }
 
         public void IngredientsInRecipe(MySqlConnection connn)
         {

@@ -43,6 +43,9 @@ namespace CookSmartCommandLine
             actions.ShoppingListFromRecipe(conn, id);
             Console.WriteLine("Instruction List:");
             actions.InstructionsInRecipe(conn, id);
+
+            Console.WriteLine("Select a Day mm-dd-yyyy");
+            DateTime today = DateTime.Today;
         }
     }
 }
