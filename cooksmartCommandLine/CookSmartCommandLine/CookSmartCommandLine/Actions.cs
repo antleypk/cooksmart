@@ -153,7 +153,7 @@ namespace CookSmartCommandLine
                 string Year = Console.ReadLine();
                 Console.WriteLine("What Month?");
                 string Month = Console.ReadLine();
-                Console.WriteLine("What Day?");
+                Console.WriteLine("What Day? peter and tom");
                 string Day = Console.ReadLine();
                 DateTime selected = new DateTime(Convert.ToInt32(Year), Convert.ToInt32(Month), Convert.ToInt32(Day));
                 bool parse = true;
@@ -185,6 +185,7 @@ namespace CookSmartCommandLine
                         int year = Convert.ToInt32(datetimestring.Split()[2]);
                         int day = Convert.ToInt32(datetimestring.Split()[1]);
                         int month = Convert.ToInt32(datetimestring.Split()[0]);
+                        Console.Write("String datetime " + datetimestring + " year" + year);
                         DateTime present = new DateTime(1000, 0, 0);
                         bool parse3 = DateTime.TryParse(datetimestring, out present);
                         string quantitystring = reader["TotalQuantity"].ToString();
@@ -642,9 +643,45 @@ namespace CookSmartCommandLine
                         string quantitystring = reader["quantity"].ToString();
                         int newquantity = Convert.ToInt32(quantitystring);
                         string tempDateTimeString = reader["PutOnShelf"].ToString();
-                        DateTime newDateTime = Convert.ToDateTime(tempDateTimeString);
+                        Console.WriteLine(tempDateTimeString + "Tom & Pete");
+                        string month="";
+                        string day="";
+                        string year="";
+                        int count=0;
+                        for (int i = 0; i < 10; i++)
+                        {
+                            
+                            if (tempDateTimeString.ElementAt(i)!='/')
+                            {
+                                if (count == 0)
+                                {
+                                    month = month + tempDateTimeString.ElementAt(i);
+                                    
+                                }
+                                if (count == 1)
+                                {
+                                    day = day + tempDateTimeString.ElementAt(i);
+                                    
+                                }
+                                if (count == 2)
+                                {
+                                    year = year + tempDateTimeString.ElementAt(i);
+                                    
+                                }
+
+                            }
+                            if (tempDateTimeString.ElementAt(i) == '/')
+                            {
+                                count++;
+                            }
+                        }
+                        Console.WriteLine("Month :" + month + " day: " + day + " year: " + year);
+                        int yearint = Convert.ToInt32(year);
+                        int monthint = Convert.ToInt32(month);
+                        int dayint = Convert.ToInt32(day);
+                        DateTime Outputdate = new DateTime(yearint, monthint, dayint);
                         Console.WriteLine();
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), newDateTime);
+                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
                         UserKitchen.Add(temp);
                     }
                     reader.Close();
