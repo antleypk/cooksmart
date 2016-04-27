@@ -9,6 +9,12 @@ namespace CookSmartCommandLine
    public class StateMachine
     {
         List<Ingredient> Ingredients = new List<Ingredient>();
+        String userName;
+        List<Recipe> Recipes = new List<Recipe>();
+        List<User> Users = new List<User>();
+        List<Calendar> Calendar = new List<Calendar>();
+        List<Kitchen> Kitchen = new List<Kitchen>();
+
 
         public StateMachine()
         {
@@ -19,14 +25,29 @@ namespace CookSmartCommandLine
         {
             Console.Write("Welcome to CookSmart" + "\n");
             Console.Write("Thanks for chosing Traction Systems"+"\n"+"\n");
-            startMenu();
+            Console.WriteLine("Input User Name:");
+            userName = Console.ReadLine();
+            bool acted = false;
+            if (userName == "" || userName.Length<5)
+            {
+                Console.WriteLine("User Name must be greater than 5 characters");
+                startUp();
+                acted = true;
+            }
+            Console.WriteLine("Thanks for choosing CookSmart: " + userName + "\n");
+
+            if (acted == false)
+            {
+                startMenu();
+            }
+
         }
 
         public void startMenu()
         {
             // a menu should be put here
             Operator operations = new Operator();
-            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -122,8 +143,7 @@ namespace CookSmartCommandLine
         {
             Console.WriteLine();
             Console.WriteLine("All Instructions '1' ");
-            Console.WriteLine("Instructions from a Recipe '2' ");
-            Console.WriteLine("Ingredients from an Instruction '3' ");
+            Console.WriteLine("Ingredients from an Instruction '2' ");
 
             Console.WriteLine("Main Menu 'Menu'");
 
@@ -137,13 +157,7 @@ namespace CookSmartCommandLine
                 operations.allInstructions(connectionString);
                 
             }
-            if(userInput == "2")
-            {
-                Console.WriteLine();
-                operations.allRecipes(connectionString);
-                operations.allInstructionInRecipe(connectionString);
-            }
-            if (userInput == "3")
+            if (userInput == "2")
             {
                 Console.WriteLine();
                 operations.allInstructions(connectionString);
@@ -162,16 +176,52 @@ namespace CookSmartCommandLine
 
         public void UserMenu(Operator operations, string connectionString)
         {
-            Console.WriteLine("All Meals by User (1) ");
+            Console.WriteLine("All Users (1) ");
+            Console.WriteLine("All Meals by User (2) ");
+            Console.WriteLine("Kitchen by User (3)");
+            Console.WriteLine("Calendar by User (4)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
+
+            if (Users.Any<User>() == false)
+            {
+                Users = operations.AllUsers(connectionString);
+            }
 
             bool acted = false;
 
             if(userInput == "1")
             {
-                operations.AllUsers(connectionString);
+                foreach(User tempuser in Users)
+                {
+                    tempuser.printUser();
+                }
+            }
+            if(userInput == "2"){
                 operations.UserMeals(connectionString);
+            }
+            if(userInput == "3")
+            {
+                if(Kitchen.Any<Kitchen>() == false)
+                {
+                    Kitchen = operations.UserKitchen(connectionString);
+                }
+                foreach(Kitchen tempkitchen in Kitchen)
+                {
+                    tempkitchen.printKitchen();
+                    
+                }
+            }
+            if(userInput == "4")
+            {
+                if(Calendar.Any<Calendar>() == false)
+                {
+                    Calendar = operations.UserCalendar(connectionString);
+                }
+                foreach (Calendar tempcalendar in Calendar)
+                {
+                    tempcalendar.printCalendar();
+                }
             }
             if(userInput == "menu")
             {
@@ -185,12 +235,22 @@ namespace CookSmartCommandLine
 
         public void RecipeMenu(Operator operations, string connectionString)
         {
+            //i would like you to explain this to me
+            if (Recipes.Any<Recipe>() == false)
+            {
+                Recipes = operations.allRecipes(connectionString);
+            }
+
+            Console.WriteLine();
             Console.Write("All Recipes (recipe or 1)" + "\n");
             Console.Write("See ingredients from a recipe '2' " + "\n");
             Console.Write("See instructions from a recipe '3' " + "\n");
             Console.Write("'menu' for main menu" + "\n");
             Console.WriteLine();
+
+
            
+
             //  Console.Write("all Ingredients in a receipe" + "\n");
 
             string userInput = Console.ReadLine();
@@ -200,24 +260,24 @@ namespace CookSmartCommandLine
 
             if(userInput=="1" || userInput == "recipe")
             {
-                operations.allRecipes(connectionString);
+                foreach(Recipe temprecipe in Recipes)
+                {
+                    temprecipe.printRecipe();
+                }
             }
 
             if (userInput == "2")
             {
-                operations.allRecipes(connectionString);
                 operations.allIngredientInRecipe(connectionString);
             }
             if (userInput == "3")
             {
-                operations.allRecipes(connectionString);
                 operations.allInstructionInRecipe(connectionString);
             }
             if (userInput == "menu")
             {
                 acted = true;
             }
-
 
             if (acted == false)
             {

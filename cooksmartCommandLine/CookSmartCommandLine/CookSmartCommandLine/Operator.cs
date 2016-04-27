@@ -11,6 +11,11 @@ namespace CookSmartCommandLine
     {
 
         private List<Ingredient> ingredientsGlobal = new List<Ingredient>();
+
+        private List<Recipe> recipesGlobal = new List<Recipe>();
+
+        private List<Calendar> calendarsGlobal = new List<Calendar>();
+
         public Operator()
         {
 
@@ -47,7 +52,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart Database");
             Actions firstAct = new Actions();
-            firstAct.StoreIngredient(conn,ings);
+            firstAct.StoreIngredient(conn, ings);
         }
         public List<Ingredient> allIngredients(string connection)
 
@@ -68,12 +73,12 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             //   List<Recipe> recipes = new List<Recipe>();
             ingredients = firstAct.allIngredients(conn);
-            int ingredientCount=ingredients.Count;
-            foreach (Ingredient temp in ingredients )
+            int ingredientCount = ingredients.Count;
+            foreach (Ingredient temp in ingredients)
             {
                 temp.printIngredient();
                 ingredientsGlobal.Add(temp);
-                
+
             }
             return ingredients;
 
@@ -96,7 +101,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public void AllUsers(string connection)
+        public List<User> AllUsers(string connection)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -110,7 +115,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.allUsers(conn);
+            return firstAct.allUsers(conn);
         }
 
 
@@ -131,6 +136,41 @@ namespace CookSmartCommandLine
             firstAct.UserMeals(conn);
         }
 
+        public List<Kitchen> UserKitchen(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.UserKitchen(conn);
+        }
+
+        public List<Calendar> UserCalendar(string connection)
+        {
+            List<Calendar> UserCalendar = new List<Calendar>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.UserCalendar(conn);
+        }
+
         public void allInstructionInRecipe(string connection)
         {
             MySqlConnection conn;
@@ -147,9 +187,9 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             firstAct.InstructionsInRecipe(conn);
         }
-        
 
-        public void allRecipes(string connection)
+
+        public List<Recipe> allRecipes(string connection)
         {
 
             MySqlConnection conn;
@@ -166,10 +206,20 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
             Actions firstAct = new Actions();
-           
-            firstAct.AllRecipes(conn);
+
+            List<Recipe> recipes = firstAct.AllRecipes(conn);
+            foreach (Recipe temprec in recipes)
+            {
+                int temprecipeid = temprec.getId();
+       
+                temprec.printRecipe();
+                recipesGlobal.Add(temprec);
+
+            }
+            return recipes;
 
         }
+
         public void allInstructions(string connection)
         {
 
@@ -232,9 +282,5 @@ namespace CookSmartCommandLine
             firstAct.ShoppingListFromRecipe(conn);
         }
 
-
     }
-
-
     }
-
