@@ -70,7 +70,7 @@ namespace CookSmartCommandLine
         }
         public void printKitchen()
         {
-            Console.Write("Name: " + title + "\n Description: " + description + "\n Quantity: " + quantity + "\n quantitytype" + quantitytype + "\n PutOnShelf" + putonshelf);
+            Console.Write("Name: " + title + "\n Description: " + description + "\n Quantity: " + quantity + "\n quantitytype" + quantitytype + "\n PutOnShelf" + putonshelf + "\n ");
         }
     }
 }

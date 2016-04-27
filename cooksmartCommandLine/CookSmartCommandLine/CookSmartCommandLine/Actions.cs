@@ -63,6 +63,7 @@ namespace CookSmartCommandLine
             List<Recipe> recipes = new List<Recipe>();
             try
             {
+                //finny fail
                 conn.Open();
             }
             catch (Exception ex)
@@ -566,19 +567,19 @@ namespace CookSmartCommandLine
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
-                    for (int b = 0; b < columnNames.Count; b++)
-                    {
-                        Console.Write(columnNames.ElementAt(b) + " ");
-                    }
-                    Console.WriteLine();
+                    //for (int b = 0; b < columnNames.Count; b++)
+                    //{
+                    //    Console.Write(columnNames.ElementAt(b) + " ");
+                    //}
+                    //Console.WriteLine();
                     while (reader.Read())
                     {
                         string tempDateTimeString = reader["TimeToBeServed"].ToString();
                         DateTime newDateTime = Convert.ToDateTime(tempDateTimeString);
-                        Console.WriteLine();
+                        //Console.WriteLine();
                         Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime);
                         UserCalendar.Add(temp);
-                        Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                        //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
                     }
                     reader.Close();
                     if (parse == false)

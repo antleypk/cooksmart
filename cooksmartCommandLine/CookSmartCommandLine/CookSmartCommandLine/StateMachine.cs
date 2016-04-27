@@ -209,6 +209,7 @@ namespace CookSmartCommandLine
                 foreach(Kitchen tempkitchen in Kitchen)
                 {
                     tempkitchen.printKitchen();
+                    
                 }
             }
             if(userInput == "4")

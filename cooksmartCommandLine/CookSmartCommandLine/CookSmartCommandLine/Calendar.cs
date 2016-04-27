@@ -49,7 +49,7 @@ namespace CookSmartCommandLine
         }
         public void printCalendar()
         {
-            Console.Write("Name: " + name + "\n Description" + description + "\n TimeToBeServed" + timetobeserved);
+            Console.Write("\n Name: " + name + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
         }
     }
 }
