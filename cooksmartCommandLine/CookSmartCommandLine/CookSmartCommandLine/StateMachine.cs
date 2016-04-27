@@ -14,6 +14,7 @@ namespace CookSmartCommandLine
         List<User> Users = new List<User>();
         List<Calendar> Calendar = new List<Calendar>();
         List<Kitchen> Kitchen = new List<Kitchen>();
+        List<Kitchen> ShoppingList = new List<Kitchen>();
 
 
         public StateMachine()
@@ -180,6 +181,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("All Meals by User (2) ");
             Console.WriteLine("Kitchen by User (3)");
             Console.WriteLine("Calendar by User (4)");
+            Console.WriteLine("Shopping List By Day (5)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
 
@@ -221,6 +223,17 @@ namespace CookSmartCommandLine
                 foreach (Calendar tempcalendar in Calendar)
                 {
                     tempcalendar.printCalendar();
+                }
+            }
+            if(userInput == "5")
+            {
+                if(ShoppingList.Any<Kitchen>() == false)
+                {
+                    ShoppingList = operations.ShoppingList(connectionString);
+                }
+                foreach (Kitchen tempkitchen in ShoppingList)
+                {
+                    //tempkitchen.printKitchen();
                 }
             }
             if(userInput == "menu")

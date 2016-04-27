@@ -141,6 +141,126 @@ namespace CookSmartCommandLine
             return instructions;
         }
 
+
+        public List<Kitchen> ShoppingListByDay(MySqlConnection conn)
+        {
+            List<Kitchen> ShoppingList = new List<Kitchen>();
+            try
+            {
+
+
+                Console.WriteLine("What year (id + entr \n");
+                string Year = Console.ReadLine();
+                Console.WriteLine("What Month?");
+                string Month = Console.ReadLine();
+                Console.WriteLine("What Day?");
+                string Day = Console.ReadLine();
+                DateTime selected = new DateTime(Convert.ToInt32(Year), Convert.ToInt32(Month), Convert.ToInt32(Day));
+                bool parse = true;
+                
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "ShoppingListFromCalendar";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@inputdate", selected);
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+
+                        Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                    while (reader.Read())
+                    {
+                        DateTime parsedDate;
+                        
+                        string datetimestring = reader["InputDate"].ToString();
+                        Console.WriteLine(datetimestring);
+                        string pattern = "mm/dd/yyyy";
+                        int year = Convert.ToInt32(datetimestring.Split()[2]);
+                        int day = Convert.ToInt32(datetimestring.Split()[1]);
+                        int month = Convert.ToInt32(datetimestring.Split()[0]);
+                        DateTime present = new DateTime(1000, 0, 0);
+                        bool parse3 = DateTime.TryParse(datetimestring, out present);
+                        string quantitystring = reader["TotalQuantity"].ToString();
+                        int quantity = -1;
+
+                        if (DateTime.TryParseExact(datetimestring, pattern, null, System.Globalization.DateTimeStyles.None, out parsedDate))
+                        {
+                            Kitchen tempkitchen = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), quantity, reader["QuantityType"].ToString(), new DateTime(2016,04,20));
+                            ShoppingList.Add(tempkitchen);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Couldn't get it to work");
+                        }
+                        bool parse2 = int.TryParse(quantitystring, out quantity);
+                        
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Done 9");
+            return ShoppingList;
+        }
+        public List<Kitchen> ShoppingListByDay(MySqlConnection conn, DateTime selected)
+        {
+            List<Kitchen> ShoppingList = new List<Kitchen>();
+            try
+            {
+                conn.Open();
+            string Action = "ShoppingListFromCalendar";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@inputdate", selected);
+
+            MySqlDataReader reader = command.ExecuteReader();
+            List<String> columnNames = GetDataReaderColumnNames(reader);
+            for (int b = 0; b < columnNames.Count; b++)
+            {
+                Console.Write(columnNames.ElementAt(b) + " ");
+            }
+            Console.WriteLine();
+            while (reader.Read())
+            {      
+                
+                string quantitystring = reader["TotalQuantity"].ToString();
+                    int quantity = -1;
+                    bool parse2 = int.TryParse(quantitystring, out quantity);
+                    Kitchen tempkitchen = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), quantity, reader["QuantityType"].ToString(), new DateTime(2016,04,20));
+
+                    ShoppingList.Add(tempkitchen);
+            }
+            reader.Close();
+
+}
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.WriteLine("Done 8");
+            return ShoppingList;
+        }
+        
+
+
+ 
         public List<Ingredient> allIngredients(MySqlConnection conn)
         {
             List<Ingredient> ingredients = new List<Ingredient>();
@@ -577,7 +697,7 @@ namespace CookSmartCommandLine
                         string tempDateTimeString = reader["TimeToBeServed"].ToString();
                         DateTime newDateTime = Convert.ToDateTime(tempDateTimeString);
                         //Console.WriteLine();
-                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime);
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), DateTime.Now, newDateTime);
                         UserCalendar.Add(temp);
                         //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
                     }

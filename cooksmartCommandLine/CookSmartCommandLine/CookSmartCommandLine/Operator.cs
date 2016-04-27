@@ -153,6 +153,24 @@ namespace CookSmartCommandLine
             return firstAct.UserKitchen(conn);
         }
 
+        public List<Kitchen> ShoppingList(string connection)
+        {
+            List<Kitchen> ShoppingList = new List<Kitchen>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.ShoppingListByDay(conn);
+        }
+
         public List<Calendar> UserCalendar(string connection)
         {
             List<Calendar> UserCalendar = new List<Calendar>();
@@ -241,6 +259,8 @@ namespace CookSmartCommandLine
             firstAct.allInstructions(conn);
 
         }
+
+      
 
         public void cookSmart(string connection)
         {

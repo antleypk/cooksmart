@@ -12,7 +12,7 @@ namespace CookSmartCommandLine
         string description = "C# Description fail";
         int quantity = -1;
         string quantitytype = "C# QuantityType fail";
-        DateTime putonshelf = DateTime.Now;
+        DateTime putonshelf = new DateTime(2000,01,01);
     public Kitchen()
             {
       
@@ -70,7 +70,7 @@ namespace CookSmartCommandLine
         }
         public void printKitchen()
         {
-            Console.Write("Name: " + title + "\n Description: " + description + "\n Quantity: " + quantity + "\n quantitytype" + quantitytype + "\n PutOnShelf" + putonshelf + "\n ");
+            Console.Write(" \n Name: " + title + " \n Description: " + description + "\n Quantity: " + quantity + "\n quantitytype " + quantitytype + " \n PutOnShelf " + putonshelf + "\n ");
         }
     }
 }
