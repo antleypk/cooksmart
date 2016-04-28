@@ -177,31 +177,16 @@ namespace CookSmartCommandLine
                     Console.WriteLine();
                     while (reader.Read())
                     {
-                        DateTime parsedDate;
-                        
-                        string datetimestring = reader["InputDate"].ToString();
-                        Console.WriteLine(datetimestring);
-                        string pattern = "mm/dd/yyyy";
-                        int year = Convert.ToInt32(datetimestring.Split()[2]);
-                        int day = Convert.ToInt32(datetimestring.Split()[1]);
-                        int month = Convert.ToInt32(datetimestring.Split()[0]);
-                        Console.Write("String datetime " + datetimestring + " year" + year);
-                        DateTime present = new DateTime(1000, 0, 0);
-                        bool parse3 = DateTime.TryParse(datetimestring, out present);
-                        string quantitystring = reader["TotalQuantity"].ToString();
-                        int quantity = -1;
+                        string quantitystring = reader["Totalquantity"].ToString();
+                        int newquantity = Convert.ToInt32(quantitystring);
+                        string tempDateTimeString = reader["InputDate"].ToString();
+                        Console.WriteLine(tempDateTimeString + "Tom & Pete");
 
-                        if (DateTime.TryParseExact(datetimestring, pattern, null, System.Globalization.DateTimeStyles.None, out parsedDate))
-                        {
-                            Kitchen tempkitchen = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), quantity, reader["QuantityType"].ToString(), new DateTime(2016,04,20));
-                            ShoppingList.Add(tempkitchen);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Couldn't get it to work");
-                        }
-                        bool parse2 = int.TryParse(quantitystring, out quantity);
-                        
+                        DateTime Outputdate = stringToDateTime(tempDateTimeString);
+                        Console.WriteLine(reader["Title"].ToString());
+                        Console.WriteLine();
+                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                        ShoppingList.Add(temp);
                     }
                     reader.Close();
                 }
@@ -219,7 +204,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Done 9");
             return ShoppingList;
         }
-        public List<Kitchen> ShoppingListByDay(MySqlConnection conn, DateTime selected)
+        public void ShoppingListByDay(MySqlConnection conn, DateTime selected)
         {
             List<Kitchen> ShoppingList = new List<Kitchen>();
             try
@@ -238,15 +223,52 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine();
             while (reader.Read())
-            {      
-                
-                string quantitystring = reader["TotalQuantity"].ToString();
-                    int quantity = -1;
-                    bool parse2 = int.TryParse(quantitystring, out quantity);
-                    Kitchen tempkitchen = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), quantity, reader["QuantityType"].ToString(), new DateTime(2016,04,20));
+            {
 
-                    ShoppingList.Add(tempkitchen);
-            }
+                    string quantitystring = reader["Totalquantity"].ToString();
+                    int newquantity = Convert.ToInt32(quantitystring);
+                    string tempDateTimeString = reader["InputDate"].ToString();
+                    Console.WriteLine(tempDateTimeString + "Tom & Pete");
+                    string month = "";
+                    string day = "";
+                    string year = "";
+                    int count = 0;
+                    for (int i = 0; i < 10; i++)
+                    {
+
+                        if (tempDateTimeString.ElementAt(i) != '/')
+                        {
+                            if (count == 0)
+                            {
+                                month = month + tempDateTimeString.ElementAt(i);
+
+                            }
+                            if (count == 1)
+                            {
+                                day = day + tempDateTimeString.ElementAt(i);
+
+                            }
+                            if (count == 2)
+                            {
+                                year = year + tempDateTimeString.ElementAt(i);
+
+                            }
+
+                        }
+                        if (tempDateTimeString.ElementAt(i) == '/')
+                        {
+                            count++;
+                        }
+                    }
+                    Console.WriteLine("Month :" + month + " day: " + day + " year: " + year);
+                    int yearint = Convert.ToInt32(year);
+                    int monthint = Convert.ToInt32(month);
+                    int dayint = Convert.ToInt32(day);
+                    DateTime Outputdate = new DateTime(yearint, monthint, dayint);
+                    Console.WriteLine();
+                    Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                    ShoppingList.Add(temp);
+                }
             reader.Close();
 
 }
@@ -256,7 +278,6 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Done 8");
-            return ShoppingList;
         }
         
 
@@ -612,7 +633,105 @@ namespace CookSmartCommandLine
 
         }
 
+        public DateTime stringToDateTime(string stringIN)
+        {
+           // Console.WriteLine("Date string: " + stringIN);
+            string tempDateTimeString = stringIN;
+            string month = "";
+            string day = "";
+            string year = "";
+            int count = 0;
+            for (int i = 0; i < 10; i++)
+            {
 
+                if (tempDateTimeString.ElementAt(i) != '/')
+                {
+                    if (count == 0)
+                    {
+                        month = month + tempDateTimeString.ElementAt(i);
+
+                    }
+                    if (count == 1)
+                    {
+                        day = day + tempDateTimeString.ElementAt(i);
+
+                    }
+                    if (count == 2)
+                    {
+                        year = year + tempDateTimeString.ElementAt(i);
+
+                    }
+
+                }
+                if (tempDateTimeString.ElementAt(i) == '/')
+                {
+                    count++;
+                }
+            }
+            string hours = "";
+            string minutes = "";
+            string seconds = "";
+            bool am = true;
+            int spaceCount = 0;
+            int colonCount = 0;
+            for(int b = 0; b < tempDateTimeString.Count(); b++)
+            {
+                if(tempDateTimeString.ElementAt(b)==' ')
+                {
+                    spaceCount++;
+                }
+                if (spaceCount == 1  && colonCount==0)
+                {
+                    hours = hours + tempDateTimeString.ElementAt(b);
+                }
+                if(spaceCount==1 && colonCount == 1)
+                {
+                    minutes = minutes + tempDateTimeString.ElementAt(b);
+                }
+                if(spaceCount==1 && colonCount == 2)
+                {
+                    seconds = seconds + tempDateTimeString.ElementAt(b);
+                }
+                if(spaceCount==2 && colonCount == 2)
+                {
+                    if (tempDateTimeString.ElementAt(b) == 'P')
+                    {
+                        am = false;
+                    }
+                }
+                if(tempDateTimeString.ElementAt(b)==':')
+                {
+                    colonCount++;
+                }
+            }
+         
+            minutes = minutes.Trim();
+            seconds = seconds.Trim();
+            hours = hours.Trim();
+            hours = hours.Remove(hours.IndexOf(':'));
+
+            //int minInt = Convert.ToInt32(minutes);
+            //int hoursInt = Convert.ToInt32(hours);
+            //int secondsInt = Convert.ToInt32(seconds);
+            
+            if (am == false)
+            {
+                  //hoursInt = hoursInt + 12;
+            }
+         
+            int yearint = Convert.ToInt32(year);
+            int monthint = Convert.ToInt32(month);
+            int dayint = Convert.ToInt32(day);
+            // DateTime Outputdate = new DateTime(yearint, monthint, dayint, hoursInt,minInt,secondsInt);
+            DateTime Outputdate = new DateTime(yearint, monthint, dayint);
+           
+            int temphour=Outputdate.Hour;
+
+            //Outputdate.AddHours(hoursInt);
+
+
+            return Outputdate;
+        }
         public List<Kitchen> UserKitchen(MySqlConnection connn)
         {
             List<Kitchen> UserKitchen = new List<Kitchen>();
@@ -643,44 +762,10 @@ namespace CookSmartCommandLine
                         string quantitystring = reader["quantity"].ToString();
                         int newquantity = Convert.ToInt32(quantitystring);
                         string tempDateTimeString = reader["PutOnShelf"].ToString();
-                        Console.WriteLine(tempDateTimeString + "Tom & Pete");
-                        string month="";
-                        string day="";
-                        string year="";
-                        int count=0;
-                        for (int i = 0; i < 10; i++)
-                        {
-                            
-                            if (tempDateTimeString.ElementAt(i)!='/')
-                            {
-                                if (count == 0)
-                                {
-                                    month = month + tempDateTimeString.ElementAt(i);
-                                    
-                                }
-                                if (count == 1)
-                                {
-                                    day = day + tempDateTimeString.ElementAt(i);
-                                    
-                                }
-                                if (count == 2)
-                                {
-                                    year = year + tempDateTimeString.ElementAt(i);
-                                    
-                                }
-
-                            }
-                            if (tempDateTimeString.ElementAt(i) == '/')
-                            {
-                                count++;
-                            }
-                        }
-                        Console.WriteLine("Month :" + month + " day: " + day + " year: " + year);
-                        int yearint = Convert.ToInt32(year);
-                        int monthint = Convert.ToInt32(month);
-                        int dayint = Convert.ToInt32(day);
-                        DateTime Outputdate = new DateTime(yearint, monthint, dayint);
-                        Console.WriteLine();
+                    
+                        DateTime Outputdate = stringToDateTime(tempDateTimeString);
+                        Console.WriteLine(reader["Title"].ToString());
+                        
                         Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
                         UserKitchen.Add(temp);
                     }
@@ -724,16 +809,13 @@ namespace CookSmartCommandLine
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
-                    //for (int b = 0; b < columnNames.Count; b++)
-                    //{
-                    //    Console.Write(columnNames.ElementAt(b) + " ");
-                    //}
-                    //Console.WriteLine();
+                    
                     while (reader.Read())
                     {
                         string tempDateTimeString = reader["TimeToBeServed"].ToString();
-                        DateTime newDateTime = Convert.ToDateTime(tempDateTimeString);
-                        //Console.WriteLine();
+                        DateTime newDateTime;
+                      //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+                        newDateTime = stringToDateTime(tempDateTimeString);
                         Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), DateTime.Now, newDateTime);
                         UserCalendar.Add(temp);
                         //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
@@ -754,7 +836,7 @@ namespace CookSmartCommandLine
 
             conn.Close();
             Console.WriteLine("done");
-            Console.ReadLine();
+         //   Console.ReadLine();
             return UserCalendar;
         }
 

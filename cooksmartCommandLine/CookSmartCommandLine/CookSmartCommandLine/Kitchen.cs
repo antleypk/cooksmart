@@ -17,11 +17,11 @@ namespace CookSmartCommandLine
             {
       
             }
-    public Kitchen(string Title, string Description, int Quantity, string QuantityType, DateTime PutOnShelf)
+    public Kitchen(string Title, string Description, int TotalQuantity, string QuantityType, DateTime PutOnShelf)
         {
             title = Title;
             description = Description;
-            quantity = Quantity;
+            quantity = TotalQuantity;
             quantitytype = QuantityType;
             putonshelf = PutOnShelf;
         }
@@ -44,11 +44,11 @@ namespace CookSmartCommandLine
         {
             description = newdescription;
         }
-        public int getQuantity()
+        public int getTotalQuantity()
         {
             return quantity;
         }
-        public void setQuantity(int newquantity)
+        public void setTotalQuantity(int newquantity)
         {
             quantity = newquantity;
         }
@@ -70,7 +70,7 @@ namespace CookSmartCommandLine
         }
         public void printKitchen()
         {
-            Console.Write(" \n Name: " + title + " \n Description: " + description + "\n Quantity: " + quantity + "\n quantitytype " + quantitytype + " \n PutOnShelf " + putonshelf + "\n ");
+            Console.Write(" \n Name: " + title + " \n Description: " + description + "\n TotalQuantity: " + quantity + "\n quantitytype " + quantitytype + " \n PutOnShelf " + putonshelf + "\n ");
         }
     }
 }

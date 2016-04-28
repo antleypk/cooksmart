@@ -233,7 +233,7 @@ namespace CookSmartCommandLine
                 }
                 foreach (Kitchen tempkitchen in ShoppingList)
                 {
-                    //tempkitchen.printKitchen();
+                    tempkitchen.printKitchen();
                 }
             }
             if(userInput == "menu")
