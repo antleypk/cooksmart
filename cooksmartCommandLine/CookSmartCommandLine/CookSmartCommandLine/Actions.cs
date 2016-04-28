@@ -141,7 +141,7 @@ namespace CookSmartCommandLine
             return instructions;
         }
 
-
+        
         public List<Kitchen> ShoppingListByDay(MySqlConnection conn)
         {
             List<Kitchen> ShoppingList = new List<Kitchen>();
@@ -155,13 +155,17 @@ namespace CookSmartCommandLine
                 string Month = Console.ReadLine();
                 Console.WriteLine("What Day? peter and tom");
                 string Day = Console.ReadLine();
-                DateTime selected = new DateTime(Convert.ToInt32(Year), Convert.ToInt32(Month), Convert.ToInt32(Day));
+                int Yearint = Convert.ToInt32(Year);
+                int Monthint = Convert.ToInt32(Month);
+                int Dayint = Convert.ToInt32(Day);
+                DateTime selected = new DateTime(Yearint, Monthint, Dayint);
+                Console.WriteLine(selected);
                 bool parse = true;
                 
                 if (parse)
                 {
                     conn.Open();
-                    string Action = "ShoppingListFromCalendar";
+                    string Action = "ShoppingListFromCalendar"; 
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@inputdate", selected);
@@ -178,14 +182,15 @@ namespace CookSmartCommandLine
                     while (reader.Read())
                     {
                         string quantitystring = reader["Totalquantity"].ToString();
-                        int newquantity = Convert.ToInt32(quantitystring);
+                        decimal newquantity = Convert.ToDecimal(quantitystring);
                         string tempDateTimeString = reader["InputDate"].ToString();
+                        DateTime outputdate = stringToDateTime(tempDateTimeString);
                         Console.WriteLine(tempDateTimeString + "Tom & Pete");
 
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
                         Console.WriteLine(reader["Title"].ToString());
                         Console.WriteLine();
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), outputdate);
                         ShoppingList.Add(temp);
                     }
                     reader.Close();
@@ -226,46 +231,10 @@ namespace CookSmartCommandLine
             {
 
                     string quantitystring = reader["Totalquantity"].ToString();
-                    int newquantity = Convert.ToInt32(quantitystring);
+                    decimal newquantity = Convert.ToDecimal(quantitystring);
                     string tempDateTimeString = reader["InputDate"].ToString();
+                    DateTime Outputdate = stringToDateTime(tempDateTimeString);
                     Console.WriteLine(tempDateTimeString + "Tom & Pete");
-                    string month = "";
-                    string day = "";
-                    string year = "";
-                    int count = 0;
-                    for (int i = 0; i < 10; i++)
-                    {
-
-                        if (tempDateTimeString.ElementAt(i) != '/')
-                        {
-                            if (count == 0)
-                            {
-                                month = month + tempDateTimeString.ElementAt(i);
-
-                            }
-                            if (count == 1)
-                            {
-                                day = day + tempDateTimeString.ElementAt(i);
-
-                            }
-                            if (count == 2)
-                            {
-                                year = year + tempDateTimeString.ElementAt(i);
-
-                            }
-
-                        }
-                        if (tempDateTimeString.ElementAt(i) == '/')
-                        {
-                            count++;
-                        }
-                    }
-                    Console.WriteLine("Month :" + month + " day: " + day + " year: " + year);
-                    int yearint = Convert.ToInt32(year);
-                    int monthint = Convert.ToInt32(month);
-                    int dayint = Convert.ToInt32(day);
-                    DateTime Outputdate = new DateTime(yearint, monthint, dayint);
-                    Console.WriteLine();
                     Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
                     ShoppingList.Add(temp);
                 }
@@ -674,24 +643,31 @@ namespace CookSmartCommandLine
             bool am = true;
             int spaceCount = 0;
             int colonCount = 0;
-            for(int b = 0; b < tempDateTimeString.Count(); b++)
+            for (int b = 0; b < tempDateTimeString.Count(); b++)
             {
-                if(tempDateTimeString.ElementAt(b)==' ')
+                if (tempDateTimeString.ElementAt(b) == ' ')
                 {
                     spaceCount++;
                 }
-                if (spaceCount == 1  && colonCount==0)
+                if (tempDateTimeString.ElementAt(b) != ':')
+                {
+
+                
+                if (spaceCount == 1 && colonCount == 0)
                 {
                     hours = hours + tempDateTimeString.ElementAt(b);
                 }
-                if(spaceCount==1 && colonCount == 1)
+                if (spaceCount == 1 && colonCount == 1)
                 {
                     minutes = minutes + tempDateTimeString.ElementAt(b);
                 }
-                if(spaceCount==1 && colonCount == 2)
+                if (spaceCount == 1 && colonCount == 2)
                 {
                     seconds = seconds + tempDateTimeString.ElementAt(b);
                 }
+
+            }
+
                 if(spaceCount==2 && colonCount == 2)
                 {
                     if (tempDateTimeString.ElementAt(b) == 'P')
@@ -708,23 +684,28 @@ namespace CookSmartCommandLine
             minutes = minutes.Trim();
             seconds = seconds.Trim();
             hours = hours.Trim();
-            hours = hours.Remove(hours.IndexOf(':'));
-
-            //int minInt = Convert.ToInt32(minutes);
-            //int hoursInt = Convert.ToInt32(hours);
-            //int secondsInt = Convert.ToInt32(seconds);
             
+
+            int minInt = Convert.ToInt32(minutes);
+            int hoursInt = Convert.ToInt32(hours);
+            int secondsInt = Convert.ToInt32(seconds);
+
             if (am == false)
             {
-                  //hoursInt = hoursInt + 12;
+                if(hoursInt != 12)
+                {
+                    hoursInt = hoursInt + 12;
+                }
             }
-         
+
             int yearint = Convert.ToInt32(year);
             int monthint = Convert.ToInt32(month);
             int dayint = Convert.ToInt32(day);
             // DateTime Outputdate = new DateTime(yearint, monthint, dayint, hoursInt,minInt,secondsInt);
-            DateTime Outputdate = new DateTime(yearint, monthint, dayint);
-           
+            DateTime Outputdate = new DateTime(yearint, monthint, dayint,hoursInt,minInt,secondsInt);
+            Console.WriteLine("Output Before Add " + Outputdate.Hour);
+            DateTime newoutput = Outputdate.AddHours(hoursInt);
+            Console.WriteLine("Output After Add " + newoutput.Hour);
             int temphour=Outputdate.Hour;
 
             //Outputdate.AddHours(hoursInt);
@@ -736,13 +717,12 @@ namespace CookSmartCommandLine
         {
             List<Kitchen> UserKitchen = new List<Kitchen>();
             MySqlConnection conn = connn;
+            int userID = 0;
+            Console.WriteLine("What user would you like to see (id int+ENTR*)?" + "\n");
+            string userInput = Console.ReadLine();
+            bool parse = int.TryParse(userInput, out userID);
             try
             {
-                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
-                string userInput = Console.ReadLine();
-                int userID;
-                bool parse = int.TryParse(userInput, out userID);
-
                 if (parse)
                 {
                     conn.Open();
@@ -760,7 +740,7 @@ namespace CookSmartCommandLine
                     while (reader.Read())
                     {
                         string quantitystring = reader["quantity"].ToString();
-                        int newquantity = Convert.ToInt32(quantitystring);
+                        decimal newquantity = Convert.ToDecimal(quantitystring);
                         string tempDateTimeString = reader["PutOnShelf"].ToString();
                     
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
@@ -793,11 +773,11 @@ namespace CookSmartCommandLine
         {
             List<Calendar> UserCalendar = new List<Calendar>();
             MySqlConnection conn = connn;
+            int userID = 0;
             try
             {
                 Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
                 string userInput = Console.ReadLine();
-                int userID;
                 bool parse = int.TryParse(userInput, out userID);
 
                 if (parse)
@@ -814,9 +794,10 @@ namespace CookSmartCommandLine
                     {
                         string tempDateTimeString = reader["TimeToBeServed"].ToString();
                         DateTime newDateTime;
-                      //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+                        //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
                         newDateTime = stringToDateTime(tempDateTimeString);
-                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), DateTime.Now, newDateTime);
+                        
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now);
                         UserCalendar.Add(temp);
                         //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
                     }

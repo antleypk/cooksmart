@@ -15,6 +15,7 @@ namespace CookSmartCommandLine
         List<Calendar> Calendar = new List<Calendar>();
         List<Kitchen> Kitchen = new List<Kitchen>();
         List<Kitchen> ShoppingList = new List<Kitchen>();
+        List<Kitchen> TodaysShopping = new List<Kitchen>();
 
 
         public StateMachine()
@@ -182,6 +183,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Kitchen by User (3)");
             Console.WriteLine("Calendar by User (4)");
             Console.WriteLine("Shopping List By Day (5)");
+            Console.WriteLine("Shopping List Minus Kitchen (6)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
 
@@ -204,37 +206,53 @@ namespace CookSmartCommandLine
             }
             if(userInput == "3")
             {
-                if(Kitchen.Any<Kitchen>() == false)
-                {
                     Kitchen = operations.UserKitchen(connectionString);
-                }
+
                 foreach(Kitchen tempkitchen in Kitchen)
                 {
                     tempkitchen.printKitchen();
                     
                 }
+                Kitchen.Clear();
             }
             if(userInput == "4")
             {
-                if(Calendar.Any<Calendar>() == false)
-                {
+
                     Calendar = operations.UserCalendar(connectionString);
-                }
+
                 foreach (Calendar tempcalendar in Calendar)
                 {
                     tempcalendar.printCalendar();
                 }
+                Calendar.Clear();
             }
             if(userInput == "5")
             {
-                if(ShoppingList.Any<Kitchen>() == false)
-                {
+
                     ShoppingList = operations.ShoppingList(connectionString);
-                }
+
                 foreach (Kitchen tempkitchen in ShoppingList)
                 {
                     tempkitchen.printKitchen();
                 }
+                ShoppingList.Clear();
+            }
+            if(userInput == "6")
+            {
+
+                    ShoppingList = operations.ShoppingList(connectionString);
+
+
+                    Kitchen = operations.UserKitchen(connectionString);
+
+                TodaysShopping = operations.TodaysShopping(connectionString, Kitchen, ShoppingList);
+                foreach(Kitchen tempkitchen in TodaysShopping)
+                {
+                    tempkitchen.printKitchen();
+                }
+                ShoppingList.Clear();
+                Kitchen.Clear();
+                TodaysShopping.Clear();
             }
             if(userInput == "menu")
             {

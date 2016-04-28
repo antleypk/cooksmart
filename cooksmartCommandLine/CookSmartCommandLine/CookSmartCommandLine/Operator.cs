@@ -189,6 +189,28 @@ namespace CookSmartCommandLine
             return firstAct.UserCalendar(conn);
         }
 
+        //public void InsertRecipe(string connection)
+        //{
+        //    MySqlConnection conn;
+        //    conn = new MySqlConnection(connection);
+        //    try
+        //    {
+        //        Console.WriteLine("Connecting to MySQL..." + "\n");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("failed to connect" + "\n");
+        //    }
+        //    Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+        //    Actions firstAct = new Actions();
+
+        //    //print recipes
+        //    //ask user to input recipe name and description
+        //    //Ask user for 1st instruction text, description (joiner IDs)
+        //    //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+        //    //Repeat instructions until done.
+        //}
+
         public void allInstructionInRecipe(string connection)
         {
             MySqlConnection conn;
@@ -204,6 +226,39 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             firstAct.InstructionsInRecipe(conn);
+        }
+
+        public List<Kitchen> TodaysShopping(string connection, List<Kitchen> MyKitchen, List<Kitchen> ShoppingList)
+        {
+            List<Kitchen> TodaysShopping = new List<Kitchen>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            
+            foreach(Kitchen tempkitchen1 in ShoppingList)
+            {
+                foreach(Kitchen tempkitchen2 in MyKitchen)
+                {
+                    if (tempkitchen1.getTitle() == tempkitchen2.getTitle())
+                    {
+                        decimal newquantity = Math.Max(0,tempkitchen1.getTotalQuantity() - tempkitchen2.getTotalQuantity());
+                        tempkitchen1.setTotalQuantity(newquantity);
+                        
+                    }
+                    TodaysShopping.Add(tempkitchen1);
+                }
+            }
+            return TodaysShopping;
+
         }
 
 

@@ -10,14 +10,14 @@ namespace CookSmartCommandLine
     {
         string title = "C# Name Fail";
         string description = "C# Description fail";
-        int quantity = -1;
+        decimal quantity = -1;
         string quantitytype = "C# QuantityType fail";
         DateTime putonshelf = new DateTime(2000,01,01);
     public Kitchen()
             {
       
             }
-    public Kitchen(string Title, string Description, int TotalQuantity, string QuantityType, DateTime PutOnShelf)
+    public Kitchen(string Title, string Description, decimal TotalQuantity, string QuantityType, DateTime PutOnShelf)
         {
             title = Title;
             description = Description;
@@ -44,11 +44,11 @@ namespace CookSmartCommandLine
         {
             description = newdescription;
         }
-        public int getTotalQuantity()
+        public decimal getTotalQuantity()
         {
             return quantity;
         }
-        public void setTotalQuantity(int newquantity)
+        public void setTotalQuantity(decimal newquantity)
         {
             quantity = newquantity;
         }
