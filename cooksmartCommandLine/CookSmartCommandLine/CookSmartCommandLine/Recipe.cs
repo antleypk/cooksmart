@@ -12,6 +12,7 @@ namespace CookSmartCommandLine
        private int id = 0;
        private  string name = "Fail to name";
         private string description = "Fail to Describe";
+        private List<Instruction> instructionRecipe = new List<Instruction>();
         private int servingsize = 0;
         public Recipe()
         {
@@ -44,10 +45,10 @@ namespace CookSmartCommandLine
 
         public string printRecipe()
         {
-            string relavent;
-            relavent = id + ": " + name + " Description " + description;
+            string relevent;
+            relevent = id + ": " + name + " Description " + description;
 
-            return relavent;
+            return relevent;
         }
     }
 }

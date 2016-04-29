@@ -66,7 +66,7 @@ namespace CookSmartCommandLine
             //private string name = "Ingredient name failed c#";
             //public string description = "Description failed c#";
             //private string quantitytype = "QuantityType failed at c#";
-            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity Type " + quantitytype + "\n");
+            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "Quantity \n" + quantity + "\n Quantity Type " + quantitytype + "\n");
         }
     }
 }

@@ -120,6 +120,13 @@ namespace CookSmartCommandLine
                     }
                 }
             }
+            foreach (Instruction temp in MyInstructions){
+                List<Ingredient> ings = temp.getInstructionIngredients();
+                foreach(Ingredient temp2 in ings)
+                {
+                    temp2.printIngredient();
+                }
+            }
         }
 
         public void setInstructionsInRecipe(string connectionString)
