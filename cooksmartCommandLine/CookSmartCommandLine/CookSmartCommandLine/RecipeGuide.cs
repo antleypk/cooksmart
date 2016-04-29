@@ -47,7 +47,7 @@ namespace CookSmartCommandLine
 
             setIngredientsInRecipe(ListTempIngredients);
             setInstructionsInRecipe(connection);
-            //set the quantities through a loop
+            populateQuantities();
             
             
 
@@ -80,8 +80,46 @@ namespace CookSmartCommandLine
             {
                 setIngredientsInRecipe(totalIngredients);
             }
+            
 
+        }
 
+        public void populateQuantities()
+        {
+            Instruction currentInstruction;
+            Ingredient currentIngredient;
+
+            for(int i=0; i < MyInstructions.Count(); i++)
+            {
+                bool finish = false;
+                currentInstruction = MyInstructions[i];
+                currentInstruction.printInstructionToConsole();
+                currentInstruction.setOrder(i);
+                while (finish == false)
+                {
+                    for (int e = 0; e < MyIngredients.Count(); e++)
+                    {
+                        currentIngredient = MyIngredients[e];
+                        currentIngredient.printIngredient();
+                    }
+                    Console.WriteLine("Select the ingredient to go with the instruction by id or 'continue' to exit");
+                    string userInput = Console.ReadLine();
+                    userInput = userInput.Trim();
+                    if (userInput == "continue")
+                    {
+                        finish = true;
+                    }
+                    else
+                    {
+                        Ingredient ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                        currentInstruction.addIngredient(ingredient);
+                        Console.WriteLine("Select the quantity of the ingredient");
+                        userInput = Console.ReadLine();
+                        userInput = userInput.Trim();
+                        ingredient.setQuantity(Convert.ToDouble(userInput));
+                    }
+                }
+            }
         }
 
         public void setInstructionsInRecipe(string connectionString)

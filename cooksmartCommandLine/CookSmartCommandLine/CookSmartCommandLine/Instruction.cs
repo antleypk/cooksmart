@@ -11,9 +11,31 @@ namespace CookSmartCommandLine
         private int id=999999999;
         private string title = "failed @ c#";
         private string description="failed @ c#";
+        private List<Ingredient> instructionIngredients = new List<Ingredient>();
+        private int order;
         public Instruction()
         {
 
+        }
+
+        public void addIngredient(Ingredient i)
+        {
+            instructionIngredients.Add(i);
+        }
+
+        public int getOrder()
+        {
+            return order;
+        }
+
+        public void setOrder(int newOrder)
+        {
+            order = newOrder;
+        }
+
+        public List<Ingredient> getInstructionIngredients()
+        {
+            return instructionIngredients;
         }
 
         public Instruction(int InstructionID, string Title, string Description)

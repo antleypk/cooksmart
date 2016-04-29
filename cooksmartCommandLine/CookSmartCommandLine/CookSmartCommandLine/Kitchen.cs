@@ -52,6 +52,10 @@ namespace CookSmartCommandLine
         {
             quantity = newquantity;
         }
+        public void setQuantities()
+        {
+
+        }
         public string getQuantityType()
         {
             return quantitytype;
