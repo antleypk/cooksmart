@@ -18,6 +18,7 @@ namespace CookSmartCommandLine
         List<Ingredient> MyIngredients = new List<Ingredient>();
 
         List<Instruction> MyInstructions = new List<Instruction>();
+        Recipe thisrecipe = new Recipe();
         Operator operations = new Operator();
         private string name = "";
         public RecipeGuide()
@@ -31,8 +32,18 @@ namespace CookSmartCommandLine
 
         }
 
-        public void startUpRecipeGuide(string connection)
+        public Recipe startUpRecipeGuide(string connection)
         {
+
+            Console.WriteLine("Insert Recipe Name: ");
+            string userinput = Console.ReadLine();
+            thisrecipe.setName(userinput);
+            Console.WriteLine("Insert Recipe Description");
+            userinput = Console.ReadLine();
+            thisrecipe.setDescription(userinput);
+            Console.WriteLine("Set Serving Size");
+            userinput = Console.ReadLine();
+            thisrecipe.setServingSize(Convert.ToInt32(userinput));
             List<Ingredient> ListTempIngredients = operations.allIngredients(connection);
             Console.WriteLine("Ingredients" + ListTempIngredients.Count);
             Console.WriteLine();
@@ -49,10 +60,56 @@ namespace CookSmartCommandLine
             setInstructionsInRecipe(connection);
             populateQuantities();
             
+            for(int i=0; i < MyInstructions.Count(); i++)
+            {
+                thisrecipe.addInstruction(MyInstructions[i]);
+
+            }
+            //Console.WriteLine("Instructions Should be here");
+            //foreach(Instruction temp in thisrecipe.getInstructionRecipe())
+            //{
+            //    temp.printInstructionToConsole();
+            //}
+
+            //preview revi
+
+            
+            return thisrecipe;
             
 
         }
-
+        public void previewRecipe(Recipe thisrecipe)
+        {
+            Console.WriteLine("Top level Info");
+            double quantity = 0;
+            string quantityunits = "";
+            int id = thisrecipe.getId();
+            string name = thisrecipe.getName();
+            string description = thisrecipe.getDescription();
+            int servingsize = thisrecipe.getServingSize();
+            Console.WriteLine("\n + id + \n: " + id + "\n + Title \n" + name + "\n + Description + \n" + description + "\n + Serving Size \n" + servingsize);
+            List<Instruction> previewinstructions = thisrecipe.getInstructionRecipe();
+            for(int i = 0; i < previewinstructions.Count(); i++)
+            {
+                int order = previewinstructions[i].getOrder() + 1;
+                Console.WriteLine("\n Instruction #: " + order);
+                name = previewinstructions[i].getTitle();
+                description = previewinstructions[i].getDescription();
+                id = previewinstructions[i].getID();
+                Console.WriteLine("\n  id  \n: " + id + "\n  Title \n" + name + "\n  Description  \n" + description);
+                List<Ingredient> previewingredients = previewinstructions[i].getInstructionIngredients();
+                for(int j = 0; j < previewingredients.Count(); j++)
+                {
+                    Console.WriteLine("\n Ingredients for Instruction #: " + (previewinstructions[i].getOrder())+1);
+                    name = previewingredients[j].getName();
+                    description = previewingredients[j].getDescription();
+                    id = previewingredients[j].getId();
+                    quantity = previewingredients[j].getQuantity();
+                    quantityunits = previewingredients[j].getQuantityType();
+                    Console.WriteLine("\n id \n: " + id + "\n Title \n" + name + "\n Description \n" + description + "\n Quantity \n" + quantity + "\n Quantity Type \n" + quantityunits);
+                }
+            }
+        }
 
         public void setIngredientsInRecipe(List<Ingredient> totalIngredients)
         {
@@ -89,10 +146,12 @@ namespace CookSmartCommandLine
             Instruction currentInstruction;
             Ingredient currentIngredient;
 
-            for(int i=0; i < MyInstructions.Count(); i++)
+            for (int i = 0; i < MyInstructions.Count(); i++)
             {
+
                 bool finish = false;
                 currentInstruction = MyInstructions[i];
+                currentInstruction.setOrder(i + 1);
                 currentInstruction.printInstructionToConsole();
                 currentInstruction.setOrder(i);
                 while (finish == false)
@@ -120,14 +179,8 @@ namespace CookSmartCommandLine
                     }
                 }
             }
-            foreach (Instruction temp in MyInstructions){
-                List<Ingredient> ings = temp.getInstructionIngredients();
-                foreach(Ingredient temp2 in ings)
-                {
-                    temp2.printIngredient();
-                }
-            }
         }
+        
 
         public void setInstructionsInRecipe(string connectionString)
         {

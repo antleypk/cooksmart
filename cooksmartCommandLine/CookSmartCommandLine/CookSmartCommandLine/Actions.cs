@@ -15,7 +15,7 @@ namespace CookSmartCommandLine
         {
 
         }
-        public void InsertIngredient(MySqlConnection conn)
+        public void InsertIngredient(MySqlConnection conn, Ingredient ing)
         {
             try
             {
@@ -29,22 +29,46 @@ namespace CookSmartCommandLine
             string Action = "InsertIngredient";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
-            Console.WriteLine("Input Ingredient Name");
-            string IngName = Console.ReadLine();
-            Console.WriteLine("Input Ingredient Description");
-            string IngDesc = Console.ReadLine();
-            Console.WriteLine("Input Ingredient Quantity Type");
-            string IngType = Console.ReadLine();
-            List<Ingredient> ings = allIngredients(conn);
-            int IngCount = ings.Count() + 2;
-            command.Parameters.AddWithValue("@id", IngCount);
-            command.Parameters.AddWithValue("@title", IngName);
-            command.Parameters.AddWithValue("@description", IngDesc);
-            command.Parameters.AddWithValue("@quantitytype", IngType);
+            command.Parameters.AddWithValue("@title", ing.getName());
+            command.Parameters.AddWithValue("@description", ing.getDescription());
+            command.Parameters.AddWithValue("@quantitytype", ing.getQuantityType());
             command.ExecuteNonQuery();
             conn.Close();
         }
-        public List<Ingredient> StoreIngredient(MySqlConnection conn, List<Ingredient> ings)
+        public void InsertInstruction(MySqlConnection conn, Instruction ins)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
+            }
+            string Action = "InsertInstruction";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@name", ins.getTitle());
+            command.Parameters.AddWithValue("@description", ins.getDescription());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+        public void InsertRecipe(MySqlConnection conn, Recipe rec)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+            }
+
+
+        }
+        public Ingredient StoreIngredient(MySqlConnection conn)
         {
             Console.WriteLine("Input Ingredient Name");
             string IngName = Console.ReadLine();
@@ -52,10 +76,20 @@ namespace CookSmartCommandLine
             string IngDesc = Console.ReadLine();
             Console.WriteLine("Input Ingredient Quantity Type");
             string IngType = Console.ReadLine();
-            int IngCount = ings.Count() + 2;
+            int IngCount = 0;
             Ingredient newing = new Ingredient(IngCount, IngName, IngDesc, IngType);
-            ings.Add(newing);
-            return ings;
+
+            return newing;
+        }
+        public Instruction StoreInstruction(MySqlConnection conn)
+        {
+            Console.WriteLine("Input Instruction Name");
+            string InsName = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Description");
+            string InsDesc = Console.ReadLine();
+            Instruction newins = new Instruction(0, InsName, InsDesc);
+
+            return newins;
         }
 
         public List<Recipe> AllRecipes(MySqlConnection conn)

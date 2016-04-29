@@ -16,6 +16,8 @@ namespace CookSmartCommandLine
         List<Kitchen> Kitchen = new List<Kitchen>();
         List<Kitchen> ShoppingList = new List<Kitchen>();
         List<Kitchen> TodaysShopping = new List<Kitchen>();
+        List<Ingredient> createdIngredients = new List<Ingredient>();
+        List<Instruction> createdInstruction = new List<Instruction>();
 
 
         public StateMachine()
@@ -56,6 +58,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("CookSmart '4' ");
             Console.WriteLine("User Menu '5' ");
             Console.WriteLine("Recipe Builder '6'");
+            Console.WriteLine("Create menu '7'");
             Console.WriteLine("Enter 'exit' to quit");
 
             string userInput = Console.ReadLine();
@@ -90,7 +93,13 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine("New Recipe");
                 RecipeGuide myGuide= new RecipeGuide("Test Recipe");
-                myGuide.startUpRecipeGuide(connectionString);
+                Recipe myrecipe = myGuide.startUpRecipeGuide(connectionString);
+                myGuide.previewRecipe(myrecipe);
+            }
+            if (userInput == "7")
+            {
+                Console.WriteLine("Create menu");
+                CreateMenu(operations, connectionString);
             }
             if (userInput == "exit")
             {
@@ -102,6 +111,105 @@ namespace CookSmartCommandLine
                 startMenu();
             }
 
+        }
+
+        public void CreateMenu(Operator operations, string connectionString)
+        {
+            Console.WriteLine("Created Ingredients");
+            foreach(Ingredient blah in createdIngredients)
+            {
+                blah.printIngredient();
+            }
+            Console.WriteLine("Created Instructions");
+            foreach(Instruction meh in createdInstruction)
+            {
+                meh.printInstructionToConsole();
+            }
+            Console.WriteLine("Create new: \n");
+            Console.WriteLine("Recipe '1'");
+            Console.WriteLine("Ingredient '2'");
+            Console.WriteLine("Instruction '3'");
+            Console.WriteLine("Show All Created '4'");
+            Console.WriteLine("Insert Created Ingredient '5'");
+            Console.WriteLine("Insert Created Instruction '6'");
+            Console.WriteLine("Main Menu 'menu'");
+
+            string userInput = Console.ReadLine();
+
+            
+
+            bool acted = false;
+            if(userInput == "1")
+            {
+                RecipeGuide myGuide = new RecipeGuide("Test Recipe");
+                Recipe myrecipe = myGuide.startUpRecipeGuide(connectionString);
+                myGuide.previewRecipe(myrecipe);
+            }
+            if(userInput == "2")
+            {
+                Ingredient myingredient = operations.storeIngredient(connectionString);
+                createdIngredients.Add(myingredient);
+            }
+            if(userInput == "3")
+            {
+                Instruction myinstruction = operations.storeInstruction(connectionString);
+                createdInstruction.Add(myinstruction);
+            }
+            if(userInput == "4")
+            {
+                Console.WriteLine("Created ingredients:");
+                foreach(Ingredient temp in createdIngredients)
+                {
+                    temp.printIngredient();
+                }
+                Console.WriteLine("Created instructions:");
+                foreach(Instruction temp in createdInstruction)
+                {
+                    temp.printInstruction();
+                }
+            }
+            if(userInput == "5")
+            {
+                Console.WriteLine("Created ingredients:");
+                foreach (Ingredient temp in createdIngredients)
+                {
+                    temp.printIngredient();
+                }
+                Console.WriteLine("Select Created Ingredient By Name");
+                string ingname = Console.ReadLine();
+                foreach(Ingredient temp in createdIngredients)
+                {
+                    if(temp.getName() == ingname)
+                    {
+                        operations.insertIngredient(connectionString, temp);
+                    }
+                }
+            }
+            if(userInput == "6")
+            {
+                Console.WriteLine("Created instructions:");
+                foreach (Instruction temp in createdInstruction)
+                {
+                    temp.printInstructionToConsole();
+                }
+                Console.WriteLine("Select Created Instruction By Name");
+                string insname = Console.ReadLine();
+                foreach(Instruction temp in createdInstruction)
+                {
+                    if(temp.getTitle() == insname)
+                    {
+                        operations.insertInstruction(connectionString, temp);
+                    }
+                }
+            }
+            if(userInput == "menu")
+            {
+                acted = true;
+            }
+            if(acted == false)
+            {
+                CreateMenu(operations, connectionString);
+            }
         }
 
         public void IngredientMenu(Operator operations, string connectionString)
@@ -130,7 +238,7 @@ namespace CookSmartCommandLine
                 Console.WriteLine();
 
                 //List<Ingredient> Ingredients = operations.allIngredients(connectionString);
-                operations.storeIngredient(connectionString,Ingredients);
+                operations.storeIngredient(connectionString);
             }
             if(userInput == "Menu")
             {

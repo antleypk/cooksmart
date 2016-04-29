@@ -29,11 +29,21 @@ namespace CookSmartCommandLine
             quantity = newQuantity;
         }
 
-        public Ingredient(int IngredientID, string Title,string Description, string QuantityType)
+        public Ingredient(int IngredientID, string Title,string Description, int Quantity, string QuantityType)
         {
             id = IngredientID;
             name = Title;
             description = Description;
+            quantity = Quantity;
+            quantitytype = QuantityType;
+
+        }
+        public Ingredient(int IngredientID, string Title, string Description, string QuantityType)
+        {
+            id = IngredientID;
+            name = Title;
+            description = Description;
+           // quantity = Quantity;
             quantitytype = QuantityType;
 
         }
@@ -66,7 +76,7 @@ namespace CookSmartCommandLine
             //private string name = "Ingredient name failed c#";
             //public string description = "Description failed c#";
             //private string quantitytype = "QuantityType failed at c#";
-            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "Quantity \n" + quantity + "\n Quantity Type " + quantitytype + "\n");
+            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity " + quantity + "\n Quantity Type " + quantitytype + "\n");
         }
     }
 }

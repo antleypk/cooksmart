@@ -23,7 +23,7 @@ namespace CookSmartCommandLine
 
         }
 
-        public void insertIngredient(string connection)
+        public void insertIngredient(string connection, Ingredient ing)
 
         {
             MySqlConnection conn = new MySqlConnection(connection);
@@ -37,10 +37,26 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart Database");
             Actions firstAct = new Actions();
-            firstAct.InsertIngredient(conn);
+            firstAct.InsertIngredient(conn, ing);
         }
 
-        public void storeIngredient(string connection, List<Ingredient> ings)
+        public void insertInstruction(string connection, Instruction ins)
+        {
+            MySqlConnection conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect");
+            }
+            Console.WriteLine("Connected to CookSmart Database");
+            Actions firstAct = new Actions();
+            firstAct.InsertInstruction(conn, ins);
+        }
+
+        public Ingredient storeIngredient(string connection)
 
         {
             MySqlConnection conn = new MySqlConnection(connection);
@@ -54,10 +70,28 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart Database");
             Actions firstAct = new Actions();
-            firstAct.StoreIngredient(conn, ings);
+            return firstAct.StoreIngredient(conn);
         }
 
-        
+
+        public Instruction storeInstruction (string connection)
+
+        {
+            MySqlConnection conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect");
+            }
+            Console.WriteLine("Connected to CookSmart Database");
+            Actions firstAct = new Actions();
+            return firstAct.StoreInstruction(conn);
+        }
+
+
         public List<Ingredient> allIngredients(string connection)
 
         {

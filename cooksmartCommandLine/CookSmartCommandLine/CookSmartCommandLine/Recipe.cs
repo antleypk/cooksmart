@@ -26,21 +26,46 @@ namespace CookSmartCommandLine
             servingsize = ServingSize;
 
         }
+        public void addInstruction(Instruction i)
+        {
+            instructionRecipe.Add(i);
+        }
+        public List<Instruction> getInstructionRecipe()
+        {
+            return instructionRecipe;
+        }
         public int getId()
         {
             return id;
+        }
+        public void setId(int newid)
+        {
+            id = newid;
         }
         public string getName()
         {
             return name;
         }
+        public void setName(string newname)
+        {
+            name = newname;
+        }
+
         public string getDescription()
         {
             return description;
         }
+        public void setDescription(string newdescription)
+        {
+            description = newdescription;
+        }
         public int getServingSize()
         {
             return servingsize;
+        }
+        public void setServingSize(int newservingsize)
+        {
+            servingsize = newservingsize;
         }
 
         public string printRecipe()

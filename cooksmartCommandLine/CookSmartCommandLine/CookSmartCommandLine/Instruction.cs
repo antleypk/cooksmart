@@ -43,6 +43,7 @@ namespace CookSmartCommandLine
             id = InstructionID;
             title = Title;
             description = Description;
+            
         }
 
         public int getID()
@@ -61,7 +62,7 @@ namespace CookSmartCommandLine
         }
         public string printInstruction()
         {
-            string relevant = "Title: " + title +" id: "+id+ " Description: " + description;
+            string relevant = title +"\n id: "+id+ "\n Description: " + description;
             return relevant;
         }
         public void printInstructionToConsole()
