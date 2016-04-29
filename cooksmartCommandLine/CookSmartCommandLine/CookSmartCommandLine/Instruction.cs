@@ -8,9 +8,9 @@ namespace CookSmartCommandLine
 {
     public class Instruction
     {
-        private int id;
-        private string title;
-        private string description;
+        private int id=999999999;
+        private string title = "failed @ c#";
+        private string description="failed @ c#";
         public Instruction()
         {
 
@@ -37,10 +37,16 @@ namespace CookSmartCommandLine
             return description;
 
         }
-        public string printrelevant()
+        public string printInstruction()
         {
-            string relevant = "Title: " + title + " Description: " + description;
+            string relevant = "Title: " + title +" id: "+id+ " Description: " + description;
             return relevant;
         }
+        public void printInstructionToConsole()
+        {
+            string tobePrinted = printInstruction();
+            Console.WriteLine(tobePrinted);
+        }
     }
-}
+    }
+

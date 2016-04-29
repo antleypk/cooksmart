@@ -124,12 +124,11 @@ namespace CookSmartCommandLine
                 }
                 while (reader.Read())
                 {
-                    //Console.WriteLine(reader["InstructionID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Order"].ToString());
-                    //string idString = reader["IngredientID"].ToString();
-                    //int id = 9999;
-                    //bool parse = int.TryParse(idString, out id);
-                    //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
-                    //ingredients.Add(temp);
+                    string idString = reader["InstructionID"].ToString();
+                    int id = 9999;
+                    bool parse = int.TryParse(idString, out id);
+                    Instruction temp = new Instruction(id, reader["Title"].ToString(), reader["Description"].ToString());
+                    instructions.Add(temp);
                 }
                 reader.Close();
                 conn.Close();
@@ -768,6 +767,101 @@ namespace CookSmartCommandLine
             Console.ReadLine();
             return UserKitchen;
             }
+
+        public Instruction InstructionByName(MySqlConnection connn)
+        {
+            Instruction MyInstruction = new Instruction();
+            MySqlConnection conn = connn;
+            string InsName = "";
+            int userID = 0;
+            try
+            {
+                Console.WriteLine("What Instruction Name? (name string +ENTR)?" + "\n");
+                InsName = Console.ReadLine();
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+
+                    string Action = "InstructionByName";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@inputname", InsName);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        List<String> columnNames = GetDataReaderColumnNames(reader);
+                        string userIDstring = reader["InstructionID"].ToString();
+                        userID = Convert.ToInt32(userIDstring);
+
+
+                        MyInstruction = new Instruction(userID, reader["Title"].ToString(), reader["Description"].ToString());
+                    }
+                    reader.Close();
+                }
+
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //Console.WriteLine(MyInstruction.printInstruction());
+            return MyInstruction;
+        }
+
+
+
+        public Ingredient IngredientByName(MySqlConnection connn)
+        {
+            Ingredient MyIngredient = new Ingredient();
+            MySqlConnection conn = connn;
+            string IngName = "";
+            int userID = 0;
+            try
+            {
+                Console.WriteLine("What Ingredient Name? (name string +ENTR)?" + "\n");
+                IngName = Console.ReadLine();
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    
+                        string Action = "IngredientByName";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    
+                    command.Parameters.AddWithValue("@inputname", IngName);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        List<String> columnNames = GetDataReaderColumnNames(reader);
+                    string userIDstring = reader["IngredientID"].ToString();
+                    userID = Convert.ToInt32(userIDstring);
+                    
+                    
+                        MyIngredient =  new Ingredient(userID, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
+                    }
+                    reader.Close();
+                }
+                
+            if (parse == false)
+            {
+                Console.WriteLine("failed to parse your input sorry" + "\n");
+            }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return MyIngredient;
+        }
 
         public List<Calendar> UserCalendar(MySqlConnection connn)
         {

@@ -45,7 +45,7 @@ namespace CookSmartCommandLine
 
         }
 
-        public void startMenu()
+                public void startMenu()
         {
             // a menu should be put here
             Operator operations = new Operator();
@@ -55,7 +55,8 @@ namespace CookSmartCommandLine
             Console.Write("Instructions '3' " + "\n");
             Console.WriteLine("CookSmart '4' ");
             Console.WriteLine("User Menu '5' ");
-            Console.Write("Enter 'exit' to quit" + "\n");
+            Console.WriteLine("Recipe Builder '6'");
+            Console.WriteLine("Enter 'exit' to quit");
 
             string userInput = Console.ReadLine();
             bool acted = false;
@@ -85,11 +86,12 @@ namespace CookSmartCommandLine
                 Console.WriteLine("User menu");
                 UserMenu(operations, connectionString);
             }
-            //if(userInput == "6")
-            //{
-            //    Console.WriteLine("New Recipe");
-            //    operations.newmeal(connectionString);
-            //}
+            if (userInput == "6")
+            {
+                Console.WriteLine("New Recipe");
+                RecipeGuide myGuide= new RecipeGuide("Test Recipe");
+                myGuide.startUpRecipeGuide(connectionString);
+            }
             if (userInput == "exit")
             {
                 acted = true;
@@ -156,7 +158,15 @@ namespace CookSmartCommandLine
             if(userInput == "1")
             {
                 Console.WriteLine();
-                operations.allInstructions(connectionString);
+                List<Instruction> MyInstructions = operations.allInstructions(connectionString); 
+                int count = 0;
+                foreach (Instruction tempIns in MyInstructions)
+                {
+                    tempIns.printInstruction();
+                    Console.WriteLine(tempIns.getTitle());
+                    count++;
+                }
+                MyInstructions.Clear();
                 
             }
             if (userInput == "2")
