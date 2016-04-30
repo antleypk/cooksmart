@@ -68,12 +68,12 @@ namespace CookSmartCommandLine
             servingsize = newservingsize;
         }
 
-        public string printRecipe()
+        public void printRecipe()
         {
             string relevent;
             relevent = id + ": " + name + " Description " + description;
 
-            return relevent;
+            Console.WriteLine(relevent);
         }
     }
 }

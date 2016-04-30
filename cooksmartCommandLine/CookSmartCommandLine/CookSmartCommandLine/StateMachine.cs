@@ -304,7 +304,8 @@ namespace CookSmartCommandLine
             Console.WriteLine("Shopping List By Day (5)");
             Console.WriteLine("Shopping List Minus Kitchen (6)");
             Console.WriteLine("All Recipes By User (7)");
-            Console.WriteLine("All ");
+            Console.WriteLine("All Instructions By User (8)");
+            Console.WriteLine("All Ingredients By User (9)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
 
@@ -377,7 +378,27 @@ namespace CookSmartCommandLine
             }
             if(userInput == "7")
             {
-
+                List<Recipe> Recipes = operations.RecipesByUser(connectionString);
+                foreach (Recipe temp in Recipes)
+                {
+                    temp.printRecipe();
+                }
+            }
+            if(userInput == "8")
+            {
+                List<Instruction> Instructions = operations.InstructionsByUser(connectionString);
+                foreach(Instruction temp in Instructions)
+                {
+                    temp.printInstructionToConsole();
+                }
+            }
+            if(userInput == "9")
+            {
+                List<Ingredient> Ingredients = operations.IngredientsByUser(connectionString);
+                foreach(Ingredient temp in Ingredients)
+                {
+                    temp.printIngredient();
+                }
             }
             if(userInput == "menu")
             {
