@@ -9,7 +9,8 @@ namespace CookSmartCommandLine
    public class StateMachine
     {
         List<Ingredient> Ingredients = new List<Ingredient>();
-        String userName;
+        string userName;
+
         List<Recipe> Recipes = new List<Recipe>();
         List<User> Users = new List<User>();
         List<Calendar> Calendar = new List<Calendar>();
@@ -29,7 +30,7 @@ namespace CookSmartCommandLine
         {
             Console.Write("Welcome to CookSmart" + "\n");
             Console.Write("Thanks for chosing Traction Systems"+"\n"+"\n");
-            Console.WriteLine("Input User Name:");
+            Console.WriteLine("Input UserName:");
             userName = Console.ReadLine();
             bool acted = false;
             if (userName == "" || userName.Length<5)
@@ -44,7 +45,7 @@ namespace CookSmartCommandLine
             {
                 startMenu();
             }
-
+            
         }
 
                 public void startMenu()
@@ -302,6 +303,8 @@ namespace CookSmartCommandLine
             Console.WriteLine("Calendar by User (4)");
             Console.WriteLine("Shopping List By Day (5)");
             Console.WriteLine("Shopping List Minus Kitchen (6)");
+            Console.WriteLine("All Recipes By User (7)");
+            Console.WriteLine("All ");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
 
@@ -371,6 +374,10 @@ namespace CookSmartCommandLine
                 ShoppingList.Clear();
                 Kitchen.Clear();
                 TodaysShopping.Clear();
+            }
+            if(userInput == "7")
+            {
+
             }
             if(userInput == "menu")
             {

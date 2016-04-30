@@ -158,7 +158,7 @@ namespace CookSmartCommandLine
                 }
                 while (reader.Read())
                 {
-                    string idString = reader["InstructionID"].ToString();
+                    string idString = reader["id"].ToString();
                     int id = 9999;
                     bool parse = int.TryParse(idString, out id);
                     Instruction temp = new Instruction(id, reader["Title"].ToString(), reader["Description"].ToString());
@@ -300,12 +300,20 @@ namespace CookSmartCommandLine
             string Action = "AllIngredientsAlphabetical";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
+            Console.WriteLine("taxi test");
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
             try {
                 MySqlDataReader reader = command.ExecuteReader();
+                Console.WriteLine("inside the function");
+                List<String> columnnames = GetDataReaderColumnNames(reader);
+                for(int i = 0; i < columnnames.Count(); i++)
+                {
+                    Console.Write(" " + columnnames.ElementAt(i));
+                }
+
                 while (reader.Read())
                 {
-                    string idString = reader["IngredientID"].ToString();
+                    string idString = reader["id"].ToString();
                     int id = 9999;
                     bool parse = int.TryParse(idString, out id);
                     Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
@@ -527,6 +535,44 @@ namespace CookSmartCommandLine
             Console.WriteLine("done p");
             Console.ReadLine();
 
+        }
+
+        public List<Recipe> UserRecipes(MySqlConnection connn, int userID)
+        {
+            List<Recipe> ReturnRecipes = new List<Recipe>();
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "RecipesByUser";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userid", userID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    Console.WriteLine(reader["Title"].ToString() + "\n" + reader["Description"].ToString() + "\n");
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
+
+            //while (reader.Read())
+            //{
+            //    Console.WriteLine(reader["RecipeID"].ToString());
+            //    Console.WriteLine(reader["Title"].ToString());
+            //}
+            conn.Close();
+            Console.WriteLine("done");
+            Console.ReadLine();
+            return ReturnRecipes;
         }
 
         public void UserMeals(MySqlConnection connn, int userID)
