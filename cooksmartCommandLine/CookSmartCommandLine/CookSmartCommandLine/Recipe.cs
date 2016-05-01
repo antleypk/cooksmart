@@ -74,6 +74,15 @@ namespace CookSmartCommandLine
             relevent = id + ": " + name + " Description " + description;
 
             Console.WriteLine(relevent);
+        
+        }
+        public List<Instruction> getInstructionList()
+        {
+            return instructionRecipe;
+        }
+        public void addinstruction(Instruction newInstruction)
+        {
+            instructionRecipe.Add(newInstruction);
         }
     }
 }

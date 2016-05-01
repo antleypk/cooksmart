@@ -74,32 +74,72 @@ namespace CookSmartCommandLine
             command.ExecuteNonQuery();
             conn.Close();
         }
-    
 
-        //public void InsertInstructionRecipe(MySqlConnection conn, int userID, Recipe )
-        //{
-        //    try
-        //    {
-        //        conn.Open();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex);
-        //        Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
-        //    }
-        //    string Action = "RecipeIDbyNameandUserID";
-        //    MySqlCommand command = new MySqlCommand(Action, conn);
-            
-        //    command = new MySqlCommand(Action, conn);
-        //    command.Parameters.AddWithValue("@name", rec.getName());
-        //    command.Parameters.AddWithValue("userid", userID);
-        //    MySqlDataReader reader = command.ExecuteReader();
-        //    while (reader.Read())
-        //    {
-        //        int id = Convert.ToInt32(reader["RecipeID"].ToString());
 
-        //    }
-        //}
+        public int GetRecipeID(MySqlConnection conn, int userID, Recipe rec)
+        {
+            int recipeid = 0;
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+            }
+            string Action = "RecipeIDbyNameandUserID";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+
+            command = new MySqlCommand(Action, conn);
+            command.Parameters.AddWithValue("@name", rec.getName());
+            command.Parameters.AddWithValue("@userid", userID);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                recipeid = Convert.ToInt32(reader["RecipeID"].ToString());
+            }
+            reader.Close();
+            return recipeid;
+        }
+
+        public void insertInstructionRecipe(MySqlConnection conn, int userID, Recipe rec)
+        {
+            List<Instruction> InstructionList = rec.getInstructionList();
+            int recipeID = GetRecipeID(conn, userID, rec);
+            for (int i = 0; i < InstructionList.Count; i++)
+            {
+                string Action = "InsertInstructionRecipe";
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("recipeid", recipeID);
+                command.Parameters.AddWithValue("instructionid", rec.getInstructionList()[i].getID());
+                command.Parameters.AddWithValue("order", rec.getInstructionList()[i].getOrder());
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public void insertInstructionIngredient(MySqlConnection conn, int userID, Recipe rec)
+        {
+            List<Instruction> InstructionList = rec.getInstructionList();
+            for (int i = 0; i < InstructionList.Count; i++)
+            {
+                List<Ingredient> IngredientList = InstructionList[i].getInstructionIngredients();
+                for(int j = 0; j < IngredientList.Count; j++)
+                {
+                    string Action = "InsertInstructionIngredient";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("ingredientid", IngredientList[j].getId());
+                    command.Parameters.AddWithValue("instructionid", InstructionList[i].getID());
+                    command.Parameters.AddWithValue("quantity", IngredientList[j].getQuantity());
+                    command.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+        }
+        
         public Ingredient StoreIngredient(MySqlConnection conn)
         {
             Console.WriteLine("Input Ingredient Name");

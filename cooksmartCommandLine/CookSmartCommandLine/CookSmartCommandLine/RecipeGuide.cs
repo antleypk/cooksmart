@@ -21,6 +21,7 @@ namespace CookSmartCommandLine
         Recipe thisrecipe = new Recipe();
         Operator operations = new Operator();
         private string name = "";
+        private string conn;
         public RecipeGuide()
         {
 
@@ -34,7 +35,7 @@ namespace CookSmartCommandLine
 
         public Recipe startUpRecipeGuide(string connection)
         {
-
+            this.conn = connection;
             Console.WriteLine("Insert Recipe Name: ");
             string userinput = Console.ReadLine();
             thisrecipe.setName(userinput);
@@ -72,8 +73,24 @@ namespace CookSmartCommandLine
             //}
 
             //preview revi
-
+            previewRecipe(thisrecipe);
             
+            bool acted = false;
+            while (!acted)
+            {
+                Console.WriteLine("Continue or Restart?  'C' or 'R'");
+                string userInput = Console.ReadLine();
+                if (userInput == "R")
+                {
+                    startUpRecipeGuide(connection);
+                    acted = true;
+                }
+                if (userInput == "C")
+                {
+                    insertRecipe(thisrecipe);
+                    acted = true;
+                }
+            }
             return thisrecipe;
             
 
@@ -100,7 +117,8 @@ namespace CookSmartCommandLine
                 List<Ingredient> previewingredients = previewinstructions[i].getInstructionIngredients();
                 for(int j = 0; j < previewingredients.Count(); j++)
                 {
-                    Console.WriteLine("\n Ingredients for Instruction #: " + (previewinstructions[i].getOrder())+1);
+                    int myOrder = (previewinstructions[i].getOrder()) + 1;
+                    Console.WriteLine("\n Ingredients for Instruction #: " + myOrder);
                     name = previewingredients[j].getName();
                     description = previewingredients[j].getDescription();
                     id = previewingredients[j].getId();
@@ -109,6 +127,13 @@ namespace CookSmartCommandLine
                     Console.WriteLine("\n id \n: " + id + "\n Title \n" + name + "\n Description \n" + description + "\n Quantity \n" + quantity + "\n Quantity Type \n" + quantityunits);
                 }
             }
+        }
+        public void insertRecipe(Recipe recipetoinsert)
+        {
+            operations.InsertRecipe(conn,1, recipetoinsert);
+            int recipeid = operations.GetRecipeID(conn, 1, recipetoinsert);
+            operations.InsertInstructionRecipe(conn, 1, recipetoinsert);
+            operations.InsertInstructionIngredient(conn, 1, recipetoinsert);
         }
 
         public void setIngredientsInRecipe(List<Ingredient> totalIngredients)
@@ -156,6 +181,8 @@ namespace CookSmartCommandLine
                 currentInstruction.setOrder(i);
                 while (finish == false)
                 {
+                    int ingredientCount = MyIngredients.Count();
+ //                   Console.WriteLine("ingredient count inside " + ingredientCount);
                     for (int e = 0; e < MyIngredients.Count(); e++)
                     {
                         currentIngredient = MyIngredients[e];
@@ -170,7 +197,16 @@ namespace CookSmartCommandLine
                     }
                     else
                     {
-                        Ingredient ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                        Ingredient ingredient;
+                        try
+                        {
+                             ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                        }
+                        catch
+                        {
+                            ingredient = new Ingredient();
+                            Console.WriteLine("UserInput Error: ID=USERID != 2 reality");
+                        }
                         currentInstruction.addIngredient(ingredient);
                         Console.WriteLine("Select the quantity of the ingredient");
                         userInput = Console.ReadLine();

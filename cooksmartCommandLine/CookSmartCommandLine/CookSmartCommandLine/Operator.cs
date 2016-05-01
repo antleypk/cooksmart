@@ -306,28 +306,91 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             return firstAct.UserCalendar(conn);
         }
+        public int GetRecipeID(string connection, int userID, Recipe rec)
+        {
+            int recipeid = 0;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetRecipeID(conn, userID, rec);
+        }
 
-        //public void InsertRecipe(string connection)
-        //{
-        //    MySqlConnection conn;
-        //    conn = new MySqlConnection(connection);
-        //    try
-        //    {
-        //        Console.WriteLine("Connecting to MySQL..." + "\n");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine("failed to connect" + "\n");
-        //    }
-        //    Console.WriteLine("Connected to CookSmart DataBase" + "\n");
-        //    Actions firstAct = new Actions();
+        public void InsertRecipe(string connection, int userID, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.InsertRecipe(conn, rec, userID);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
 
-        //    //print recipes
-        //    //ask user to input recipe name and description
-        //    //Ask user for 1st instruction text, description (joiner IDs)
-        //    //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
-        //    //Repeat instructions until done.
-        //}
+        public void InsertInstructionIngredient(string connection, int userID, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.insertInstructionIngredient(conn, userID, rec);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
+
+        public void InsertInstructionRecipe(string connection, int userID, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.insertInstructionRecipe(conn, userID, rec);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
 
         public void allInstructionInRecipe(string connection)
         {

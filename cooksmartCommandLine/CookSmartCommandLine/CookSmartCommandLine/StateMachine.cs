@@ -96,6 +96,11 @@ namespace CookSmartCommandLine
                 RecipeGuide myGuide= new RecipeGuide("Test Recipe");
                 Recipe myrecipe = myGuide.startUpRecipeGuide(connectionString);
                 myGuide.previewRecipe(myrecipe);
+                Console.WriteLine("Continue?  Y/N");
+                if(Console.ReadLine() == "Y")
+                {
+                    myGuide.insertRecipe(myrecipe);
+                }
             }
             if (userInput == "7")
             {
