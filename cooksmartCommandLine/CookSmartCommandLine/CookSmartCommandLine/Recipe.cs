@@ -13,6 +13,7 @@ namespace CookSmartCommandLine
        private  string name = "Fail to name";
         private string description = "Fail to Describe";
         private List<Instruction> instructionRecipe = new List<Instruction>();
+        private List<Ingredient> recipeIngredient = new List<Ingredient>();
         private int servingsize = 0;
         public Recipe()
         {
@@ -29,6 +30,10 @@ namespace CookSmartCommandLine
         public void addInstruction(Instruction i)
         {
             instructionRecipe.Add(i);
+        }
+        public List<Ingredient> getRecipeIngredient()
+        {
+            return recipeIngredient;
         }
         public List<Instruction> getInstructionRecipe()
         {

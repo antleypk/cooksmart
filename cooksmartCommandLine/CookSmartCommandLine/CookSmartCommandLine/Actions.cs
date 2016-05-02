@@ -90,9 +90,10 @@ namespace CookSmartCommandLine
             }
             string Action = "RecipeIDbyNameandUserID";
             MySqlCommand command = new MySqlCommand(Action, conn);
-
-            command = new MySqlCommand(Action, conn);
-            command.Parameters.AddWithValue("@name", rec.getName());
+            command.CommandType = CommandType.StoredProcedure;
+            string title = rec.getName();
+            Console.WriteLine("Title = " + title + " And Id = " + userID);
+            command.Parameters.AddWithValue("@name", title);
             command.Parameters.AddWithValue("@userid", userID);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
@@ -107,14 +108,51 @@ namespace CookSmartCommandLine
         {
             List<Instruction> InstructionList = rec.getInstructionList();
             int recipeID = GetRecipeID(conn, userID, rec);
+
             for (int i = 0; i < InstructionList.Count; i++)
             {
+                try
+                {
+                    conn.Open();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+                }
                 string Action = "InsertInstructionRecipe";
                 MySqlCommand command = new MySqlCommand(Action, conn);
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("recipeid", recipeID);
                 command.Parameters.AddWithValue("instructionid", rec.getInstructionList()[i].getID());
-                command.Parameters.AddWithValue("order", rec.getInstructionList()[i].getOrder());
+                command.Parameters.AddWithValue("orderer", rec.getInstructionList()[i].getOrder());
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public void insertRecipeIngredient(MySqlConnection conn, int userID, Recipe rec)
+        {
+            List<Ingredient> IngredientList = rec.getRecipeIngredient();
+            int recipeID = GetRecipeID(conn, userID, rec);
+
+            for (int i = 0; i < IngredientList.Count; i++)
+            {
+                try
+                {
+                    conn.Open();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+                }
+                string Action = "InsertRecipeIngredient";
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("recipeid", recipeID);
+                command.Parameters.AddWithValue("ingredientid", IngredientList[i].getId());
+                command.Parameters.AddWithValue("quantity", IngredientList[i].getQuantity());
                 command.ExecuteNonQuery();
                 conn.Close();
             }
@@ -128,17 +166,27 @@ namespace CookSmartCommandLine
                 List<Ingredient> IngredientList = InstructionList[i].getInstructionIngredients();
                 for(int j = 0; j < IngredientList.Count; j++)
                 {
+                    try
+                    {
+                        conn.Open();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                        Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+                    }
                     string Action = "InsertInstructionIngredient";
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("ingredientid", IngredientList[j].getId());
                     command.Parameters.AddWithValue("instructionid", InstructionList[i].getID());
-                    command.Parameters.AddWithValue("quantity", IngredientList[j].getQuantity());
                     command.ExecuteNonQuery();
                     conn.Close();
                 }
             }
         }
+
+
         
         public Ingredient StoreIngredient(MySqlConnection conn)
         {

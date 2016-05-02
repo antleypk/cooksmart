@@ -12,19 +12,19 @@ namespace CookSmartCommandLine
         private string name = "Ingredient name failed c#";
         public string description = "Description failed c#";
         private string quantitytype = "QuantityType failed at c#";
-        private double quantity;
+        private decimal quantity;
         //blank constructor
         public Ingredient()
         {
 
         }
 
-        public double getQuantity()
+        public decimal getQuantity()
         {
             return quantity;
         }
 
-        public void setQuantity(double newQuantity)
+        public void setQuantity(decimal newQuantity)
         {
             quantity = newQuantity;
         }

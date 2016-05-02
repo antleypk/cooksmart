@@ -391,6 +391,28 @@ namespace CookSmartCommandLine
             //Repeat instructions until done.
         }
 
+        public void InsertRecipeIngredient(string connection, int userID, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.insertRecipeIngredient(conn, userID, rec);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
 
         public void allInstructionInRecipe(string connection)
         {

@@ -98,7 +98,7 @@ namespace CookSmartCommandLine
         public void previewRecipe(Recipe thisrecipe)
         {
             Console.WriteLine("Top level Info");
-            double quantity = 0;
+            decimal quantity = 0;
             string quantityunits = "";
             int id = thisrecipe.getId();
             string name = thisrecipe.getName();
@@ -150,7 +150,9 @@ namespace CookSmartCommandLine
                 if (userInput == temp.getName())
                 {
                     MyIngredients.Add(temp);
-                    
+                    Console.WriteLine("Input Quantity needed for recipe");
+                    decimal recipequantity = Convert.ToDecimal(Console.ReadLine());
+                    MyIngredients.Last<Ingredient>().setQuantity(recipequantity);
                 }
             }
             Console.WriteLine("MyIngredients count after " + MyIngredients.Count);
@@ -166,26 +168,26 @@ namespace CookSmartCommandLine
 
         }
 
-        public void populateQuantities()
+        public void populateQuantities(List<Ingredient> InputIngredients, List<Instruction> InputInstructions)
         {
             Instruction currentInstruction;
             Ingredient currentIngredient;
 
-            for (int i = 0; i < MyInstructions.Count(); i++)
+            for (int i = 0; i < InputInstructions.Count(); i++)
             {
 
                 bool finish = false;
-                currentInstruction = MyInstructions[i];
+                currentInstruction = InputInstructions[i];
                 currentInstruction.setOrder(i + 1);
                 currentInstruction.printInstructionToConsole();
                 currentInstruction.setOrder(i);
                 while (finish == false)
                 {
-                    int ingredientCount = MyIngredients.Count();
+                    int ingredientCount = InputIngredients.Count();
  //                   Console.WriteLine("ingredient count inside " + ingredientCount);
-                    for (int e = 0; e < MyIngredients.Count(); e++)
+                    for (int e = 0; e < InputIngredients.Count(); e++)
                     {
-                        currentIngredient = MyIngredients[e];
+                        currentIngredient = InputIngredients[e];
                         currentIngredient.printIngredient();
                     }
                     Console.WriteLine("Select the ingredient to go with the instruction by id or 'continue' to exit");
@@ -200,22 +202,24 @@ namespace CookSmartCommandLine
                         Ingredient ingredient;
                         try
                         {
-                             ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                             ingredient = InputIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
                         }
                         catch
                         {
                             ingredient = new Ingredient();
                             Console.WriteLine("UserInput Error: ID=USERID != 2 reality");
                         }
-                        currentInstruction.addIngredient(ingredient);
                         Console.WriteLine("Select the quantity of the ingredient");
                         userInput = Console.ReadLine();
                         userInput = userInput.Trim();
-                        ingredient.setQuantity(Convert.ToDouble(userInput));
+                        ingredient.setQuantity(Convert.ToDecimal(userInput));
+                        currentInstruction.addIngredient(ingredient);
                     }
                 }
             }
         }
+
+        public void checkQuantities(Recipe rec, )
         
 
         public void setInstructionsInRecipe(string connectionString)
