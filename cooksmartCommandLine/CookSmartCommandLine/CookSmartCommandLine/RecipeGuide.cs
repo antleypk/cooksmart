@@ -59,7 +59,7 @@ namespace CookSmartCommandLine
 
             setIngredientsInRecipe(ListTempIngredients);
             setInstructionsInRecipe(connection);
-            populateQuantities();
+          //  populateQuantities();
             
             for(int i=0; i < MyInstructions.Count(); i++)
             {
@@ -219,7 +219,10 @@ namespace CookSmartCommandLine
             }
         }
 
-        public void checkQuantities(Recipe rec, )
+        public void checkQuantities(Recipe rec)
+        {
+
+        }
         
 
         public void setInstructionsInRecipe(string connectionString)
