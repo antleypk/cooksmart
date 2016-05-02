@@ -59,7 +59,7 @@ namespace CookSmartCommandLine
 
             setIngredientsInRecipe(ListTempIngredients);
             setInstructionsInRecipe(connection);
-          //  populateQuantities();
+            populateQuantities(MyIngredients,MyInstructions);
             
             for(int i=0; i < MyInstructions.Count(); i++)
             {
@@ -128,12 +128,14 @@ namespace CookSmartCommandLine
                 }
             }
         }
-        public void insertRecipe(Recipe recipetoinsert)
-        {
-            operations.InsertRecipe(conn,1, recipetoinsert);
-            int recipeid = operations.GetRecipeID(conn, 1, recipetoinsert);
-            operations.InsertInstructionRecipe(conn, 1, recipetoinsert);
-            operations.InsertInstructionIngredient(conn, 1, recipetoinsert);
+        public void insertRecipe(Recipe recipetoinsert) { 
+        //{
+        //    operations.InsertRecipe(conn,1, recipetoinsert);
+        //    int recipeid = operations.GetRecipeID(conn, 1, recipetoinsert);
+        //    operations.InsertRecipeIngredient(conn, 1, recipetoinsert);
+        //    operations.InsertInstructionRecipe(conn, 1, recipetoinsert);
+        //    operations.InsertInstructionIngredient(conn, 1, recipetoinsert);
+            checkQuantities(recipetoinsert);
         }
 
         public void setIngredientsInRecipe(List<Ingredient> totalIngredients)
@@ -221,9 +223,44 @@ namespace CookSmartCommandLine
 
         public void checkQuantities(Recipe rec)
         {
+            List<Ingredient> RecipeIngredient = rec.getRecipeIngredient();
+            List<Ingredient> InstructionIngredient = new List<Ingredient>();
+            for (int i = 0; i < rec.getInstructionRecipe().Count; i++)
+            {
+                Instruction thisinstruction = rec.getInstructionRecipe()[i];
+                for (int j = 0; j < thisinstruction.getInstructionIngredients().Count; j++) {
+                    bool New = true;
+                    for (int k = 0; k < InstructionIngredient.Count(); k++) 
+                    {
+                        if (InstructionIngredient[k].getName() == thisinstruction.getInstructionIngredients()[j].getName()){
+                            New = false;
+                            Console.WriteLine("Call");
+                            
+                            decimal currentquantity = InstructionIngredient[k].getQuantity();
+                            Console.WriteLine("currentquantity is" + currentquantity);
+                            Console.WriteLine("Will Add" + thisinstruction.getInstructionIngredients()[j].getQuantity());
+                            InstructionIngredient[k].setQuantity(currentquantity + thisinstruction.getInstructionIngredients()[j].getQuantity());
+                            break;
 
+                        }
+                        if (New)
+                        {
+                            InstructionIngredient.Add(thisinstruction.getInstructionIngredients()[j]);
+                        }
+                    }
+
+                    InstructionIngredient.Add(thisinstruction.getInstructionIngredients()[j]);
+                }
+            }
+            foreach (Ingredient temp in RecipeIngredient)
+            {
+                temp.printIngredient();
+            }
+            foreach(Ingredient temp in InstructionIngredient)
+            {
+                temp.printIngredient();
+            }
         }
-        
 
         public void setInstructionsInRecipe(string connectionString)
         {
