@@ -33,7 +33,7 @@ namespace CookSmartCommandLine
 
         }
 
-        public Recipe startUpRecipeGuide(string connection)
+        public Recipe startUpRecipeGuide(string connection,int userID)
         {
             this.conn = connection;
             Console.WriteLine("Insert Recipe Name: ");
@@ -58,8 +58,9 @@ namespace CookSmartCommandLine
 
 
             setIngredientsInRecipe(ListTempIngredients);
+            Console.WriteLine("Please set instructions:");
             setInstructionsInRecipe(connection);
-            populateQuantities(MyIngredients,MyInstructions);
+            populateQuantities();
             
             for(int i=0; i < MyInstructions.Count(); i++)
             {
@@ -82,12 +83,12 @@ namespace CookSmartCommandLine
                 string userInput = Console.ReadLine();
                 if (userInput == "R")
                 {
-                    startUpRecipeGuide(connection);
+                    startUpRecipeGuide(connection,userID);
                     acted = true;
                 }
                 if (userInput == "C")
                 {
-                    insertRecipe(thisrecipe);
+                    insertRecipe(thisrecipe,connection, userID);
                     acted = true;
                 }
             }
@@ -128,15 +129,56 @@ namespace CookSmartCommandLine
                 }
             }
         }
-        public void insertRecipe(Recipe recipetoinsert) { 
-        //{
-        //    operations.InsertRecipe(conn,1, recipetoinsert);
-        //    int recipeid = operations.GetRecipeID(conn, 1, recipetoinsert);
-        //    operations.InsertRecipeIngredient(conn, 1, recipetoinsert);
-        //    operations.InsertInstructionRecipe(conn, 1, recipetoinsert);
-        //    operations.InsertInstructionIngredient(conn, 1, recipetoinsert);
-            checkQuantities(recipetoinsert);
+        public void createInstruction()
+        {
+            Console.WriteLine("Instruction Name: ");
+            string name = Console.ReadLine();
+            Console.WriteLine("Description Name: ");
+            string description = Console.ReadLine();
+            int order = MyInstructions.Count + 1;
+            Instruction tempInstruction = new Instruction();
+            tempInstruction.setTitle(name);
+            tempInstruction.setDescription(description);
+            tempInstruction.setOrder(order);
+            MyInstructions.Add(tempInstruction);
+
         }
+        public void insertRecipe(Recipe recipetoinsert, string connection, int userID) {
+           
+            operations.InsertRecipe(conn, userID, recipetoinsert);
+            int recipeid = operations.GetRecipeID(conn, userID, recipetoinsert);
+            recipetoinsert.setId(recipeid);
+
+            operations.InsertRecipeIngredient(conn, userID, recipetoinsert);
+
+
+            //this will not work because the recipeIDs are wrong
+            insertNewInstructions(connection,userID);//this will fix this
+            operations.InsertInstructionRecipe(conn, userID, recipetoinsert);
+
+
+            operations.InsertInstructionIngredient(conn, userID, recipetoinsert);
+            
+
+            operations.allIngredientFromRecipe(conn, recipetoinsert);
+        }
+
+
+        public void insertNewInstructions(string connection,int userID)
+        {
+            for(int i = 0; i < MyInstructions.Count; i++)
+            {
+                operations.insertInstruction(connection, MyInstructions[i],userID);
+                Console.WriteLine("temp instruction title: " + MyInstructions[i].getTitle());
+                int primarykey = operations.GetInstructionID(connection, userID, MyInstructions[i]);
+                Console.WriteLine("Primary key of new intruction: " + primarykey);
+                MyInstructions[i].setID(primarykey);
+            }
+
+            
+            
+        }
+
 
         public void setIngredientsInRecipe(List<Ingredient> totalIngredients)
         {
@@ -147,14 +189,14 @@ namespace CookSmartCommandLine
             Console.WriteLine("Input the name of the ingredient you wish to chose");
             string userInput = Console.ReadLine();
             userInput = userInput.Trim();
-            foreach(Ingredient temp in totalIngredients)
+            foreach (Ingredient temp in totalIngredients)
             {
                 if (userInput == temp.getName())
                 {
                     MyIngredients.Add(temp);
-                    Console.WriteLine("Input Quantity needed for recipe");
-                    decimal recipequantity = Convert.ToDecimal(Console.ReadLine());
-                    MyIngredients.Last<Ingredient>().setQuantity(recipequantity);
+                    //Console.WriteLine("Input Quantity needed for recipe");
+                    //decimal recipequantity = Convert.ToDecimal(Console.ReadLine());
+                    //MyIngredients.Last<Ingredient>().setQuantity(recipequantity);
                 }
             }
             Console.WriteLine("MyIngredients count after " + MyIngredients.Count);
@@ -170,26 +212,26 @@ namespace CookSmartCommandLine
 
         }
 
-        public void populateQuantities(List<Ingredient> InputIngredients, List<Instruction> InputInstructions)
+        public void populateQuantities()
         {
             Instruction currentInstruction;
             Ingredient currentIngredient;
 
-            for (int i = 0; i < InputInstructions.Count(); i++)
+            for (int i = 0; i < MyInstructions.Count(); i++)
             {
 
                 bool finish = false;
-                currentInstruction = InputInstructions[i];
+                currentInstruction = MyInstructions[i];
                 currentInstruction.setOrder(i + 1);
                 currentInstruction.printInstructionToConsole();
                 currentInstruction.setOrder(i);
                 while (finish == false)
                 {
-                    int ingredientCount = InputIngredients.Count();
+                    int ingredientCount = MyIngredients.Count();
  //                   Console.WriteLine("ingredient count inside " + ingredientCount);
-                    for (int e = 0; e < InputIngredients.Count(); e++)
+                    for (int e = 0; e < MyIngredients.Count(); e++)
                     {
-                        currentIngredient = InputIngredients[e];
+                        currentIngredient = MyIngredients[e];
                         currentIngredient.printIngredient();
                     }
                     Console.WriteLine("Select the ingredient to go with the instruction by id or 'continue' to exit");
@@ -201,14 +243,14 @@ namespace CookSmartCommandLine
                     }
                     else
                     {
-                        Ingredient ingredient;
+                        Ingredient ingredient=new Ingredient();
                         try
                         {
-                             ingredient = InputIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                             ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
                         }
                         catch
                         {
-                            ingredient = new Ingredient();
+                           // ingredient = new Ingredient();
                             Console.WriteLine("UserInput Error: ID=USERID != 2 reality");
                         }
                         Console.WriteLine("Select the quantity of the ingredient");
@@ -264,39 +306,25 @@ namespace CookSmartCommandLine
 
         public void setInstructionsInRecipe(string connectionString)
         {
-
-           List<Instruction> tempInstructions= operations.allInstructions(connectionString);
-            foreach(Instruction instruction in tempInstructions)
-            {
-                instruction.printInstructionToConsole();
-            }
-           int tempCount= tempInstructions.Count;
-            Console.WriteLine( "MyIngredients count before " + MyIngredients.Count+" tempinstruction count before"+tempCount);
-            Console.WriteLine(" Instruction global after " + MyInstructions.Count);
-            Console.WriteLine("'continue' to continue");
-            bool finish = false;
-            Console.WriteLine("Input the id of the instruction you wish to chose");
+            bool acted = false;
+            Console.WriteLine("Add or Continue");
             string userInput = Console.ReadLine();
-            userInput = userInput.Trim();
-            foreach (Instruction instruction in tempInstructions)
+
+            if (userInput == "Continue")
             {
-               if( instruction.getID().ToString()== userInput)
-                {
-                    MyInstructions.Add(instruction);
-                }
+                acted = true;
+                
+            }
+            if (userInput == "Add")
+            {
+                createInstruction();
             }
 
-            Console.WriteLine("Instruction global after " + MyInstructions.Count);
-            if (userInput == "continue")
-            {
-                finish = true;
-            }
-            if (finish == false)
+            if (acted == false)
             {
                 setInstructionsInRecipe(connectionString);
             }
-
-
+            
         }
 
     }

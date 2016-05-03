@@ -23,7 +23,7 @@ namespace CookSmartCommandLine
 
         }
 
-        public void insertIngredient(string connection, Ingredient ing)
+        public void insertIngredient(string connection, Ingredient ing, int userID)
 
         {
             MySqlConnection conn = new MySqlConnection(connection);
@@ -37,10 +37,10 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart Database");
             Actions firstAct = new Actions();
-            firstAct.InsertIngredient(conn, ing);
+            firstAct.InsertIngredient(conn, ing, userID);
         }
 
-        public void insertInstruction(string connection, Instruction ins)
+        public void insertInstruction(string connection, Instruction ins, int userid)
         {
             MySqlConnection conn = new MySqlConnection(connection);
             try
@@ -53,7 +53,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart Database");
             Actions firstAct = new Actions();
-            firstAct.InsertInstruction(conn, ins);
+            firstAct.InsertInstruction(conn, ins, userid);
         }
 
         public Ingredient storeIngredient(string connection)
@@ -131,6 +131,24 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             firstAct.IngredientsInRecipe(conn);
+        }
+
+
+        public void allIngredientFromRecipe(string connection, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.IngredientsFromRecipe(conn,rec);
         }
 
         public Instruction InstructionByName(string connection)
@@ -218,6 +236,22 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             return firstAct.IngredientByName(conn);
+        }
+        public Recipe RecipeByID(string connection)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetRecipeByID(conn);
         }
         public List<User> AllUsers(string connection)
         {
@@ -308,20 +342,56 @@ namespace CookSmartCommandLine
         }
         public int GetRecipeID(string connection, int userID, Recipe rec)
         {
-            int recipeid = 0;
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("Connecting to MySQL...Get RecIpeID 3 input" + "\n");
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.GetRecipeID(conn, userID, rec);
+            string name = rec.getName();
+            return firstAct.GetRecipeID(conn, userID, name);
+        }
+        public int GetRecipeID(string connection, int userID, string name)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...Get RecIpeID 3 input" + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetRecipeID(conn, userID, name);
+        }
+
+        public int GetInstructionID(string connection, int userID, Instruction Ins)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...Get RecIpeID 3 input" + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetInstructionID(conn, userID, Ins);
         }
 
         public void InsertRecipe(string connection, int userID, Recipe rec)
@@ -352,10 +422,11 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("Connecting to MySQL..insertInstructionIngredient." + "\n");
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -375,10 +446,11 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("Connecting to MySQL..InsertInstructionRecipe." + "\n");
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -401,6 +473,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -563,8 +636,23 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.ShoppingListFromRecipe(conn);
+            firstAct.ShoppingListGetRecipe(conn);
         }
-
+        public void ShoppingListFromrecipe(string connection, Recipe rec)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.ShoppingListFromRecipe(conn, rec);
+        }
     }
     }

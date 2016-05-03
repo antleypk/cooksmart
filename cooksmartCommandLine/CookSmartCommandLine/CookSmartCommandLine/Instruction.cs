@@ -27,6 +27,7 @@ namespace CookSmartCommandLine
         {
             return order;
         }
+        
 
         public void setOrder(int newOrder)
         {
@@ -50,15 +51,27 @@ namespace CookSmartCommandLine
         {
             return id;
         }
+        public void setID(int newid)
+        {
+            id = newid;
+        }
         public string getTitle()
         {
             return title;
+        }
+        public void setTitle(string newtitle)
+        {
+            title = newtitle;
         }
 
         public string getDescription()
         {
             return description;
 
+        }
+        public void setDescription(string newdescription)
+        {
+            description = newdescription;
         }
         public string printInstruction()
         {
