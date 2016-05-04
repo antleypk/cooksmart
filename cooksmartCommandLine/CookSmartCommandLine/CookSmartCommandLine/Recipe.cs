@@ -9,45 +9,99 @@ namespace CookSmartCommandLine
 {
     public class Recipe
     {
-       private int id = 0;
+       private int id = 99999999;
        private  string name = "Fail to name";
         private string description = "Fail to Describe";
+        private List<Instruction> instructionRecipe = new List<Instruction>();
+        private List<Ingredient> recipeIngredient = new List<Ingredient>();
         private int servingsize = 0;
+        private int userid = 0;
         public Recipe()
         {
 
         }
-        public Recipe(int RecipeID, string Title, string Description, int ServingSize)
+        public Recipe(int userID)
+        {
+            userid = userID;
+        }
+        public Recipe(int RecipeID, string Title, string Description, int ServingSize, int userID)
         {
             id = RecipeID;
             name = Title;
             description = Description;
             servingsize = ServingSize;
+            userid = userID;
 
+        }
+        public int getUserID()
+        {
+            return userid;
+        }
+        public void setUserID(int newuserid)
+        {
+            id = newuserid;
+        }
+        public void addInstruction(Instruction i)
+        {
+            instructionRecipe.Add(i);
+        }
+        public List<Ingredient> getRecipeIngredient()
+        {
+            return recipeIngredient;
+        }
+        public List<Instruction> getInstructionRecipe()
+        {
+            return instructionRecipe;
         }
         public int getId()
         {
             return id;
         }
+        public void setId(int newid)
+        {
+            id = newid;
+        }
         public string getName()
         {
             return name;
         }
+        public void setName(string newname)
+        {
+            name = newname;
+        }
+
         public string getDescription()
         {
             return description;
+        }
+        public void setDescription(string newdescription)
+        {
+            description = newdescription;
         }
         public int getServingSize()
         {
             return servingsize;
         }
-
-        public string printRecipe()
+        public void setServingSize(int newservingsize)
         {
-            string relavent;
-            relavent = id + ": " + name + " Description " + description;
+            servingsize = newservingsize;
+        }
 
-            return relavent;
+        public void printRecipe()
+        {
+            string relevent;
+            relevent = id + ": " + name + " Description " + description;
+
+            Console.WriteLine(relevent);
+        
+        }
+        public List<Instruction> getInstructionList()
+        {
+            return instructionRecipe;
+        }
+        public void addinstruction(Instruction newInstruction)
+        {
+            instructionRecipe.Add(newInstruction);
         }
     }
 }

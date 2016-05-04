@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuantityUnits.cs" />
     <Compile Include="Recipe.cs" />
+    <Compile Include="RecipeGuide.cs" />
     <Compile Include="Roles.cs" />
     <Compile Include="StateMachine.cs" />
     <Compile Include="User.cs" />
