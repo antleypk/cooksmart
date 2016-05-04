@@ -14,6 +14,8 @@ namespace CookSmartCommandLine
         private List<Ingredient> instructionIngredients = new List<Ingredient>();
         private int order;
         private int userid;
+        private int cooktime;
+        private int preptime;
 
         public Instruction()
         {
@@ -36,6 +38,22 @@ namespace CookSmartCommandLine
         public void setUserID(int newuserid)
         {
             userid = newuserid;
+        }
+        public int getCookTime()
+        {
+            return cooktime;
+        }
+        public void setCookTime(int newcooktime)
+        {
+            cooktime = newcooktime;
+        }
+        public int getPrepTime()
+        {
+            return preptime;
+        }
+        public void setPrepTime(int newpreptime)
+        {
+            preptime = newpreptime;
         }
         public int getOrder()
         {

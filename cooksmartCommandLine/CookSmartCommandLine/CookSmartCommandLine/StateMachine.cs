@@ -54,7 +54,7 @@ namespace CookSmartCommandLine
         {
             // a menu should be put here
             Operator operations = new Operator();
-            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word;Convert Zero Datetime=True";
+            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -315,6 +315,7 @@ namespace CookSmartCommandLine
             Console.WriteLine();
             Console.WriteLine("All Instructions '1' ");
             Console.WriteLine("Ingredients from an Instruction '2' ");
+            Console.WriteLine("Delete Instruction '3'");
 
             Console.WriteLine("Main Menu 'Menu'");
 
@@ -341,6 +342,22 @@ namespace CookSmartCommandLine
                 Console.WriteLine();
                 operations.allInstructions(connectionString, userID);
                 operations.allIngredientInInstruction(connectionString);
+            }
+            if(userInput == "3")
+            {
+                Console.WriteLine();
+                operations.allInstructions(connectionString, userID);
+                Console.WriteLine("Select Instruction by ID");
+                Instruction ins = operations.InstructionByID(connectionString, userID);
+                if (ins.getInstructionIngredients().Any<Ingredient>())
+                {
+                    operations.DeleteInstructionWithIngredient(connectionString, ins, userID);
+                }
+                else
+                {
+                    operations.DeleteInstructionWithoutIngredient(connectionString, ins, userID);
+                }
+
             }
             
             if (userInput == "Menu")
@@ -481,6 +498,9 @@ namespace CookSmartCommandLine
             Console.Write("See ingredients from a recipe '2' " + "\n");
             Console.Write("See instructions from a recipe '3' " + "\n");
             Console.WriteLine("Print recipe by ID '4' ");
+            Console.WriteLine("Delete Recipe '5'");
+            Console.WriteLine("Update Recipe '6'");
+            Console.WriteLine("Reorder Recipe '7'");
             Console.Write("'menu' for main menu" + "\n");
             Console.WriteLine();
 
@@ -514,6 +534,42 @@ namespace CookSmartCommandLine
             {
                 Recipe myrecipe = operations.RecipeByID(connectionString,userID);
                 myrecipe.printRecipe();
+            }
+            if(userInput == "5")
+            {
+                operations.allRecipes(connectionString);
+                Console.WriteLine("Select Recipe By ID");
+                Recipe Rec = operations.RecipeByID(connectionString, userID);
+                if (Rec.getInstructionRecipe().Any<Instruction>())
+                {
+                    operations.DeleteRecipeWithInstruction(connectionString, userID, Rec);
+                }
+                else
+                {
+                    operations.DeleteRecipeWithoutInstruction(connectionString, userID, Rec);
+                }
+            }
+            if(userInput == "6")
+            {
+                Recipe myrecipe = operations.RecipeByID(connectionString, userID);
+
+                string title = "";
+                string description = "";
+                Console.WriteLine("Title is: " + myrecipe.getName());
+                Console.WriteLine("Description is: " + myrecipe.getDescription());
+                Console.WriteLine("Serving Size is: " + myrecipe.getServingSize());
+                Console.WriteLine("Update?  Y/N");
+                if(Console.ReadLine() == "Y")
+                {
+                    Console.WriteLine("New title: ");
+                    title = Console.ReadLine();
+                    Console.WriteLine("New Description: ");
+                    description = Console.ReadLine();
+                    Console.WriteLine("New Serving Size");
+                   // servingsize = 
+                }
+
+                //operations.UpdateRecipe(connection, );
             }
             if (userInput == "menu")
             {

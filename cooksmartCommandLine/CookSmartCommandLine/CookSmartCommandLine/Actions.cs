@@ -15,6 +15,172 @@ namespace CookSmartCommandLine
         {
 
         }
+
+        public void DeleteInstructionWithIngredient(MySqlConnection conn, Instruction ins, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            String Action = "DeleteInstructionWithIngredient";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@instructionid", ins.getID());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void DeleteInstructionWithoutIngredient(MySqlConnection conn, Instruction ins, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            String Action = "DeleteInstructionWithoutIngredient";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@instructionid", ins.getID());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void DeleteRecipeWithInstruction(MySqlConnection conn, Recipe rec, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            String Action = "DeleteRecipeWithInstruction";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@recipeid", rec.getId());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void DeleteRecipeWithoutInstruction(MySqlConnection conn, Recipe rec, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            String Action = "DeleteRecipeWithoutInstruction";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@recipeid", rec.getId());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void UpdateQuantity(MySqlConnection conn, Instruction ins, Ingredient ing, int quantity, int userID)
+        {
+            try
+            {
+                   conn.Open();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            ing.setQuantity(quantity);
+            String Action = "UpdateQuantity";
+
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@instructionid", ins.getID());
+            command.Parameters.AddWithValue("@ingredientid", ing.getId());
+            command.Parameters.AddWithValue("@quantity", quantity);
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void reorder(MySqlConnection conn, Recipe rec, Instruction ins, int order, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            ins.setOrder(order);
+            String Action = "Reorder";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@instructionid", ins.getID());
+            command.Parameters.AddWithValue("@recipeid", rec.getId());
+            command.Parameters.AddWithValue("@order", order);
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void UpdateInstruction(MySqlConnection conn, string title, string description, int preptime, int cooktime, Instruction ins, int userID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            ins.setTitle(title);
+            ins.setDescription(description);
+            ins.setCookTime(cooktime);
+            ins.setPrepTime(preptime);
+            String Action = "UpdateInstruction";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@title", ins.getTitle());
+            command.Parameters.AddWithValue("@description", ins.getDescription());
+            command.Parameters.AddWithValue("@cooktime", ins.getCookTime());
+            command.Parameters.AddWithValue("@preptime", ins.getPrepTime());
+            command.Parameters.AddWithValue("@instructionid", ins.getID());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public void UpdateRecipe(MySqlConnection conn, string title, string description, int servingsize, Recipe rec, int userID)
+            {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            rec.setName(title);
+            rec.setDescription(description);
+            rec.setServingSize(servingsize);
+            rec.setUserID(userID);
+            string Action = "UpdateRecipe";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@title", rec.getName());
+            command.Parameters.AddWithValue("@description", rec.getDescription());
+            command.Parameters.AddWithValue("@servingsize", rec.getServingSize());
+            command.Parameters.AddWithValue("@instructionid", rec.getId());
+            command.ExecuteNonQuery();
+            conn.Close();
+            }
         public void InsertIngredient(MySqlConnection conn, Ingredient ing, int userID)
         {
             try
@@ -23,7 +189,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
             string Action = "InsertIngredient";
@@ -1195,6 +1361,51 @@ namespace CookSmartCommandLine
             //Console.WriteLine(MyInstruction.printInstruction());
             return MyInstruction;
         }
+        public Instruction InstructionByID(MySqlConnection connn, int guserID)
+        {
+            Instruction MyInstruction = new Instruction(guserID);
+            MySqlConnection conn = connn;
+            int instructionid = 999;
+            try
+            {
+                Console.WriteLine("What Instruction ID? (ID +ENTR)?" + "\n");
+                instructionid = Convert.ToInt32(Console.ReadLine());
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+
+                    string Action = "InstructionByID";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@instructionid", instructionid);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        List<String> columnNames = GetDataReaderColumnNames(reader);
+
+
+                        MyInstruction = new Instruction(instructionid, reader["Title"].ToString(), reader["Description"].ToString(), guserID);
+                    }
+                    reader.Close();
+                }
+
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //Console.WriteLine(MyInstruction.printInstruction());
+            return MyInstruction;
+        }
+
+
 
         public Ingredient GetIngredientFromID(MySqlConnection connn, int userID, int ingredientid)
         {
