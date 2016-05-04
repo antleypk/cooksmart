@@ -13,9 +13,15 @@ namespace CookSmartCommandLine
         private string description="failed @ c#";
         private List<Ingredient> instructionIngredients = new List<Ingredient>();
         private int order;
+        private int userid;
+
         public Instruction()
         {
 
+        }
+        public Instruction(int userID)
+        {
+            userid = userID;
         }
 
         public void addIngredient(Ingredient i)
@@ -23,6 +29,14 @@ namespace CookSmartCommandLine
             instructionIngredients.Add(i);
         }
 
+        public int getUserID()
+        {
+            return userid;
+        }
+        public void setUserID(int newuserid)
+        {
+            userid = newuserid;
+        }
         public int getOrder()
         {
             return order;
@@ -39,11 +53,12 @@ namespace CookSmartCommandLine
             return instructionIngredients;
         }
 
-        public Instruction(int InstructionID, string Title, string Description)
+        public Instruction(int InstructionID, string Title, string Description, int userID)
         {
             id = InstructionID;
             title = Title;
             description = Description;
+            userid = userID;
             
         }
 
@@ -75,7 +90,7 @@ namespace CookSmartCommandLine
         }
         public string printInstruction()
         {
-            string relevant = title +"\n id: "+id+ "\n Description: " + description;
+            string relevant = title + "\n id: " + id + "\n Description: " + description + "\n Order: " + order;
             return relevant;
         }
         public void printInstructionToConsole()

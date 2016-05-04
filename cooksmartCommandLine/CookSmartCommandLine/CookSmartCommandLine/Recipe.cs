@@ -15,17 +15,31 @@ namespace CookSmartCommandLine
         private List<Instruction> instructionRecipe = new List<Instruction>();
         private List<Ingredient> recipeIngredient = new List<Ingredient>();
         private int servingsize = 0;
+        private int userid = 0;
         public Recipe()
         {
 
         }
-        public Recipe(int RecipeID, string Title, string Description, int ServingSize)
+        public Recipe(int userID)
+        {
+            userid = userID;
+        }
+        public Recipe(int RecipeID, string Title, string Description, int ServingSize, int userID)
         {
             id = RecipeID;
             name = Title;
             description = Description;
             servingsize = ServingSize;
+            userid = userID;
 
+        }
+        public int getUserID()
+        {
+            return userid;
+        }
+        public void setUserID(int newuserid)
+        {
+            id = newuserid;
         }
         public void addInstruction(Instruction i)
         {
