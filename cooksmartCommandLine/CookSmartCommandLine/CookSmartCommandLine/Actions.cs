@@ -131,6 +131,54 @@ namespace CookSmartCommandLine
             conn.Close();
         }
 
+        public int GetUserID(MySqlConnection conn, string username, string password)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            int userID = 987654321;
+            String Action = "CheckUser";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("username", username);
+            command.Parameters.AddWithValue("password", password);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                userID = Convert.ToInt32(reader["UserID"].ToString());
+            }
+            return userID;
+        }
+
+
+        public bool checkuser(MySqlConnection conn, string username, string password)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            int userID = 987654321;
+            String Action = "CheckUser";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("username", username);
+            command.Parameters.AddWithValue("password", password);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                userID = Convert.ToInt32(reader["UserID"].ToString());
+            }
+            return (!(userID == 987654321));
+        }
         public void UpdateInstruction(MySqlConnection conn,  Instruction ins, int userID)
         {
             try

@@ -8,35 +8,71 @@ namespace CookSmartCommandLine
 {
    public class StateMachine
     {
-        List<Ingredient> Ingredients = new List<Ingredient>();
-        string userName;
+        private List<Ingredient> Ingredients = new List<Ingredient>();
+        private string userName;
         private int UserID = 420;
-        List<Recipe> Recipes = new List<Recipe>();
-        List<User> Users = new List<User>();
-        List<Calendar> Calendar = new List<Calendar>();
-        List<Kitchen> Kitchen = new List<Kitchen>();
-        List<Kitchen> ShoppingList = new List<Kitchen>();
-        List<Kitchen> TodaysShopping = new List<Kitchen>();
-        List<Ingredient> createdIngredients = new List<Ingredient>();
-        List<Instruction> createdInstruction = new List<Instruction>();
-
+        private List<Recipe> Recipes = new List<Recipe>();
+        private List<User> Users = new List<User>();
+        private List<Calendar> Calendar = new List<Calendar>();
+        private List<Kitchen> Kitchen = new List<Kitchen>();
+        private List<Kitchen> ShoppingList = new List<Kitchen>();
+        private List<Kitchen> TodaysShopping = new List<Kitchen>();
+        private List<Ingredient> createdIngredients = new List<Ingredient>();
+        private List<Instruction> createdInstruction = new List<Instruction>();
+        private int validationkount = 0;
 
         public StateMachine()
         {
 
         }
+        public void validation(string connectionString)
+        {
+            
+        Operator operations = new Operator();
+            Console.WriteLine("Input UserName:");
+            userName = Console.ReadLine();
+            Console.WriteLine("Please enter your password: ");
+            string password = Console.ReadLine();
+            bool checkpass = operations.checkuser(connectionString, userName, password);
+            Console.WriteLine(checkpass+" for the love of jerry");
 
+            if(validationkount >= 5)
+            {
+                Console.WriteLine("Access fail");
+                Environment.Exit(0);
+            }
+            if (checkpass)
+            {
+                int id = operations.GetUserID(connectionString, userName, password);
+                UserID = id;
+                Console.WriteLine("You did it!  Id: " + UserID);
+            }
+            if (checkpass.ToString() == "False")
+            {
+                validationkount++;
+                Console.WriteLine("validation count" + validationkount);
+                validation(connectionString);
+            }
+        }
         public void startUp()
         {
+            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
+
             int userID = UserID;
             Console.Write("Welcome to CookSmart" + "\n");
             Console.Write("Thanks for chosing Traction Systems"+"\n"+"\n");
-            Console.WriteLine("Input UserName:");
-            userName = Console.ReadLine();
+
+            validation(connectionString);
+
             bool acted = false;
             if (userName == "" || userName.Length<5)
             {
                 Console.WriteLine("User Name must be greater than 5 characters");
+                
+
+                //if password and username check out then run start up
+
+                      
                 startUp();
                 acted = true;
             }
@@ -45,16 +81,15 @@ namespace CookSmartCommandLine
             Console.WriteLine();
             if (acted == false)
             {
-                startMenu(userID);
+                startMenu(userID,connectionString);
             }
             
         }
 
-        public void startMenu(int userID)
+        public void startMenu(int userID,string connectionString)
         {
             // a menu should be put here
             Operator operations = new Operator();
-            string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -139,7 +174,7 @@ namespace CookSmartCommandLine
 
             if (acted == false)
             {
-                startMenu(userID);
+                startMenu(userID,connectionString);
             }
 
         }

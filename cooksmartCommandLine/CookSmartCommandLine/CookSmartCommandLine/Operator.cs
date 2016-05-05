@@ -608,6 +608,55 @@ namespace CookSmartCommandLine
             //Repeat instructions until done.
         }
 
+
+
+        public int GetUserID(string connection, string userName, string passWord)
+        {
+            bool result = false;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetUserID(conn, userName, passWord);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
+        public bool checkuser(string connection, string userName, string passWord)
+        {
+            bool result = false;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.checkuser(conn, userName, passWord);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
+
         public void reorder(string connection, Recipe rec, Instruction ins, int order, int userID)
         {
             MySqlConnection conn;
