@@ -44,6 +44,7 @@ namespace CookSmartCommandLine
             if (checkpass)
             {
                 int id = operations.GetUserID(connectionString, userName, password);
+
                 UserID = id;
                 Console.WriteLine("You did it!  Id: " + UserID);
             }
@@ -68,11 +69,7 @@ namespace CookSmartCommandLine
             if (userName == "" || userName.Length<5)
             {
                 Console.WriteLine("User Name must be greater than 5 characters");
-                
-
-                //if password and username check out then run start up
-
-                      
+           
                 startUp();
                 acted = true;
             }
@@ -81,14 +78,14 @@ namespace CookSmartCommandLine
             Console.WriteLine();
             if (acted == false)
             {
-                startMenu(userID,connectionString);
+                startMenu(UserID,connectionString);
             }
             
         }
 
         public void startMenu(int userID,string connectionString)
         {
-            // a menu should be put here
+
             Operator operations = new Operator();
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
@@ -100,6 +97,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("RecipeID by Name and user ID '8'");
             Console.WriteLine("IngredientID by Name and user ID '9'");
             Console.WriteLine("GOD MODE '10'");
+            Console.WriteLine("Caldender '11'");
             Console.WriteLine("Enter 'exit' to quit");
 
             string userInput = Console.ReadLine();
@@ -135,12 +133,7 @@ namespace CookSmartCommandLine
                 Console.WriteLine("New Recipe");
                 RecipeGuide myGuide= new RecipeGuide("Test Recipe", UserID);
                 Recipe newRecipe = myGuide.startUpRecipeGuide(connectionString, UserID);
-                //myGuide.previewRecipe(myrecipe);
-                //Console.WriteLine("Continue?  Y/N");
-                //if(Console.ReadLine() == "Y")
-                //{
-                //    myGuide.insertRecipe(myrecipe);
-                //}
+               
             }
             if (userInput == "7")
             {
@@ -167,6 +160,12 @@ namespace CookSmartCommandLine
                 operations.GetIngredientID(connectionString, userID, ing.getName());
                 operations.IngredientFromID(connectionString, userID, ing.getId());
             }
+            if(userInput=="11" || userInput == "Calender")
+            {
+                calenderMenu(connectionString, operations);
+            }
+            
+
             if (userInput == "exit")
             {
                 acted = true;
@@ -178,7 +177,10 @@ namespace CookSmartCommandLine
             }
 
         }
-
+        public void calenderMenu(string connection, Operator operations)
+        {
+            Console.WriteLine("Calender Menu");
+        }
         public void CreateMenu(Operator operations, string connectionString)
         {
             Console.WriteLine("Created Ingredients");
