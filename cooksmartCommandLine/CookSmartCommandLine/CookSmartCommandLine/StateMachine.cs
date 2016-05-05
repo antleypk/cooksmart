@@ -316,6 +316,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("All Instructions '1' ");
             Console.WriteLine("Ingredients from an Instruction '2' ");
             Console.WriteLine("Delete Instruction '3'");
+            Console.WriteLine("Update Instruction '4'");
 
             Console.WriteLine("Main Menu 'Menu'");
 
@@ -359,6 +360,35 @@ namespace CookSmartCommandLine
                 }
 
             }
+            if(userInput == "4")
+            {
+                Instruction ins = operations.InstructionByID(connectionString, userID);
+                string title = "";
+                string description = "";
+                int preptime;
+                int cooktime;
+                Console.WriteLine("Title is: " + ins.getTitle());
+                Console.WriteLine("Description is: " + ins.getDescription());
+                Console.WriteLine("Preptime is: " + ins.getPrepTime());
+                Console.WriteLine("Cooktime is: " + ins.getCookTime());
+                Console.WriteLine("Update?  Y/N");
+                if(Console.ReadLine() == "Y")
+                {
+                    Console.WriteLine("New Title: ");
+                    title = Console.ReadLine();
+                    Console.WriteLine("New Description: ");
+                    description = Console.ReadLine();
+                    Console.WriteLine("New Preptime: ");
+                    preptime = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("New Cooktime: ");
+                    cooktime = Convert.ToInt32(Console.ReadLine());
+                    ins.setTitle(title);
+                    ins.setDescription(description);
+                    ins.setCookTime(cooktime);
+                    ins.setPrepTime(preptime);
+                    operations.UpdateInstruction(connectionString, ins, userID);
+                }
+            }
             
             if (userInput == "Menu")
             {
@@ -367,6 +397,7 @@ namespace CookSmartCommandLine
             if(acted == false)
             {
                 InstructionMenu(operations, connectionString, userID);
+                
             }
         }
 
@@ -555,6 +586,7 @@ namespace CookSmartCommandLine
 
                 string title = "";
                 string description = "";
+                int servingsize = 0;
                 Console.WriteLine("Title is: " + myrecipe.getName());
                 Console.WriteLine("Description is: " + myrecipe.getDescription());
                 Console.WriteLine("Serving Size is: " + myrecipe.getServingSize());
@@ -566,7 +598,11 @@ namespace CookSmartCommandLine
                     Console.WriteLine("New Description: ");
                     description = Console.ReadLine();
                     Console.WriteLine("New Serving Size");
-                   // servingsize = 
+                    servingsize = Convert.ToInt32(Console.ReadLine());
+                    myrecipe.setName(title);
+                    myrecipe.setDescription(description);
+                    myrecipe.setServingSize(servingsize);
+                    operations.UpdateRecipe(connectionString, myrecipe, userID);
                 }
 
                 //operations.UpdateRecipe(connection, );

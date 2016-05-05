@@ -66,7 +66,6 @@ namespace CookSmartCommandLine
             for(int i=0; i < MyInstructions.Count(); i++)
             {
                 thisrecipe.addInstruction(MyInstructions[i]);
-
             }
             //Console.WriteLine("Instructions Should be here");
             //foreach(Instruction temp in thisrecipe.getInstructionRecipe())
@@ -90,6 +89,7 @@ namespace CookSmartCommandLine
                 if (userInput == "C")
                 {
                     insertRecipe(thisrecipe,connection, userID);
+                    
                     acted = true;
                 }
             }
@@ -164,8 +164,9 @@ namespace CookSmartCommandLine
             MyIngredients.Add(tempingredient);
         }
         public void insertRecipe(Recipe recipetoinsert, string connection, int userID) {
-           
+
             //insertRecipe into Database
+            //Print recipetoinsert's instructions:
             operations.InsertRecipe(conn, userID, recipetoinsert);
             //find primary key of recipe inserted
             int recipeid = operations.GetRecipeID(conn, userID, recipetoinsert);

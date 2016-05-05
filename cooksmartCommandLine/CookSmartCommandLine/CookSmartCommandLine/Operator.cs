@@ -630,7 +630,7 @@ namespace CookSmartCommandLine
             //Repeat instructions until done.
         }
 
-        public void UpdateInstruction(string connection, string title, string description, int preptime, int cooktime, Instruction ins, int userID)
+        public void UpdateInstruction(string connection, Instruction ins, int userID)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -644,7 +644,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.UpdateInstruction(conn, title, description, preptime, cooktime, ins, userID);
+            firstAct.UpdateInstruction(conn, ins, userID);
             //print recipes
             //ask user to input recipe name and description
             //Ask user for 1st instruction text, description (joiner IDs)
@@ -652,7 +652,7 @@ namespace CookSmartCommandLine
             //Repeat instructions until done.
         }
 
-        public void UpdateRecipe(string connection, string title, string description, int servingsize, Recipe rec, int userID)
+        public void UpdateRecipe(string connection, Recipe rec, int userID)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -666,7 +666,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.UpdateRecipe(conn, title, description, servingsize, rec, userID);
+            firstAct.UpdateRecipe(conn, rec, userID);
             //print recipes
             //ask user to input recipe name and description
             //Ask user for 1st instruction text, description (joiner IDs)
