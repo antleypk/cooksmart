@@ -1,0 +1,15 @@
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\CookSmartXamarinApp.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\CookSmartXamarinApp.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\Xamarin.Forms.Core.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\Xamarin.Forms.Platform.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\Xamarin.Forms.Xaml.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\Xamarin.Forms.Core.xml
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\Xamarin.Forms.Xaml.xml
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.csprojResolveAssemblyReference.cache
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.Views.Index.xaml.g.cs
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.dll
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.pdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.dll.mdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\CookSmartXamarinApp.dll.mdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\obj\Debug\CookSmartXamarinApp.dll.mdb
+C:\Users\Vic Finney\Documents\cooksmart\cooksmartCommandLine\CookSmartCommandLine\CookSmartXamarinApp\CookSmartXamarinApp\bin\Debug\CookSmartXamarinApp.dll.mdb
