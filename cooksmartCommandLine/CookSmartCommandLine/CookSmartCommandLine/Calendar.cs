@@ -12,17 +12,56 @@ namespace CookSmartCommandLine
         private string description = "C# Description Fail";
         private DateTime timetobeserved = DateTime.MaxValue;
         public DateTime inputdate = DateTime.MaxValue;
+        private int userid = 0;
         public Calendar()
         {
             
         }
 
-        public Calendar(string Name, string Description, DateTime TimeToBeServed, DateTime InputDate)
+        public Calendar(string Name, string Description, DateTime TimeToBeServed, DateTime InputDate, int userID)
         {
             name = Name;
             description = Description;
             timetobeserved = TimeToBeServed;
             inputdate = InputDate;
+            userid = userID;
+        }
+
+        public DateTime DateServed()
+        {
+            return timetobeserved.Date;
+        }
+
+        public Boolean ServedToday()
+        {
+            DateTime today = DateTime.Today;
+            return (timetobeserved.Date == today);
+        }
+        public int GetUserID()
+        {
+            return userid;
+        }
+        public void SetUserID(int newuserid)
+        {
+            userid = newuserid;
+        }
+
+        public Boolean ServedThisMonth()
+        {
+            int thisyear = DateTime.Today.Year;
+            int thismonth = DateTime.Today.Month;
+            return ((timetobeserved.Year == thisyear) & (timetobeserved.Month == thismonth));
+        }
+
+        public Boolean ServedOnDay(DateTime timeserved)
+        {
+            return (timetobeserved.Date == timeserved.Date);
+        }
+        public Boolean ServedOnMonth(DateTime timeserved)
+        {
+            int yearserved = timeserved.Date.Year;
+            int monthserved = timeserved.Date.Month;
+            return ((timetobeserved.Date.Year == yearserved) & (timetobeserved.Date.Month == monthserved));
         }
 
         public string getName()

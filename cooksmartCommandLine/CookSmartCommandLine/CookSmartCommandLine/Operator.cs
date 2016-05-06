@@ -382,7 +382,7 @@ namespace CookSmartCommandLine
             return firstAct.ShoppingListByDay(conn);
         }
 
-        public List<Calendar> UserCalendar(string connection)
+        public List<Calendar> UserCalendar(string connection, int userID)
         {
             List<Calendar> UserCalendar = new List<Calendar>();
             MySqlConnection conn;
@@ -397,8 +397,64 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.UserCalendar(conn);
+            return firstAct.UserCalendar(conn, userID);
+
         }
+
+        public List<Calendar> MealCalendar(string connection, int userid)
+        {
+            List<Calendar> MealCalendar = new List<Calendar>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.MealCalendar(conn, userid);
+        }
+
+        public List<Calendar> MonthlyCalendar(string connection, int userid)
+        {
+            List<Calendar> MealCalendar = new List<Calendar>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.MonthlyCalendar(conn, userid);
+        }
+        public List<Calendar> DailyCalendar(string connection, int userid)
+        {
+            List<Calendar> MealCalendar = new List<Calendar>();
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.DailyCalendar(conn, userid);
+        }
+
+
         public int GetRecipeID(string connection, int userID, Recipe rec)
         {
             MySqlConnection conn;
@@ -585,6 +641,22 @@ namespace CookSmartCommandLine
             //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
             //Repeat instructions until done.
         }
+        public void UpdateCalendar(string connection, Calendar Cal, int userID)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.UpdateCalendar(conn, Cal, userID);
+        }
 
         public void UpdateQuantity(string connection, Instruction ins, Ingredient ing, int quantity, int userID)
         {
@@ -656,6 +728,77 @@ namespace CookSmartCommandLine
             //Repeat instructions until done.
         }
 
+
+        public bool checkusername(string connection, string userName)
+        {
+            bool result = false;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.checkusername(conn, userName);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
+
+        public List<DateTime> userloginattempts(string connection, string userName)
+        {
+            bool result = false;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.userloginattempts(conn, userName);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
+
+
+        public void updatelogins(string connection, List<DateTime> logins, string username)
+        {
+            bool result = false;
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.updatelogins(conn, logins, username);
+            //print recipes
+            //ask user to input recipe name and description
+            //Ask user for 1st instruction text, description (joiner IDs)
+            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
+            //Repeat instructions until done.
+        }
 
         public void reorder(string connection, Recipe rec, Instruction ins, int order, int userID)
         {
@@ -741,11 +884,24 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             firstAct.insertInstructionIngredient(conn, userID, rec);
-            //print recipes
-            //ask user to input recipe name and description
-            //Ask user for 1st instruction text, description (joiner IDs)
-            //ask user for Ingredients, Quantity for 1st instruction (Joiner IDs)
-            //Repeat instructions until done.
+        }
+
+        public void InsertCalendar(string connection, Calendar cal, int userID)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..insertInstructionIngredient." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            firstAct.InsertCalendar(conn, cal, userID);
         }
 
 

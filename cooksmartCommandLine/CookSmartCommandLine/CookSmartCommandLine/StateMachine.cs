@@ -19,6 +19,8 @@ namespace CookSmartCommandLine
         private List<Kitchen> TodaysShopping = new List<Kitchen>();
         private List<Ingredient> createdIngredients = new List<Ingredient>();
         private List<Instruction> createdInstruction = new List<Instruction>();
+        private List<DateTime> loginAttempts = new List<DateTime>();
+        private int allowedTries = 0;
         private int validationkount = 0;
 
         public StateMachine()
@@ -28,27 +30,48 @@ namespace CookSmartCommandLine
         public void validation(string connectionString)
         {
             
+
         Operator operations = new Operator();
             Console.WriteLine("Input UserName:");
             userName = Console.ReadLine();
             Console.WriteLine("Please enter your password: ");
             string password = Console.ReadLine();
-            bool checkpass = operations.checkuser(connectionString, userName, password);
-            Console.WriteLine(checkpass+" for the love of jerry");
+            bool usernamecheck = operations.checkusername(connectionString, userName);
+            bool passwordcheck = operations.checkuser(connectionString, userName, password);
+            if (usernamecheck)
+            {
+                if (passwordcheck)
+                {
+
+                    int id = operations.GetUserID(connectionString, userName, password);
+                    UserID = id;
+                }
+                else
+                {
+                    DateTime now = DateTime.Now;
+                    List<DateTime> logintimes = operations.userloginattempts(connectionString, userName);
+                    logintimes.Insert(0, now);
+                    logintimes.RemoveAt(logintimes.Count - 1);
+                    operations.updatelogins(connectionString, logintimes, userName);
+                    validationkount++;
+                    Console.WriteLine("Validation Kount: " + validationkount);
+                    Console.WriteLine(Convert.ToString(logintimes[0]));
+                    if(validationkount >= 5)
+                    {
+                        Console.WriteLine("Access fail");
+                        Environment.Exit(0);
+                    }
+                    validation(connectionString);
+                }
+
+            }
 
             if(validationkount >= 5)
             {
                 Console.WriteLine("Access fail");
                 Environment.Exit(0);
             }
-            if (checkpass)
-            {
-                int id = operations.GetUserID(connectionString, userName, password);
-
-                UserID = id;
-                Console.WriteLine("You did it!  Id: " + UserID);
-            }
-            if (checkpass.ToString() == "False")
+            if (usernamecheck.ToString() == "False")
             {
                 validationkount++;
                 Console.WriteLine("validation count" + validationkount);
@@ -126,7 +149,7 @@ namespace CookSmartCommandLine
             if(userInput == "5" || userInput == "Users")
             {
                 Console.WriteLine("User menu");
-                UserMenu(operations, connectionString);
+                UserMenu(operations, connectionString, userID);
             }
             if (userInput == "6")
             {
@@ -162,7 +185,7 @@ namespace CookSmartCommandLine
             }
             if(userInput=="11" || userInput == "Calender")
             {
-                calenderMenu(connectionString, operations);
+                calenderMenu(connectionString, operations, userID);
             }
             
 
@@ -177,7 +200,7 @@ namespace CookSmartCommandLine
             }
 
         }
-        public void calenderMenu(string connection, Operator operations)
+        public void calenderMenu(string connection, Operator operations, int userID)
         {
             Console.WriteLine("Calender Menu");
         }
@@ -437,8 +460,7 @@ namespace CookSmartCommandLine
                 
             }
         }
-
-        public void UserMenu(Operator operations, string connectionString)
+        public void UserMenu(Operator operations, string connectionString, int userID)
         {
             Console.WriteLine("All Users (1) ");
             Console.WriteLine("All Meals by User (2) ");
@@ -483,7 +505,7 @@ namespace CookSmartCommandLine
             if(userInput == "4")
             {
 
-                    Calendar = operations.UserCalendar(connectionString);
+                    Calendar = operations.UserCalendar(connectionString, userID);
 
                 foreach (Calendar tempcalendar in Calendar)
                 {
@@ -549,7 +571,7 @@ namespace CookSmartCommandLine
             }
             if(acted == false)
             {
-                UserMenu(operations, connectionString);
+                UserMenu(operations, connectionString, userID);
             }
         }
 
@@ -659,9 +681,6 @@ namespace CookSmartCommandLine
             Console.Write("All Instruction Menu" + "\n");
             
         }
-
-        
-
 
     }
 }

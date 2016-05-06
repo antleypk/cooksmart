@@ -87,6 +87,7 @@ namespace CookSmartCommandLine
             command.ExecuteNonQuery();
             conn.Close();
         }
+      
 
         public void UpdateQuantity(MySqlConnection conn, Instruction ins, Ingredient ing, int quantity, int userID)
         {
@@ -177,8 +178,90 @@ namespace CookSmartCommandLine
             {
                 userID = Convert.ToInt32(reader["UserID"].ToString());
             }
+            conn.Close();
             return (!(userID == 987654321));
         }
+        public bool checkusername(MySqlConnection conn, string username)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            int userID = 987654321;
+            string Action = "CheckUserName";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("username", username);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                userID = Convert.ToInt32(reader["UserID"].ToString());
+            }
+            conn.Close();
+            return (!(userID == 987654321));
+        }
+
+        public void updatelogins(MySqlConnection conn, List<DateTime> logins, string username)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            string Action = "updatenewlogins";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@first", logins[0]);
+            command.Parameters.AddWithValue("@second", logins[1]);
+            command.Parameters.AddWithValue("@third", logins[2]);
+            command.Parameters.AddWithValue("@forth", logins[3]);
+            command.Parameters.AddWithValue("@username", username);
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public List<DateTime> userloginattempts(MySqlConnection conn, string userName)
+        {
+            List<DateTime> userlogins = new List<DateTime>();
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            string Action = "userlogintimes";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("username", userName);
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                DateTime add1 = Convert.ToDateTime(reader["first"].ToString());
+                DateTime add2 = Convert.ToDateTime(reader["second"].ToString());
+                DateTime add3 = Convert.ToDateTime(reader["third"].ToString());
+                DateTime add4 = Convert.ToDateTime(reader["forth"].ToString());
+
+                userlogins.Add(add1);
+                userlogins.Add(add2);
+                userlogins.Add(add3);
+                userlogins.Add(add4);
+            }
+            conn.Close();
+            return userlogins;
+        }
+
+
+
+
         public void UpdateInstruction(MySqlConnection conn,  Instruction ins, int userID)
         {
             try
@@ -286,6 +369,23 @@ namespace CookSmartCommandLine
             command.Parameters.AddWithValue("@userid", userID);
             command.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public void InsertCalendar(MySqlConnection conn, Calendar cal, int userID)
+        {
+
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+            }
+            string Action = "InsertCalendar";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure; 
         }
 
         public int GetInstructionID(MySqlConnection conn, int userID, Instruction Ins)
@@ -1143,8 +1243,6 @@ namespace CookSmartCommandLine
 
         }
 
-
-
         public void UserMeals(MySqlConnection connn)
         {
 
@@ -1466,8 +1564,6 @@ namespace CookSmartCommandLine
             return MyInstruction;
         }
 
-
-
         public Ingredient GetIngredientFromID(MySqlConnection connn, int userID, int ingredientid)
         {
             Ingredient MyIngredient = new Ingredient();
@@ -1621,16 +1717,206 @@ namespace CookSmartCommandLine
             return MyIngredient;
         }
 
-        public List<Calendar> UserCalendar(MySqlConnection connn)
+        public void UpdateCalendar(MySqlConnection conn, Calendar cal, int userID)
+        {
+
+            
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            String Action = "UpdateCalendar";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@title", cal.getName());
+            command.Parameters.AddWithValue("@description", cal.getDescription());
+            command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
+            command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+        public List<Calendar> MealCalendar(MySqlConnection conn, int userID)
+        {
+            List<Calendar> MealCalendar = new List<Calendar>();
+            int mealID = 0;
+            try
+            {
+                Console.WriteLine("What meal ID would you like to see (ID+ENTR)?" + "\n");
+                string userInput = Console.ReadLine();
+                bool parse = int.TryParse(userInput, out mealID);
+
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "CalendarByMeal";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@mealid", mealID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+
+                    while (reader.Read())
+                    {
+                        string tempDateTimeString = reader["TimeToBeServed"].ToString();
+                        DateTime newDateTime;
+                        //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+                        newDateTime = stringToDateTime(tempDateTimeString);
+
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, newDateTime.Date, userID);
+                        MealCalendar.Add(temp);
+                        //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                    }
+                    reader.Close();
+                    if (parse == false)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            conn.Close();
+            Console.WriteLine("done");
+            //   Console.ReadLine();
+            return MealCalendar;
+        }
+
+        public List<Calendar> MonthlyCalendar(MySqlConnection conn, int userID)
+        {
+            List<Calendar> MonthlyCalendar = new List<Calendar>();
+            int yearselected = 0;
+            int monthselected = 0;
+            try
+            {
+                Console.WriteLine("What year would you like to see (year int+ENTR)?");
+                string yearselectedstring = Console.ReadLine();
+                Console.WriteLine("What month would you like to see (month int+ENTR)?");
+                string monthselectedstring = Console.ReadLine();
+                bool parseyear = int.TryParse(yearselectedstring, out yearselected);
+                bool parsemonth = int.TryParse(monthselectedstring, out monthselected);
+
+                if (parseyear & parsemonth)
+                {
+                    conn.Open();
+                    string Action = "CalendarByMonth";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@yearselected", yearselected);
+                    command.Parameters.AddWithValue("@monthselected", monthselected);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+
+                    while (reader.Read())
+                    {
+                        string tempDateTimeString = reader["TimeToBeServed"].ToString();
+                        DateTime newDateTime;
+                        //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+                        newDateTime = stringToDateTime(tempDateTimeString);
+
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID);
+                        MonthlyCalendar.Add(temp);
+                        //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                    }
+                    reader.Close();
+                    if (!parseyear || !parsemonth)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            conn.Close();
+            Console.WriteLine("done");
+            //   Console.ReadLine();
+            return MonthlyCalendar;
+        }
+
+        public List<Calendar> DailyCalendar(MySqlConnection conn, int userID)
+        {
+            List<Calendar> DailyCalendar = new List<Calendar>();
+            int yearselected = 0;
+            int monthselected = 0;
+            int dayselected = 0;
+
+            Console.WriteLine("What year would you like to see (year int+ENTR)?");
+            string yearselectedstring = Console.ReadLine();
+            Console.WriteLine("What month would you like to see (month int+ENTR)?");
+            string monthselectedstring = Console.ReadLine();
+            Console.WriteLine("What day would you like to see (day int +ENTR)?");
+            string dayselectedstring = Console.ReadLine();
+            bool parseyear = int.TryParse(yearselectedstring, out yearselected);
+            bool parsemonth = int.TryParse(monthselectedstring, out monthselected);
+            bool parseday = int.TryParse(dayselectedstring, out dayselected);
+            try
+            {
+                bool parse = parseyear & parsemonth & parseday;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "CalendarByDay";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@yearselected", yearselected);
+                    command.Parameters.AddWithValue("@monthselected", monthselected);
+                    command.Parameters.AddWithValue("@dayselected", dayselected);
+
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+
+                    while (reader.Read())
+                    {
+                        string tempDateTimeString = reader["TimeToBeServed"].ToString();
+                        DateTime newDateTime;
+                        //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+                        newDateTime = stringToDateTime(tempDateTimeString);
+
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID);
+                        DailyCalendar.Add(temp);
+                        //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                    }
+                    reader.Close();
+                    if (parse == false)
+                    {
+                        Console.WriteLine("failed to parse your input sorry" + "\n");
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            conn.Close();
+            Console.WriteLine("done");
+            //   Console.ReadLine();
+            return DailyCalendar;
+        }
+
+        public List<Calendar> UserCalendar(MySqlConnection connn, int userID)
         {
             List<Calendar> UserCalendar = new List<Calendar>();
             MySqlConnection conn = connn;
-            int userID = 0;
             try
             {
-                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
-                string userInput = Console.ReadLine();
-                bool parse = int.TryParse(userInput, out userID);
+                bool parse = true;
 
                 if (parse)
                 {
@@ -1648,8 +1934,7 @@ namespace CookSmartCommandLine
                         DateTime newDateTime;
                         //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
                         newDateTime = stringToDateTime(tempDateTimeString);
-                        
-                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now);
+                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID);
                         UserCalendar.Add(temp);
                         //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
                     }
@@ -1673,7 +1958,7 @@ namespace CookSmartCommandLine
             return UserCalendar;
         }
 
-        public void UserCalendar(MySqlConnection connn, int userID)
+        public void UserCalendarstar(MySqlConnection connn, int userID)
         {
             MySqlConnection conn = connn;
             try
@@ -1688,7 +1973,7 @@ namespace CookSmartCommandLine
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
-                    Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                    Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString(), userID);
 
                 }
             }
