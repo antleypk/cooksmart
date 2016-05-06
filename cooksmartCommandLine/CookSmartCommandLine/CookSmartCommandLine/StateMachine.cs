@@ -20,18 +20,46 @@ namespace CookSmartCommandLine
         private List<Ingredient> createdIngredients = new List<Ingredient>();
         private List<Instruction> createdInstruction = new List<Instruction>();
         private List<DateTime> loginAttempts = new List<DateTime>();
-        private int allowedTries = 0;
         private int validationkount = 0;
 
         public StateMachine()
         {
 
         }
+        public void createOrNot(string connection)
+        {
+            Console.WriteLine("'1' to sign in '2' to create new login");
+            string userInput = Console.ReadLine();
+            if(userInput!="1" && userInput != "2")
+            {
+                createOrNot(connection);
+            }
+            if (userInput == "2")
+            {
+                createNewLogin(connection);
+            }
+        }
+        public void createNewLogin(string connection)
+        {
+            Console.WriteLine("Enter User Name:");
+            string userName = Console.ReadLine();
+            Console.WriteLine("Enter Password");
+            string password1 = Console.ReadLine();
+            Console.WriteLine("Re-enter Password");
+            string password2 = Console.ReadLine();
+            if (password1 != password2)
+            {
+                Console.WriteLine("Password MissMatch please try again");
+                createNewLogin(connection);
+            }
+            Operator newUser = new Operator();
+            newUser.insertUser(connection, userName, password1);
+        }
         public void validation(string connectionString)
         {
-            
 
-        Operator operations = new Operator();
+            createOrNot(connectionString);
+            Operator operations = new Operator();
             Console.WriteLine("Input UserName:");
             userName = Console.ReadLine();
             Console.WriteLine("Please enter your password: ");
@@ -110,6 +138,7 @@ namespace CookSmartCommandLine
         {
 
             Operator operations = new Operator();
+            Console.WriteLine("Main Menu!  Submenu Options \n \n");
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -216,11 +245,13 @@ namespace CookSmartCommandLine
             {
                 meh.printInstructionToConsole();
             }
+
+            Console.WriteLine("This is the create/insert menu!  Please pick from these options");
             Console.WriteLine("Create new: \n");
             Console.WriteLine("Recipe '1'");
             Console.WriteLine("Ingredient '2'");
-            Console.WriteLine("Instruction '3'");
-            Console.WriteLine("Show All Created '4'");
+ 
+            Console.WriteLine("Show All Created ingredients/instructions '4'");
             Console.WriteLine("Insert Created Ingredient '5'");
             Console.WriteLine("Insert Created Instruction '6'");
             Console.WriteLine("Main Menu 'menu'");
@@ -241,11 +272,7 @@ namespace CookSmartCommandLine
                 Ingredient myingredient = operations.storeIngredient(connectionString, UserID);
                 createdIngredients.Add(myingredient);
             }
-            if(userInput == "3")
-            {
-                Instruction myinstruction = operations.storeInstruction(connectionString, UserID,0);
-                createdInstruction.Add(myinstruction);
-            }
+         
             if(userInput == "4")
             {
                 Console.WriteLine("Created ingredients:");
@@ -305,6 +332,8 @@ namespace CookSmartCommandLine
 
         public void IngredientMenu(Operator operations, string connectionString, int userID)
         {
+
+            Console.WriteLine("This is the Ingredient menu!  Options:");
             Console.Write("All Ingredients" + "\n");
             Console.WriteLine("Show All Ingredients '1'");
             Console.WriteLine("Insert Ingredient '2'");
@@ -372,7 +401,7 @@ namespace CookSmartCommandLine
         }
         public void InstructionMenu(Operator operations, string connectionString, int userID)
         {
-            Console.WriteLine();
+            Console.WriteLine("This is the instruction menu!  Options: ");
             Console.WriteLine("All Instructions '1' ");
             Console.WriteLine("Ingredients from an Instruction '2' ");
             Console.WriteLine("Delete Instruction '3'");
@@ -462,6 +491,7 @@ namespace CookSmartCommandLine
         }
         public void UserMenu(Operator operations, string connectionString, int userID)
         {
+            Console.WriteLine("This is the User Menu!  Options:");
             Console.WriteLine("All Users (1) ");
             Console.WriteLine("All Meals by User (2) ");
             Console.WriteLine("Kitchen by User (3)");
@@ -583,7 +613,7 @@ namespace CookSmartCommandLine
                 Recipes = operations.allRecipes(connectionString);
             //}
 
-            Console.WriteLine();
+            Console.WriteLine("\n \n Recipe Menu!  Options: \n ");
             Console.Write("All Recipes (recipe or 1)" + "\n");
             Console.Write("See ingredients from a recipe '2' " + "\n");
             Console.Write("See instructions from a recipe '3' " + "\n");
@@ -675,11 +705,6 @@ namespace CookSmartCommandLine
             {
                 RecipeMenu(operations, connectionString, userID);
             }
-        }
-        public void Instructions(Operator operations, string connectionString)
-        {
-            Console.Write("All Instruction Menu" + "\n");
-            
         }
 
     }

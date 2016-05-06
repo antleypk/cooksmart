@@ -385,7 +385,36 @@ namespace CookSmartCommandLine
             }
             string Action = "InsertCalendar";
             MySqlCommand command = new MySqlCommand(Action, conn);
+
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@title", cal.getName());
+            command.Parameters.AddWithValue("@description", cal.getDescription());
+            command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
+            command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
+            command.Parameters.AddWithValue("@userid", cal.GetUserID());
+            command.ExecuteNonQuery();
+            conn.Close();
             command.CommandType = CommandType.StoredProcedure; 
+        }
+
+        public void InsertUser(MySqlConnection conn, string userName, string password)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
+            }
+            string Action = "InsertUser";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@username", userName);
+            command.Parameters.AddWithValue("@password", password);
+            command.ExecuteNonQuery();
+            conn.Close();
         }
 
         public int GetInstructionID(MySqlConnection conn, int userID, Instruction Ins)
@@ -404,13 +433,11 @@ namespace CookSmartCommandLine
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             string title = Ins.getTitle();
-            Console.WriteLine("Title = " + title + " And Id = " + userID);
             command.Parameters.AddWithValue("@name", title);
             command.Parameters.AddWithValue("@userid", userID);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Console.WriteLine("test line on actions.cs ln100");
                 instructionid = Convert.ToInt32(reader["InstructionID"].ToString());
             }
             reader.Close();
@@ -434,7 +461,6 @@ namespace CookSmartCommandLine
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@name", title);
             command.Parameters.AddWithValue("@userid", userID);
-            Console.WriteLine("Title = " + title + " And ID = " + userID);
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -448,7 +474,6 @@ namespace CookSmartCommandLine
         public int GetRecipeID(MySqlConnection conn, int userID, string title)
         {
             int recipeid = 0;
-            Console.WriteLine("User ID is: " + userID.ToString());
             try
             {
                 conn.Open();
@@ -461,8 +486,7 @@ namespace CookSmartCommandLine
             string Action = "RecipeID byName andUserID";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
-
-            Console.WriteLine("Title = " + title + " And Id = " + userID);
+           
             command.Parameters.AddWithValue("@name", title);
             command.Parameters.AddWithValue("@userid", userID);
             MySqlDataReader reader = command.ExecuteReader();
@@ -548,7 +572,6 @@ namespace CookSmartCommandLine
                     }
                     string Action = "InsertInstructionIngredient";
                     MySqlCommand command = new MySqlCommand(Action, conn);
-                    Console.WriteLine("action testing ln209");
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("ingredientid", IngredientList[j].getId());
                     command.Parameters.AddWithValue("instructionid", InstructionList[i].getID());
@@ -609,7 +632,7 @@ namespace CookSmartCommandLine
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine(reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                    Console.WriteLine("ID: " +  reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
 
                 }
                 reader.Close();
