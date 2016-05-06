@@ -13,18 +13,31 @@ namespace CookSmartCommandLine
         decimal quantity = -1;
         string quantitytype = "C# QuantityType fail";
         DateTime putonshelf = new DateTime(2000,01,01);
+        int userid = 0;
     public Kitchen()
             {
       
             }
-    public Kitchen(string Title, string Description, decimal TotalQuantity, string QuantityType, DateTime PutOnShelf)
+    public Kitchen(string Title, string Description, decimal TotalQuantity, string QuantityType, DateTime PutOnShelf, int userID)
         {
             title = Title;
             description = Description;
             quantity = TotalQuantity;
             quantitytype = QuantityType;
             putonshelf = PutOnShelf;
+            userid = userID;
         }
+
+        public int getuserID()
+        {
+            return userid;
+        }
+
+        public void setuserid(int newuserid)
+        {
+            userid = newuserid;
+        }
+
 
 
 
@@ -51,10 +64,6 @@ namespace CookSmartCommandLine
         public void setTotalQuantity(decimal newquantity)
         {
             quantity = newquantity;
-        }
-        public void setQuantities()
-        {
-
         }
         public string getQuantityType()
         {

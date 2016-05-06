@@ -689,7 +689,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public List<Kitchen> ShoppingListByDay(MySqlConnection conn)
+        public List<Kitchen> ShoppingListByDay(MySqlConnection conn, int userID)
         {
             List<Kitchen> ShoppingList = new List<Kitchen>();
             try
@@ -733,7 +733,7 @@ namespace CookSmartCommandLine
                         string tempDateTimeString = reader["InputDate"].ToString();
                         Console.WriteLine(tempDateTimeString + "Tom & Pete");
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
                         ShoppingList.Add(temp);
                     }
                     reader.Close();
@@ -753,7 +753,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Done 9");
             return ShoppingList;
         }
-        public void ShoppingListByDay(MySqlConnection conn, DateTime selected)
+        public void ShoppingListByDay(MySqlConnection conn, DateTime selected, int userID)
         {
             List<Kitchen> ShoppingList = new List<Kitchen>();
             try
@@ -779,7 +779,7 @@ namespace CookSmartCommandLine
                     string tempDateTimeString = reader["InputDate"].ToString();
                     DateTime Outputdate = stringToDateTime(tempDateTimeString);
                     Console.WriteLine(tempDateTimeString + "Tom & Pete");
-                    Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                    Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
                     ShoppingList.Add(temp);
                 }
                 reader.Close();
@@ -809,16 +809,16 @@ namespace CookSmartCommandLine
             string Action = "AllIngredientsAlphabetical";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
-            Console.WriteLine("taxi test");
+      //      Console.WriteLine("taxi test");
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
             try {
                 MySqlDataReader reader = command.ExecuteReader();
-                Console.WriteLine("inside the function");
-                List<String> columnnames = GetDataReaderColumnNames(reader);
-                for (int i = 0; i < columnnames.Count(); i++)
-                {
-                    Console.Write(" " + columnnames.ElementAt(i));
-                }
+    //            Console.WriteLine("inside the function");
+                //List<String> columnnames = GetDataReaderColumnNames(reader);
+                //for (int i = 0; i < columnnames.Count(); i++)
+                //{
+                //    Console.Write(" " + columnnames.ElementAt(i));
+                //}
 
                 while (reader.Read())
                 {
@@ -1442,11 +1442,11 @@ namespace CookSmartCommandLine
 
             return Outputdate;
         }
-        public List<Kitchen> UserKitchen(MySqlConnection connn)
+        public List<Kitchen> UserKitchen(MySqlConnection connn, int userID)
         {
             List<Kitchen> UserKitchen = new List<Kitchen>();
             MySqlConnection conn = connn;
-            int userID = 0;
+            // userID = 0;
             Console.WriteLine("What user would you like to see (id int+ENTR*)?" + "\n");
             string userInput = Console.ReadLine();
             bool parse = int.TryParse(userInput, out userID);
@@ -1475,7 +1475,7 @@ namespace CookSmartCommandLine
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
                         Console.WriteLine(reader["Title"].ToString());
 
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate);
+                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
                         UserKitchen.Add(temp);
                     }
                     reader.Close();
@@ -1714,14 +1714,22 @@ namespace CookSmartCommandLine
                     
                     command.Parameters.AddWithValue("@inputname", IngName);
                     MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for(int i=0; i < columnNames.Count; i++)
+                    {
+                        string name=columnNames.ElementAt(i);
+                        Console.Write(name + " ");
+                    }
+                    Console.WriteLine();
                     while (reader.Read())
                     {
-                        List<String> columnNames = GetDataReaderColumnNames(reader);
-                    string userIDstring = reader["id"].ToString();
-                    userID = Convert.ToInt32(userIDstring);
-                    
-                    
-                        MyIngredient =  new Ingredient(userID, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString(), userID);
+
+                        string userIDstring = reader["IngredientID"].ToString();
+                        userID = Convert.ToInt32(userIDstring);
+
+
+                        MyIngredient = new Ingredient(userID, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString(), userID);
+                    //    MyIngredient.printIngredient();
                     }
                     reader.Close();
                     conn.Close();
@@ -2012,7 +2020,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public void UserKitchen(MySqlConnection connn, int userID)
+     /*   public void UserKitchen(MySqlConnection connn, int userID)
         {
             MySqlConnection conn = connn;
             try
@@ -2041,7 +2049,7 @@ namespace CookSmartCommandLine
             Console.ReadLine();
 
         }
-
+        */
         public void IngredientsInRecipe(MySqlConnection connn)
         {
 

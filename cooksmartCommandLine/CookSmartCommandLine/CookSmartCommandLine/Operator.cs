@@ -363,7 +363,7 @@ namespace CookSmartCommandLine
             firstAct.UserMeals(conn);
         }
 
-        public List<Kitchen> UserKitchen(string connection)
+        public List<Kitchen> UserKitchen(string connection, int userID)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -377,10 +377,10 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.UserKitchen(conn);
+            return firstAct.UserKitchen(conn, userID);
         }
 
-        public List<Kitchen> ShoppingList(string connection)
+        public List<Kitchen> ShoppingList(string connection, int userID)
         {
             List<Kitchen> ShoppingList = new List<Kitchen>();
             MySqlConnection conn;
@@ -395,7 +395,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.ShoppingListByDay(conn);
+            return firstAct.ShoppingListByDay(conn, userID);
         }
 
         public List<Calendar> UserCalendar(string connection, int userID)

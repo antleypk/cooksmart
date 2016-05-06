@@ -112,6 +112,7 @@ namespace CookSmartCommandLine
 
             int userID = UserID;
             Console.Write("Welcome to CookSmart" + "\n");
+            Console.WriteLine("CookSmartClassic1.0+");
             Console.Write("Thanks for chosing Traction Systems"+"\n"+"\n");
 
             validation(connectionString);
@@ -333,11 +334,15 @@ namespace CookSmartCommandLine
         public void IngredientMenu(Operator operations, string connectionString, int userID)
         {
 
-            Console.WriteLine("This is the Ingredient menu!  Options:");
-            Console.Write("All Ingredients" + "\n");
+            Console.WriteLine("");
+            Console.WriteLine("This is the Ingredient menu!");
+            // Console.Write("All Ingredients" + "\n");
+            Console.WriteLine("Options: number/Menu + enter ");
+            Console.WriteLine();
             Console.WriteLine("Show All Ingredients '1'");
             Console.WriteLine("Insert Ingredient '2'");
             Console.WriteLine("Ingredient by ID '3'");
+            Console.WriteLine("Ingredient by name '4'");
             Console.WriteLine("Main Menu 'Menu'");
 
             string userInput = Console.ReadLine();
@@ -365,7 +370,8 @@ namespace CookSmartCommandLine
             }
             if(userInput == "4")
             {
-                
+                Ingredient temping = operations.IngredientByName(connectionString, userID);
+                temping.printIngredient();
             }
             if(userInput == "Menu")
             {
@@ -401,7 +407,8 @@ namespace CookSmartCommandLine
         }
         public void InstructionMenu(Operator operations, string connectionString, int userID)
         {
-            Console.WriteLine("This is the instruction menu!  Options: ");
+            Console.WriteLine("");
+            Console.WriteLine("This is the instruction menu! \n Options: ");
             Console.WriteLine("All Instructions '1' ");
             Console.WriteLine("Ingredients from an Instruction '2' ");
             Console.WriteLine("Delete Instruction '3'");
@@ -421,10 +428,11 @@ namespace CookSmartCommandLine
                 foreach (Instruction tempIns in MyInstructions)
                 {
                     tempIns.printInstruction();
-                    Console.WriteLine(tempIns.getTitle());
+                    Console.WriteLine(tempIns.getTitle()+" "+tempIns.getID());
                     count++;
                 }
                 MyInstructions.Clear();
+                Console.WriteLine();
                 
             }
             if (userInput == "2")
@@ -439,14 +447,19 @@ namespace CookSmartCommandLine
                 operations.allInstructions(connectionString, userID);
                 Console.WriteLine("Select Instruction by ID");
                 Instruction ins = operations.InstructionByID(connectionString, userID);
-                if (ins.getInstructionIngredients().Any<Ingredient>())
+                Console.WriteLine("ins delete author" + ins.getUserID());
+                if (ins.getUserID() == userID)
                 {
-                    operations.DeleteInstructionWithIngredient(connectionString, ins, userID);
+                    if (ins.getInstructionIngredients().Any<Ingredient>())
+                    {
+                        operations.DeleteInstructionWithIngredient(connectionString, ins, userID);
+                    }
+                    else
+                    {
+                        operations.DeleteInstructionWithoutIngredient(connectionString, ins, userID);
+                    }
                 }
-                else
-                {
-                    operations.DeleteInstructionWithoutIngredient(connectionString, ins, userID);
-                }
+               
 
             }
             if(userInput == "4")
@@ -523,7 +536,7 @@ namespace CookSmartCommandLine
             }
             if(userInput == "3")
             {
-                    Kitchen = operations.UserKitchen(connectionString);
+                    Kitchen = operations.UserKitchen(connectionString, userID);
 
                 foreach(Kitchen tempkitchen in Kitchen)
                 {
@@ -546,7 +559,7 @@ namespace CookSmartCommandLine
             if(userInput == "5")
             {
 
-                    ShoppingList = operations.ShoppingList(connectionString);
+                    ShoppingList = operations.ShoppingList(connectionString, userID);
 
                 foreach (Kitchen tempkitchen in ShoppingList)
                 {
@@ -557,10 +570,10 @@ namespace CookSmartCommandLine
             if(userInput == "6")
             {
 
-                    ShoppingList = operations.ShoppingList(connectionString);
+                    ShoppingList = operations.ShoppingList(connectionString, userID);
 
 
-                    Kitchen = operations.UserKitchen(connectionString);
+                    Kitchen = operations.UserKitchen(connectionString, userID);
 
                 TodaysShopping = operations.TodaysShopping(connectionString, Kitchen, ShoppingList);
                 foreach(Kitchen tempkitchen in TodaysShopping)
@@ -652,8 +665,10 @@ namespace CookSmartCommandLine
             }
             if (userInput == "4")
             {
-                Recipe myrecipe = operations.RecipeByID(connectionString,userID);
-                myrecipe.printRecipe();
+                Recipe myRecipe = operations.RecipeByID(connectionString,userID);
+                // myrecipe.printRecipe();
+               // RecipeGuide myGuide = new RecipeGuide(UserID);
+              //  myGuide.previewRecipe(myRecipe);
             }
             if(userInput == "5")
             {
