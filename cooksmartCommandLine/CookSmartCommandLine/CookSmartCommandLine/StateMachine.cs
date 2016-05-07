@@ -82,7 +82,8 @@ namespace CookSmartCommandLine
                     logintimes.RemoveAt(logintimes.Count - 1);
                     operations.updatelogins(connectionString, logintimes, userName);
                     validationkount++;
-                    Console.WriteLine("Validation Kount: " + validationkount);
+                    Console.WriteLine("Number of wrong tries: " + validationkount);
+                    Console.WriteLine("Number of tries remaining: " + (5 - validationkount));
                     Console.WriteLine(Convert.ToString(logintimes[0]));
                     if(validationkount >= 5)
                     {
@@ -150,8 +151,9 @@ namespace CookSmartCommandLine
             Console.WriteLine("RecipeID by Name and user ID '8'");
             Console.WriteLine("IngredientID by Name and user ID '9'");
             Console.WriteLine("GOD MODE '10'");
-            Console.WriteLine("Caldender '11'");
+            Console.WriteLine("Calendar '11'");
             Console.WriteLine("Enter 'exit' to quit");
+            Console.WriteLine("");
 
             string userInput = Console.ReadLine();
             bool acted = false;
@@ -233,6 +235,8 @@ namespace CookSmartCommandLine
         public void calenderMenu(string connection, Operator operations, int userID)
         {
             Console.WriteLine("Calender Menu");
+
+
         }
         public void CreateMenu(Operator operations, string connectionString)
         {
@@ -447,7 +451,7 @@ namespace CookSmartCommandLine
                 operations.allInstructions(connectionString, userID);
                 Console.WriteLine("Select Instruction by ID");
                 Instruction ins = operations.InstructionByID(connectionString, userID);
-                Console.WriteLine("ins delete author" + ins.getUserID());
+               
                 if (ins.getUserID() == userID)
                 {
                     if (ins.getInstructionIngredients().Any<Ingredient>())
@@ -465,51 +469,55 @@ namespace CookSmartCommandLine
             if(userInput == "4")
             {
                 Instruction ins = operations.InstructionByID(connectionString, userID);
-                string title = "";
-                string description = "";
-                int preptime;
-                int cooktime;
-                Console.WriteLine("Title is: " + ins.getTitle());
-                Console.WriteLine("Description is: " + ins.getDescription());
-                Console.WriteLine("Preptime is: " + ins.getPrepTime());
-                Console.WriteLine("Cooktime is: " + ins.getCookTime());
-                Console.WriteLine("Update?  Y/N");
-                if(Console.ReadLine() == "Y")
+                if (ins.getUserID() == userID)
                 {
-                    Console.WriteLine("New Title: ");
-                    title = Console.ReadLine();
-                    Console.WriteLine("New Description: ");
-                    description = Console.ReadLine();
-                    Console.WriteLine("New Preptime: ");
-                    preptime = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("New Cooktime: ");
-                    cooktime = Convert.ToInt32(Console.ReadLine());
-                    ins.setTitle(title);
-                    ins.setDescription(description);
-                    ins.setCookTime(cooktime);
-                    ins.setPrepTime(preptime);
-                    operations.UpdateInstruction(connectionString, ins, userID);
+                    string title = "";
+                    string description = "";
+                    int preptime;
+                    int cooktime;
+                    Console.WriteLine("Title is: " + ins.getTitle());
+                    Console.WriteLine("Description is: " + ins.getDescription());
+                    Console.WriteLine("Preptime is: " + ins.getPrepTime());
+                    Console.WriteLine("Cooktime is: " + ins.getCookTime());
+                    Console.WriteLine("Update?  Y/N");
+                    if (Console.ReadLine() == "Y")
+                    {
+                        Console.WriteLine("New Title: ");
+                        title = Console.ReadLine();
+                        Console.WriteLine("New Description: ");
+                        description = Console.ReadLine();
+                        Console.WriteLine("New Preptime: ");
+                        preptime = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("New Cooktime: ");
+                        cooktime = Convert.ToInt32(Console.ReadLine());
+                        ins.setTitle(title);
+                        ins.setDescription(description);
+                        ins.setCookTime(cooktime);
+                        ins.setPrepTime(preptime);
+                        operations.UpdateInstruction(connectionString, ins, userID);
+                    }
+                }
+
+                if (userInput == "Menu")
+                {
+                    acted = true;
+                }
+                if (acted == false)
+                {
+                    InstructionMenu(operations, connectionString, userID);
+
                 }
             }
-            
-            if (userInput == "Menu")
-            {
-                acted = true;
-            }
-            if(acted == false)
-            {
-                InstructionMenu(operations, connectionString, userID);
-                
-            }
+               
         }
         public void UserMenu(Operator operations, string connectionString, int userID)
         {
             Console.WriteLine("This is the User Menu!  Options:");
             Console.WriteLine("All Users (1) ");
-            Console.WriteLine("All Meals by User (2) ");
+            Console.WriteLine("All Meals created by User (2) ");
             Console.WriteLine("Kitchen by User (3)");
             Console.WriteLine("Calendar by User (4)");
-            Console.WriteLine("Shopping List By Day (5)");
+            Console.WriteLine("Shopping List from Calendar (5)");
             Console.WriteLine("Shopping List Minus Kitchen (6)");
             Console.WriteLine("All Recipes By User (7)");
             Console.WriteLine("All Instructions By User (8)");
@@ -532,6 +540,7 @@ namespace CookSmartCommandLine
                 }
             }
             if(userInput == "2"){
+                //all meals created by the current user
                 operations.UserMeals(connectionString);
             }
             if(userInput == "3")
@@ -554,7 +563,7 @@ namespace CookSmartCommandLine
                 {
                     tempcalendar.printCalendar();
                 }
-                Calendar.Clear();
+              //  Calendar.Clear();
             }
             if(userInput == "5")
             {
@@ -575,8 +584,21 @@ namespace CookSmartCommandLine
 
                     Kitchen = operations.UserKitchen(connectionString, userID);
 
-                TodaysShopping = operations.TodaysShopping(connectionString, Kitchen, ShoppingList);
-                foreach(Kitchen tempkitchen in TodaysShopping)
+                List<Kitchen> TodaysShopping = new List<Kitchen>();
+                foreach (Kitchen tempkitchen1 in ShoppingList)
+                {
+                    foreach (Kitchen tempkitchen2 in Kitchen)
+                    {
+                        if (tempkitchen1.getTitle() == tempkitchen2.getTitle())
+                        {
+                            decimal newquantity = Math.Max(0, tempkitchen1.getTotalQuantity() - tempkitchen2.getTotalQuantity());
+                            tempkitchen1.setTotalQuantity(newquantity);
+
+                        }
+                        TodaysShopping.Add(tempkitchen1);
+                    }
+                }
+                foreach (Kitchen tempkitchen in TodaysShopping)
                 {
                     tempkitchen.printKitchen();
                 }

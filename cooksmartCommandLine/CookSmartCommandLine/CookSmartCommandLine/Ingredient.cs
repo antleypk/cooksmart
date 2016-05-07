@@ -83,7 +83,20 @@ namespace CookSmartCommandLine
         {
             name = newName;
         }
-       
+        public Ingredient(int userid)
+        {
+            Console.WriteLine("Input Ingredient Name");
+            string IngName = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Description");
+            string IngDesc = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Quantity Type");
+            string IngType = Console.ReadLine();
+            int IngCount = 0;
+            Ingredient newing = new Ingredient(IngCount, IngName, IngDesc, IngType, userid);
+
+
+            
+        }
 
         public string getQuantityType()
         {

@@ -75,36 +75,23 @@ namespace CookSmartCommandLine
         public Ingredient storeIngredient(string connection, int userid)
 
         {
-            MySqlConnection conn = new MySqlConnection(connection);
-            try
-            {
-                Console.WriteLine("Connecting to MySQL...");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("failed to connect");
-            }
-            Console.WriteLine("Connected to CookSmart Database");
-            Actions firstAct = new Actions();
-            return firstAct.StoreIngredient(conn, userid);
+            Ingredient tempIngredient = new Ingredient(userid);
+            return tempIngredient;
         }
 
 
         public Instruction storeInstruction (string connection, int userID, int order)
 
         {
-            MySqlConnection conn = new MySqlConnection(connection);
-            try
-            {
-                Console.WriteLine("Connecting to MySQL...");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("failed to connect");
-            }
-            Console.WriteLine("Connected to CookSmart Database");
-            Actions firstAct = new Actions();
-            return firstAct.StoreInstruction(conn, userID, order);
+            Console.WriteLine("Input Instruction Name");
+            string InsName = Console.ReadLine();
+            Console.WriteLine("Input Ingredient Description");
+            string InsDesc = Console.ReadLine();
+
+            Instruction newins = new Instruction(0, InsName, InsDesc, userID);
+            newins.setOrder(order);
+
+            return newins;
         }
 
 
@@ -395,7 +382,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.ShoppingListByDay(conn, userID);
+            return firstAct.ShoppingListByUser(conn, userID);
         }
 
         public List<Calendar> UserCalendar(string connection, int userID)
@@ -405,16 +392,22 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("Connecting to MySQL...User Calendar" + "\n");
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            return firstAct.UserCalendar(conn, userID);
+           UserCalendar= firstAct.UserCalendar(conn, userID,connection);
+            for(int i = 0; i < UserCalendar.Count; i++)
+            {
+                UserCalendar.ElementAt(i).getMeal().setRecipesInMeal(connection);
+            }
 
+            return UserCalendar;
         }
 
         public List<Calendar> MealCalendar(string connection, int userid)
@@ -985,39 +978,7 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             firstAct.InstructionsInRecipe(conn);
         }
-
-        public List<Kitchen> TodaysShopping(string connection, List<Kitchen> MyKitchen, List<Kitchen> ShoppingList)
-        {
-            List<Kitchen> TodaysShopping = new List<Kitchen>();
-            MySqlConnection conn;
-            conn = new MySqlConnection(connection);
-            try
-            {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("failed to connect" + "\n");
-            }
-            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
-            Actions firstAct = new Actions();
-            
-            foreach(Kitchen tempkitchen1 in ShoppingList)
-            {
-                foreach(Kitchen tempkitchen2 in MyKitchen)
-                {
-                    if (tempkitchen1.getTitle() == tempkitchen2.getTitle())
-                    {
-                        decimal newquantity = Math.Max(0,tempkitchen1.getTotalQuantity() - tempkitchen2.getTotalQuantity());
-                        tempkitchen1.setTotalQuantity(newquantity);
-                        
-                    }
-                    TodaysShopping.Add(tempkitchen1);
-                }
-            }
-            return TodaysShopping;
-
-        }
+        
 
 
         public List<Recipe> allRecipes(string connection)
@@ -1050,6 +1011,38 @@ namespace CookSmartCommandLine
             return recipes;
 
         }
+        public List<Recipe> allRecipesInMeal(string connection,int mealID)
+        {
+
+           MySqlConnection conn;
+
+            //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
+            Actions firstAct = new Actions();
+
+            List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID);
+            foreach (Recipe temprec in recipes)
+            {
+                int temprecipeid = temprec.getId();
+
+                temprec.printRecipe();
+                recipesGlobal.Add(temprec);
+
+            }
+            return recipes;
+
+        }
+
 
         public List<Instruction> allInstructions(string connection, int userID)
         {
@@ -1079,7 +1072,14 @@ namespace CookSmartCommandLine
 
         }
 
-      
+        public Recipe recipeFromId(string connection, int userID)
+        {
+
+            Operator operations = new Operator();
+            Recipe tempRecipe = operations.recipeFromId(connection, userID);
+
+            return tempRecipe;
+        }
 
         public void cookSmart(string connection)
         {

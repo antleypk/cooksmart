@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +9,47 @@ namespace CookSmartCommandLine
 {
     public class Calendar
     {
+        
         private string name = "C# Name Fail";
         private string description = "C# Description Fail";
         private DateTime timetobeserved = DateTime.MaxValue;
         public DateTime inputdate = DateTime.MaxValue;
         private int userid = 0;
+        private int mealid = 0;
+        private Meal myMeal;
+        private string connection;
         public Calendar()
         {
             
         }
+        public Meal getMeal()
+        {
+            return myMeal;
+        }
 
-        public Calendar(string Name, string Description, DateTime TimeToBeServed, DateTime InputDate, int userID)
+        public Calendar(string Name, string Description, DateTime TimeToBeServed, DateTime InputDate, int userID,int Mealid)
         {
             name = Name;
             description = Description;
             timetobeserved = TimeToBeServed;
             inputdate = InputDate;
             userid = userID;
+            mealid = Mealid;
         }
+        public Calendar( int userID, int Mealid, DateTime timetobeServed, string connectionS)
+        {
+       //     name = Name;
+       //     description = Description;
+        //    timetobeserved = TimeToBeServed;
+          //  inputdate = InputDate;
+            userid = userID;
+            mealid = Mealid;
+            connection = connectionS;
+            myMeal = new Meal(userid, mealid, connection);
+            Console.WriteLine("recipe in meal count: "+myMeal.recipeCount());
+            
+        }
+        
 
         public DateTime DateServed()
         {
