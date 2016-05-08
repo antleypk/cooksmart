@@ -404,7 +404,26 @@ namespace CookSmartCommandLine
            UserCalendar= firstAct.UserCalendar(conn, userID,connection);
             for(int i = 0; i < UserCalendar.Count; i++)
             {
-                UserCalendar.ElementAt(i).getMeal().setRecipesInMeal(connection);
+
+                //set the ingredents and instructions in the recipes
+                    UserCalendar.ElementAt(i).getMeal().setRecipesInMeal(connection);
+
+
+///////////////////////////////////this is not working past set recipes in meals but it is very cl
+//taco cat find this error to bgin
+
+                for(int b = 0; b < UserCalendar.ElementAt(i).getMeal().recipeCount(); b++)
+                {
+                  UserCalendar.ElementAt(i).getMeal();
+                   List<Instruction> tempInstructionList= UserCalendar.ElementAt(i).getMeal().getRecipebyID(b).getInstructionList();
+                    
+                   for (int c=0; c < tempInstructionList.Count; c++)
+                    {
+                      List<Ingredient> tempIngredients=  tempInstructionList.ElementAt(c).getInstructionIngredients();
+                       //we have all the parts we just need to get it into the proper order
+                    }
+                }
+                
             }
 
             return UserCalendar;
@@ -1011,7 +1030,7 @@ namespace CookSmartCommandLine
             return recipes;
 
         }
-        public List<Recipe> allRecipesInMeal(string connection,int mealID)
+        public List<Recipe> allRecipesInMeal(string connection,int mealID,int userID)
         {
 
            MySqlConnection conn;
@@ -1020,7 +1039,7 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+                Console.WriteLine("Connecting to MySQL..all recipesInMeal." + "\n");
             }
             catch (Exception ex)
             {
@@ -1030,14 +1049,14 @@ namespace CookSmartCommandLine
             Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
             Actions firstAct = new Actions();
 
-            List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID);
+            List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID,userID);
             foreach (Recipe temprec in recipes)
             {
                 int temprecipeid = temprec.getId();
 
                 temprec.printRecipe();
                 recipesGlobal.Add(temprec);
-
+                Console.WriteLine("temp id inside operations 1040 " + temprecipeid);
             }
             return recipes;
 

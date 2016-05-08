@@ -617,12 +617,11 @@ namespace CookSmartCommandLine
             }
             return recipes;
         }
-        public List<Recipe> AllRecipesInMeal(MySqlConnection conn,int mealID)
+        public List<Recipe> AllRecipesInMeal(MySqlConnection conn,int mealID,int userID)
         {
             List<Recipe> recipes = new List<Recipe>();
             try
             {
-                //finny fail
                 conn.Open();
             }
             catch (Exception ex)
@@ -640,8 +639,16 @@ namespace CookSmartCommandLine
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                   // Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                    string idstring = reader["RecipeID"].ToString();
+                    string description = reader["Description"].ToString();
+                    string title = reader["Title"].ToString();
+                    string servingString = reader["ServingSize"].ToString();
+                    int id = Convert.ToInt32(idstring);
+                    int servinSize = Convert.ToInt32(servingString);
 
+                    Recipe tempRecipe = new Recipe(id, title, description, servinSize, userID);
+                    recipes.Add(tempRecipe);
                 }
                 reader.Close();
                 conn.Close();
@@ -984,8 +991,7 @@ namespace CookSmartCommandLine
         {
             try
             {
-                //   Console.WriteLine("Connecting to MySQL..." + "\n");
-                Console.WriteLine("Peter Tests");
+           
                 Console.WriteLine("What recipe would you like to see (id int+ENTR)?" + "\n");
                 string userInput = Console.ReadLine();
                 int recipeID;
@@ -999,8 +1005,6 @@ namespace CookSmartCommandLine
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@recipeid", recipeID);
-                    //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
-                    //command.CommandText = "CREATE PROCEDURE `ViewRecipes`() NOT DETERMINISTIC READS SQL DATA SQL SECURITY DEFINER SELECT Recipe.Title, Recipe.RecipeID FROM Recipe ORDER BY Recipe.Title";
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
 
@@ -1009,7 +1013,6 @@ namespace CookSmartCommandLine
                         string orderstring = reader["Order"].ToString();
                         string cooktimestring = reader["CookTime"].ToString();
                         string preptimestring = reader["PrepTime"].ToString();
-                        //   Console.Write("\n");
 
                         int order;
                         int cooktime;
@@ -1025,13 +1028,7 @@ namespace CookSmartCommandLine
                         {
                             Console.WriteLine("Title: " + reader["Title"].ToString());
                         }
-                        
-                        //string idString = reader["InstructionID"].ToString();
-                        //int id = 9999;
-                        //bool parse2 = int.TryParse(idString, out id);
-
-                        //Ingredient temp = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString());
-                        //temp.printIngredient();
+  
                     }
                     reader.Close();
                     conn.Close();
