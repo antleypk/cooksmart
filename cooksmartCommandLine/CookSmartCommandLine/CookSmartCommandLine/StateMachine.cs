@@ -176,7 +176,7 @@ namespace CookSmartCommandLine
             if (userInput == "4" || userInput == "CookSmart")
             {
                 Console.WriteLine();
-                operations.cookSmart(connectionString);
+                operations.cookSmart(connectionString,UserID);
             }
             if(userInput == "5" || userInput == "Users")
             {
@@ -556,14 +556,7 @@ namespace CookSmartCommandLine
             }
             if(userInput == "4")
             {
-
                     Calendar = operations.UserCalendar(connectionString, userID);
-
-                foreach (Calendar tempcalendar in Calendar)
-                {
-                    tempcalendar.printCalendar();
-                }
-              //  Calendar.Clear();
             }
             if(userInput == "5")
             {

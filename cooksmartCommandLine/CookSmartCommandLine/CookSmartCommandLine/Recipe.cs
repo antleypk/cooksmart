@@ -103,5 +103,13 @@ namespace CookSmartCommandLine
         {
             instructionRecipe.Add(newInstruction);
         }
+        public void addIngredents(List<Ingredient> wholeList)
+        {
+            recipeIngredient = wholeList; 
+        }
+        public void setInstructions(List<Instruction> wholeList)
+        {
+            instructionRecipe = wholeList;
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public void startUpCookSmart(string connection)
+        public void startUpCookSmart(string connection,int userID)
         {
             operations.allRecipes(connection);
             Console.WriteLine("Select a Recipe by ID");
@@ -37,12 +37,13 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Ingredient List:");
             actions.ShoppingListFromRecipe(conn, id);
             Console.WriteLine("Instruction List:");
-            actions.InstructionsInRecipe(conn, id);
+            actions.InstructionsInRecipe(conn, id,userID);
 
             Console.WriteLine("Select a Day mm-dd-yyyy");
             DateTime today = DateTime.Today;

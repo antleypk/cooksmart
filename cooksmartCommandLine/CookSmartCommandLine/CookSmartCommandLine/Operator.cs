@@ -136,7 +136,24 @@ namespace CookSmartCommandLine
             firstAct.IngredientsInRecipe(conn);
         }
 
+        public List<Ingredient> IngredientsInRecipeById(string connection, int recipeid,int userid)
+        {
 
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+           return firstAct.IngredientsInRecipe(conn,recipeid,userid);
+
+        }
         public void allIngredientFromRecipe(string connection, Recipe rec)
         {
             MySqlConnection conn;
@@ -147,6 +164,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -401,30 +419,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-           UserCalendar= firstAct.UserCalendar(conn, userID,connection);
-            for(int i = 0; i < UserCalendar.Count; i++)
-            {
-
-                //set the ingredents and instructions in the recipes
-                    UserCalendar.ElementAt(i).getMeal().setRecipesInMeal(connection);
-
-
-///////////////////////////////////this is not working past set recipes in meals but it is very cl
-//taco cat find this error to bgin
-
-                for(int b = 0; b < UserCalendar.ElementAt(i).getMeal().recipeCount(); b++)
-                {
-                  UserCalendar.ElementAt(i).getMeal();
-                   List<Instruction> tempInstructionList= UserCalendar.ElementAt(i).getMeal().getRecipebyID(b).getInstructionList();
-                    
-                   for (int c=0; c < tempInstructionList.Count; c++)
-                    {
-                      List<Ingredient> tempIngredients=  tempInstructionList.ElementAt(c).getInstructionIngredients();
-                       //we have all the parts we just need to get it into the proper order
-                    }
-                }
-                
-            }
+            UserCalendar= firstAct.UserCalendar(conn, userID,connection);
 
             return UserCalendar;
         }
@@ -991,6 +986,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -1076,6 +1072,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase all Instructions" + "\n");
@@ -1091,6 +1088,7 @@ namespace CookSmartCommandLine
 
         }
 
+
         public Recipe recipeFromId(string connection, int userID)
         {
 
@@ -1100,10 +1098,10 @@ namespace CookSmartCommandLine
             return tempRecipe;
         }
 
-        public void cookSmart(string connection)
+        public void cookSmart(string connection,int userid)
         {
             CookSmart cookSmart = new CookSmart();
-            cookSmart.startUpCookSmart(connection);
+            cookSmart.startUpCookSmart(connection,userid);
 
         }
         public void allIngredientInInstruction(string connection)
@@ -1116,11 +1114,29 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
             firstAct.IngredientsInInstruction(conn);
+        }
+        public List<Instruction> allInstructionsInRecipe(string connection,int userid, int recipeId)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+           return firstAct.InstructionsInRecipe(conn,recipeId,userid);
         }
 
         public void ShoppingListFromRecipe(string connection)
