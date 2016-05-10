@@ -888,6 +888,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.Write("Reader failed for ingredients" + "\n");
             }
             return ingredients;
@@ -926,6 +927,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.Write("Reader failed for users" + "\n");
             }
             return Users;

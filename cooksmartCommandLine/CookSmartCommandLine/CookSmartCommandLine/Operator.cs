@@ -33,6 +33,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect");
             }
             Console.WriteLine("Connected to CookSmart Database");
@@ -49,6 +50,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect");
             }
             Console.WriteLine("Connected to CookSmart Database");
@@ -65,6 +67,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect");
             }
             Console.WriteLine("Connected to CookSmart Database");
@@ -109,6 +112,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
@@ -129,6 +133,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -147,6 +152,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -183,6 +189,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
@@ -199,6 +206,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -217,6 +225,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -235,6 +244,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -253,6 +263,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
@@ -270,6 +281,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
@@ -289,6 +301,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine("failed to connect" + "\n");
+                Console.WriteLine(ex.Message);
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
@@ -306,6 +319,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -325,6 +339,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -343,6 +358,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -361,6 +377,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -378,6 +395,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -396,6 +414,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -435,6 +454,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -453,6 +473,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -470,6 +491,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -564,6 +586,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -587,6 +610,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -609,6 +633,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -632,6 +657,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -654,6 +680,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -675,6 +702,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -692,6 +720,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -708,7 +737,7 @@ namespace CookSmartCommandLine
 
         public int GetUserID(string connection, string userName, string passWord)
         {
-            bool result = false;
+            
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -717,6 +746,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.Write(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -731,7 +761,7 @@ namespace CookSmartCommandLine
 
         public bool checkuser(string connection, string userName, string passWord)
         {
-            bool result = false;
+            
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -740,6 +770,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -755,7 +786,7 @@ namespace CookSmartCommandLine
 
         public bool checkusername(string connection, string userName)
         {
-            bool result = false;
+         
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -764,6 +795,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -779,7 +811,7 @@ namespace CookSmartCommandLine
 
         public List<DateTime> userloginattempts(string connection, string userName)
         {
-            bool result = false;
+          
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -788,6 +820,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
@@ -803,7 +836,7 @@ namespace CookSmartCommandLine
 
         public void updatelogins(string connection, List<DateTime> logins, string username)
         {
-            bool result = false;
+            
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
             try
@@ -812,6 +845,7 @@ namespace CookSmartCommandLine
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
