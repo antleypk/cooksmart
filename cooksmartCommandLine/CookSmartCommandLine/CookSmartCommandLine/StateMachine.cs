@@ -114,7 +114,7 @@ namespace CookSmartCommandLine
             int userID = UserID;
             Console.Write("Welcome to CookSmart" + "\n");
             Console.WriteLine("CookSmartClassic1.0+");
-            Console.Write("Thanks for chosing Traction Systems"+"\n"+"\n");
+            Console.Write("Thanks for choosing Traction Systems"+"\n"+"\n");
 
             validation(connectionString);
 
