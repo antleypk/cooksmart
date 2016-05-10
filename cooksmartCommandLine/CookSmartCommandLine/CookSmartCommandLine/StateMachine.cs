@@ -13,19 +13,20 @@ namespace CookSmartCommandLine
         private int UserID = 420;
         private List<Recipe> Recipes = new List<Recipe>();
         private List<User> Users = new List<User>();
-        private List<Calendar> Calendar = new List<Calendar>();
+        private List<Calendar> calendar = new List<Calendar>();
         private List<Kitchen> Kitchen = new List<Kitchen>();
         private List<Kitchen> ShoppingList = new List<Kitchen>();
         private List<Kitchen> TodaysShopping = new List<Kitchen>();
         private List<Ingredient> createdIngredients = new List<Ingredient>();
         private List<Instruction> createdInstruction = new List<Instruction>();
         private List<DateTime> loginAttempts = new List<DateTime>();
+        
         private int validationkount = 0;
 
         public StateMachine()
         {
-
-        }
+           
+            }
         public void createOrNot(string connection)
         {
             Console.WriteLine("'1' to sign in '2' to create new login");
@@ -205,6 +206,7 @@ namespace CookSmartCommandLine
             }
             if (userInput == "9")
             {
+
                 int test = operations.GetIngredientID(connectionString, 69, "ginger tears");
                 Console.WriteLine(test);
             }
@@ -562,7 +564,7 @@ namespace CookSmartCommandLine
             }
             if(userInput == "4")
             {
-                    Calendar = operations.UserCalendar(connectionString, userID);
+                    calendar = operations.UserCalendar(connectionString, userID);
             }
             if(userInput == "5")
             {

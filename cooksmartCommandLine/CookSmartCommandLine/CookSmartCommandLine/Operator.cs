@@ -1039,7 +1039,10 @@ namespace CookSmartCommandLine
             MySqlConnection conn;
 
             //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
-            conn = new MySqlConnection(connection);
+
+                conn = new MySqlConnection(connection);
+            
+            
             try
             {
                 Console.WriteLine("Connecting to MySQL..." + "\n");
