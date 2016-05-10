@@ -12,6 +12,7 @@ namespace CookSmartCommandLine
         private string Connection;
         private int userid;
         private int mealid;
+        private string mealName;
         private List<Recipe> recipesInMeal = new List<Recipe>();
         public Meal()
         {
@@ -40,18 +41,32 @@ namespace CookSmartCommandLine
         }
         public void setRecipesInMeal(string connection)
         {
-            Operator operation = new Operator();   
-           recipesInMeal=operation.allRecipesInMeal(connection, mealid,userid);
+            Operator operation = new Operator();
+            recipesInMeal = operation.allRecipesInMeal(connection, mealid, userid);
             int temp = recipesInMeal.Count;
-            for(int i=0; i < recipesInMeal.Count; i++)
+            for (int i = 0; i < recipesInMeal.Count; i++)
             {
                 Console.WriteLine("Instruction list");
-               List<Instruction>myinstructions= recipesInMeal.ElementAt(i).getInstructionList();
-                int instructionCount=myinstructions.Count;
+                List<Instruction> myinstructions = recipesInMeal.ElementAt(i).getInstructionList();
+                int instructionCount = myinstructions.Count;
                 Console.WriteLine("instruction count " + instructionCount);
             }
-           
         }
+
+        public void setName(string name)
+        {
+            mealName = name;
+        }
+
+        public string getName() { return mealName; }
+        
+        public void addRecipesInMeal(string connection, int id)
+        {
+            Operator operation = new Operator();
+            Recipe addedRecipe = operation.allRecipes(connection).SingleOrDefault(x => x.getId() == id);
+            recipesInMeal.Add(addedRecipe);
+        }
+           
         public int recipeCount()
         {
             return recipesInMeal.Count;

@@ -152,6 +152,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("IngredientID by Name and user ID '9'");
             Console.WriteLine("GOD MODE '10'");
             Console.WriteLine("Calendar '11'");
+            Console.WriteLine("Build Meal '12'");
             Console.WriteLine("Enter 'exit' to quit");
             Console.WriteLine("");
 
@@ -218,6 +219,11 @@ namespace CookSmartCommandLine
             if(userInput=="11" || userInput == "Calender")
             {
                 calenderMenu(connectionString, operations, userID);
+            }
+            if(userInput=="12")
+            {
+                MealBuilder newMeal = new MealBuilder();
+                newMeal.StartBuilder(userName);
             }
             
 

@@ -51,6 +51,7 @@
     <Compile Include="Instruction.cs" />
     <Compile Include="Kitchen.cs" />
     <Compile Include="Meal.cs" />
+    <Compile Include="MealBuilder.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
