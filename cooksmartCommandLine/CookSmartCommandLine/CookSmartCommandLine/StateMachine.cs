@@ -149,7 +149,8 @@ namespace CookSmartCommandLine
             Console.WriteLine("User Menu '5' ");
             Console.WriteLine("Recipe Builder '6'");
             Console.WriteLine("Create menu '7'");
-            Console.WriteLine("RecipeID by Name and user ID '8'");
+            //not what it does below
+            Console.WriteLine("RecipeID by Name and user ID '8'"); // returns Recipe ID, with its a name and a userID as input
             Console.WriteLine("IngredientID by Name and user ID '9'");
             Console.WriteLine("GOD MODE '10'");
             Console.WriteLine("Calendar '11'");
@@ -168,6 +169,8 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine("Recipes Menu");
                 RecipeMenu(operations,connectionString, userID);
+                
+                
             }
 
             if (userInput=="3" || userInput == "Instructions")
@@ -182,7 +185,7 @@ namespace CookSmartCommandLine
             }
             if(userInput == "5" || userInput == "Users")
             {
-                Console.WriteLine("User menu");
+                Console.WriteLine("User menu"); 
                 UserMenu(operations, connectionString, userID);
             }
             if (userInput == "6")
@@ -199,9 +202,12 @@ namespace CookSmartCommandLine
             }
             if (userInput == "8")
             {
-                int test = operations.GetRecipeID(connectionString, 420, "Tomtest829");
-                Console.WriteLine("ultimate puzzlement");
-                Console.WriteLine("primary key: " + test);
+
+                Console.WriteLine("Note that you can only view recipe primary keys of recipes you created");
+                Console.WriteLine("Please Enter Recipe Title");
+                string recipeTitle = Console.ReadLine();
+                int recipeID = operations.GetRecipeID(connectionString, userID, recipeTitle);
+                Console.WriteLine("recipeID: " + recipeID);
 
             }
             if (userInput == "9")
@@ -225,7 +231,7 @@ namespace CookSmartCommandLine
             if(userInput=="12")
             {
                 MealBuilder newMeal = new MealBuilder();
-                newMeal.StartBuilder(connectionString);
+                newMeal.StartBuilder(connectionString,UserID);
             }
             
 
@@ -660,13 +666,19 @@ namespace CookSmartCommandLine
             }
         }
 
+        /// <summary>
+        /// Returns the menu that a user would use to navigate the recipe class
+        /// </summary>
+        /// <param name="operations">send an operator</param>
+        /// <param name="connectionString">a connection string</param>
+        /// <param name="userID">the current user's unique Identifier</param>
         public void RecipeMenu(Operator operations, string connectionString, int userID)
         {
-            //i would like you to explain this to me
-            //if (Recipes.Any<Recipe>() == false)
-            //{
+
+            if (Recipes.Any<Recipe>() == false)
+            {
                 Recipes = operations.allRecipes(connectionString);
-            //}
+            }
 
             Console.WriteLine("\n \n Recipe Menu!  Options: \n ");
             Console.Write("All Recipes (recipe or 1)" + "\n");
@@ -679,23 +691,17 @@ namespace CookSmartCommandLine
             Console.Write("'menu' for main menu" + "\n");
             Console.WriteLine();
 
-
-           
-
-            //  Console.Write("all Ingredients in a receipe" + "\n");
-
             string userInput = Console.ReadLine();
              
-            //  operations.allIngredientInRecipe(connectionString);
             bool acted = false;
 
-            //if(userInput=="1" || userInput == "recipe")
-            //{
-            //    foreach(Recipe temprecipe in Recipes)
-            //    {
-            //        temprecipe.printRecipe();
-            //    }
-            //}
+            if (userInput == "1" || userInput == "recipe")
+            {
+                foreach (Recipe temprecipe in Recipes)
+                {
+                    temprecipe.printRecipe();
+                }
+            }
 
             if (userInput == "2")
             {
@@ -708,9 +714,6 @@ namespace CookSmartCommandLine
             if (userInput == "4")
             {
                 Recipe myRecipe = operations.RecipeByID(connectionString,userID);
-                // myrecipe.printRecipe();
-               // RecipeGuide myGuide = new RecipeGuide(UserID);
-              //  myGuide.previewRecipe(myRecipe);
             }
             if(userInput == "5")
             {

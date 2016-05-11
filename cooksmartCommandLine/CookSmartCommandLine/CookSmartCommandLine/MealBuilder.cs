@@ -18,14 +18,35 @@ namespace CookSmartCommandLine
             operations.allRecipes(connection);
         }
 
-        public void CheckMeal(string connection, Meal userMeal)
+        public void CheckMeal(string connection, Meal userMeal,int userID)
         {
             Console.WriteLine(userMeal.getName());
             Console.WriteLine(userMeal.getDescription());
             userMeal.printRecipesInMeal();
+            Console.WriteLine("continue or restart");
+            string userInput = Console.ReadLine();
+            bool acted = false;
+            if (userInput == "continue")
+            {
+                //save the meal
+                saveMeal(connection,userMeal, userID);
+                acted = true;
+            }
+            if (userInput == "restart" || acted==false)
+            {
+                StartBuilder(connection, userID);
+                acted = true;
+            }
+           
+            
         }
 
-        public void StartBuilder(string connection)
+        public void saveMeal(string connection, Meal myMeal,int userID)
+        {
+            Operator operation = new Operator();
+            operation.insertMeal(connection, myMeal, userID);
+        }
+        public void StartBuilder(string connection,int userID)
         {
             var userMeal = new Meal();
             int numberOfRecipes = 0;
@@ -53,7 +74,7 @@ namespace CookSmartCommandLine
                     numberOfRecipes += 1;
                 }
             }
-            CheckMeal(connection, userMeal);
+            CheckMeal(connection, userMeal,userID);
         }
     }
 }

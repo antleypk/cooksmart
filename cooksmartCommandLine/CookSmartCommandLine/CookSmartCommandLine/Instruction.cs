@@ -19,7 +19,7 @@ namespace CookSmartCommandLine
 
         public Instruction()
         {
-
+           
         }
         public Instruction(int userID)
         {
