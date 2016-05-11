@@ -367,7 +367,7 @@ namespace CookSmartCommandLine
         }
 
 
-        public void UserMeals(string connection)
+        public void UserMeals(string connection, int userid)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -382,7 +382,7 @@ namespace CookSmartCommandLine
             }
             Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
-            firstAct.UserMeals(conn);
+            firstAct.UserMeals(conn, userid);
         }
 
         public List<Kitchen> UserKitchen(string connection, int userID)

@@ -13,7 +13,9 @@ namespace CookSmartCommandLine
         private int userid;
         private int mealid;
         private string mealName;
+        private string mealDescription;
         private List<Recipe> recipesInMeal = new List<Recipe>();
+        private List<int> recipeIdInMeal = new List<int>();
         public Meal()
         {
 
@@ -53,15 +55,34 @@ namespace CookSmartCommandLine
             }
         }
 
+        public void printRecipesInMeal()
+        {
+            foreach(int r in recipeIdInMeal)
+            {
+                Console.WriteLine(r.ToString());
+            }
+        }
+
         public void setName(string name)
         {
             mealName = name;
+        }
+
+        public void setDescription(string description)
+        {
+            mealDescription = description;
+        }
+
+        public string getDescription()
+        {
+            return mealDescription;
         }
 
         public string getName() { return mealName; }
         
         public void addRecipesInMeal(string connection, int id)
         {
+            recipeIdInMeal.Add(id);
             Operator operation = new Operator();
             Recipe addedRecipe = operation.allRecipes(connection).SingleOrDefault(x => x.getId() == id);
             recipesInMeal.Add(addedRecipe);

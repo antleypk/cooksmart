@@ -225,7 +225,7 @@ namespace CookSmartCommandLine
             if(userInput=="12")
             {
                 MealBuilder newMeal = new MealBuilder();
-                newMeal.StartBuilder(userName);
+                newMeal.StartBuilder(connectionString);
             }
             
 
@@ -242,9 +242,28 @@ namespace CookSmartCommandLine
         }
         public void calenderMenu(string connection, Operator operations, int userID)
         {
+            Console.WriteLine(" ");
             Console.WriteLine("Calender Menu");
+            Console.WriteLine("Add meal to calendar (1)");
+            Console.WriteLine("Type 'Menu' for main menu.");
+            string userInput = Console.ReadLine();
+            userInput.Trim().ToLower();
+            bool acted = false;
 
-
+            if (userInput == "menu")
+            {
+                acted = true;
+            }
+            if(userInput == "1")
+            {
+                Console.WriteLine("Finney State Machine 263");
+                operations.UserMeals(connection, UserID);
+                acted = true;
+            }
+            if (!acted)
+            {
+                calenderMenu(connection, operations, userID);
+            }
         }
         public void CreateMenu(Operator operations, string connectionString)
         {
@@ -549,7 +568,7 @@ namespace CookSmartCommandLine
             }
             if(userInput == "2"){
                 //all meals created by the current user
-                operations.UserMeals(connectionString);
+                operations.UserMeals(connectionString, UserID);
             }
             if(userInput == "3")
             {

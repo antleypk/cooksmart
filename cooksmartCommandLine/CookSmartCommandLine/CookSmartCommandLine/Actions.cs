@@ -1278,7 +1278,7 @@ namespace CookSmartCommandLine
         }
 //
 
-        public void UserMeals(MySqlConnection connn, int userID)
+        public void UserMealsf(MySqlConnection connn, int userID)
         {//all meals created by a user
             MySqlConnection conn = connn;
             try
@@ -1309,25 +1309,21 @@ namespace CookSmartCommandLine
 
         }
 
-        public void UserMeals(MySqlConnection connn)
+        public void UserMeals(MySqlConnection connn, int userID)
         {
-
-            //   string connString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
-            //   MySqlConnection conn = new MySqlConnection(connString);
-
             MySqlConnection conn = connn;
             try
             {
-                //   Console.WriteLine("Connecting to MySQL..." + "\n");
-                Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
-                string userInput = Console.ReadLine();
-                int userID;
-                bool parse = int.TryParse(userInput, out userID);
+                //Console.WriteLine("What user would you like to see (id int+ENTR)?" + "\n");
+                //string userInput = Console.ReadLine();
+                //int userID;
+                //bool parse = int.TryParse(userInput, out userID);
+                bool parse = true;
 
                 if (parse)
                 {
                     conn.Open();
-                    string Action = "MealsByUser";
+                    string Action = "MealByUser";
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@userid", userID);
@@ -1342,7 +1338,7 @@ namespace CookSmartCommandLine
                     {
 
                         //   Console.Write("\n");
-                        Console.WriteLine(reader["Name"].ToString() + "\n" + reader["Description"] + "\n");
+                        Console.WriteLine(reader["Name"].ToString() +" "+ reader["DateTimeAdded"].ToString() + "\n" + reader["Description"] + "\n");
                         //   string idString = reader["IngredientID"].ToString();
                         string idString = " ";
                         int id = 9999;
