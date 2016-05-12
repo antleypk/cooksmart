@@ -236,14 +236,7 @@ namespace CookSmartCommandLine
             }
             if (userInput == "13")
             {
-               List<Meal> allmeals= operations.allMeals(connectionString);
-               for(int i=0; i < allmeals.Count; i++)
-                {
-                    Meal temp = allmeals.ElementAt(i);
-                    string title = temp.getName();
-                    int author = temp.getUserID();
-                    Console.WriteLine(title + " created by" + author);
-                }
+                mealMenu(connectionString, operations, UserID);
             }
 
             if (userInput == "exit")
@@ -257,6 +250,42 @@ namespace CookSmartCommandLine
                 startMenu(userID,connectionString);
             }
 
+        }
+        public void mealMenu(string connection, Operator operations, int userID)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Welcome to the Meal Menu");
+            Console.WriteLine("All Meals (1)");
+            Console.WriteLine("menu for main Menu");
+
+            bool acted = false;
+            string userInput = Console.ReadLine();
+
+
+            if (userInput == "1")
+            {
+                List<Meal> allmeals = operations.allMeals(connection);
+                for (int i = 0; i < allmeals.Count; i++)
+                {
+                    Meal temp = allmeals.ElementAt(i);
+                    string title = temp.getName();
+                    int author = temp.getUserID();
+                    Console.WriteLine(title + " created by " + author);
+                }
+                acted = true;
+            }
+
+
+
+            if (userInput == "menu")
+            {
+                acted = true;
+            }
+
+            if (!acted)
+            {
+                mealMenu(connection, operations, userID);
+            }
         }
         public void calenderMenu(string connection, Operator operations, int userID)
         {
