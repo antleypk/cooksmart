@@ -22,7 +22,7 @@ namespace CookSmartCommandLine
         {
             Console.WriteLine(userMeal.getName());
             Console.WriteLine(userMeal.getDescription());
-            userMeal.printRecipesInMeal();
+            userMeal.printRecipesInMealWhenIncomplete();
             Console.WriteLine("continue or restart");
             string userInput = Console.ReadLine();
             bool acted = false;
@@ -45,6 +45,15 @@ namespace CookSmartCommandLine
         {
             Operator operation = new Operator();
             operation.insertMeal(connection, myMeal, userID);
+            int mealID = operation.MealByID(connection, userID, myMeal.getName());
+            myMeal.setID(mealID);
+            Console.WriteLine("meal primary key: " + mealID);
+            Console.WriteLine("recipes in meal: " + myMeal.recipeCount());
+            for(int i=0; i < myMeal.recipeCount(); i++)
+            {
+                int recipeID = myMeal.getRecipeIDfromindex(i);
+                operation.insertMealRecipe(connection, mealID, userID, recipeID);
+            }
         }
         public void StartBuilder(string connection,int userID)
         {

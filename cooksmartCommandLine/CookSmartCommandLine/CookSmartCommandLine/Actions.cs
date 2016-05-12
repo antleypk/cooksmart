@@ -381,14 +381,70 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex);
                 Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
             }
-            string Action = "InsertMeal";
+            string Action = "InsertNewMeal";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@name", myMeal.getName());
-            command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
+            command.Parameters.AddWithValue("@description", myMeal.getDescription());
+          //  command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
             command.Parameters.AddWithValue("@userid", userID);
+           
             command.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public void InsertMealRecipe(MySqlConnection conn, int mealID, int userID, int recipeID)
+        {
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+            }
+            string Action = "InsertMealRecipe";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@recipeid", recipeID);
+            command.Parameters.AddWithValue("@mealid", mealID);
+            //  command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
+            command.Parameters.AddWithValue("@userid", userID);
+
+            command.ExecuteNonQuery();
+            conn.Close();
+        }
+
+
+        public int GetMealID(MySqlConnection conn, string name, int userID)
+        {
+            int mealID = 99999999;
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+            }
+            string Action = "MealIDByUserIDandName";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("@name", name);
+            //  command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
+            command.Parameters.AddWithValue("@userid", userID);
+            command.ExecuteNonQuery();
+            
+            MySqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                mealID = Convert.ToInt32(reader["MealID"].ToString());
+            }
+            reader.Close();
+            conn.Close();
+            return mealID;
         }
 
         public void InsertCalendar(MySqlConnection conn, Calendar cal, int userID)
@@ -636,6 +692,61 @@ namespace CookSmartCommandLine
                 Console.Write("Reader failed for ingredients!" + "\n");
             }
             return recipes;
+        }
+        public List<Meal> AllMeals(MySqlConnection conn)
+        {
+            List<Meal> meals = new List<Meal>();
+            try
+            {
+                //finny fail
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex + "\n");
+                Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
+            }
+            string Action = "AllMeals";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
+            try
+            {
+                int userID = 1;
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                //    Console.WriteLine("ID: " + reader["MealID"].ToString() + " " + reader["Name"].ToString() + " " + reader["Description"].ToString() + " " + reader["DateTimeAdded"].ToString());
+                    string mealString = reader["MealID"].ToString();
+                    Meal temp = new Meal();
+                    string userString = reader["UserID"].ToString();
+                    int mealID = Convert.ToInt32(mealString);
+                    bool parse = Int32.TryParse(userString, out userID);
+                    if (parse)
+                    {
+                        temp.setName(reader["Name"].ToString());
+                        temp.setID(userID);
+                        temp.setDescription(reader["Description"].ToString());
+                        temp.setUserID(userID);
+                    }
+                    if (!parse)
+                    {
+                        temp.setName(reader["Name"].ToString());
+                        temp.setID(userID);
+                        temp.setDescription(reader["Description"].ToString());
+                        temp.setUserID(userID);
+                    }
+                    meals.Add(temp);
+                }
+                reader.Close();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Console.Write("Reader failed for ingredients!" + "\n");
+            }
+            return meals;
         }
         public List<Recipe> AllRecipesInMeal(MySqlConnection conn,int mealID,int userID)
         {

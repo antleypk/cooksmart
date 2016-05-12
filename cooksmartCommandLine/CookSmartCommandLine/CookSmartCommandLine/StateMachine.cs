@@ -155,6 +155,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("GOD MODE '10'");
             Console.WriteLine("Calendar '11'");
             Console.WriteLine("Build Meal '12'");
+            Console.WriteLine("Meal Menu '13' ");
             Console.WriteLine("Enter 'exit' to quit");
             Console.WriteLine("");
 
@@ -233,12 +234,23 @@ namespace CookSmartCommandLine
                 MealBuilder newMeal = new MealBuilder();
                 newMeal.StartBuilder(connectionString,UserID);
             }
-            
+            if (userInput == "13")
+            {
+               List<Meal> allmeals= operations.allMeals(connectionString);
+               for(int i=0; i < allmeals.Count; i++)
+                {
+                    Meal temp = allmeals.ElementAt(i);
+                    string title = temp.getName();
+                    int author = temp.getUserID();
+                    Console.WriteLine(title + " created by" + author);
+                }
+            }
 
             if (userInput == "exit")
             {
                 acted = true;
             }
+
 
             if (acted == false)
             {

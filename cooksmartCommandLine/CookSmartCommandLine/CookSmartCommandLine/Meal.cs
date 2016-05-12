@@ -41,6 +41,14 @@ namespace CookSmartCommandLine
                 recipesInMeal.ElementAt(i).printRecipe();
             }
         }
+        public void setUserID(int userIN)
+        {
+            userid = userIN;
+        }
+        public int getUserID()
+        {
+            return userid;
+        }
         public void setRecipesInMeal(string connection)
         {
             Operator operation = new Operator();
@@ -55,12 +63,20 @@ namespace CookSmartCommandLine
             }
         }
 
-        public void printRecipesInMeal()
+        public void printRecipesInMealWhenIncomplete()
         {
             foreach(int r in recipeIdInMeal)
             {
                 Console.WriteLine(r.ToString());
             }
+        }
+        public int getRecipeIDfromindex(int index)
+        {
+            int primarykey = 0;
+           primarykey=recipeIdInMeal.ElementAt(index);
+
+
+            return primarykey;
         }
 
         public void setName(string name)
@@ -130,6 +146,20 @@ namespace CookSmartCommandLine
                 List<Ingredient> ingredients= operations.IngredientsInRecipeById(connection, temp,userid);
                 recipesInMeal.ElementAt(i).addIngredents(ingredients);
             }
+        }
+        //public int getPrimaryfromIndex(int index)
+        //{
+        //    Recipe temp =recipesInMeal.ElementAt(index);
+        //    int primaryKey = temp.getId();
+        //    return primaryKey;
+        //}
+        public void setID(int ID)
+        {
+            mealid = ID;
+        }
+        public int getID()
+        {
+            return mealid;
         }
     }
 }
