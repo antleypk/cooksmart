@@ -385,7 +385,7 @@ namespace CookSmartCommandLine
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@name", myMeal.getName());
-            command.Parameters.AddWithValue("@description", myMeal.getDescription());
+            command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
             command.Parameters.AddWithValue("@userid", userID);
             command.ExecuteNonQuery();
             conn.Close();
