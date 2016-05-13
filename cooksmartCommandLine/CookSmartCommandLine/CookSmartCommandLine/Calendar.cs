@@ -88,6 +88,11 @@ namespace CookSmartCommandLine
             return ((timetobeserved.Date.Year == yearserved) & (timetobeserved.Date.Month == monthserved));
         }
 
+        public void setMeal(int mealID)
+        {
+            mealid = mealID;   
+        }
+
         public string getName()
         {
             return name;

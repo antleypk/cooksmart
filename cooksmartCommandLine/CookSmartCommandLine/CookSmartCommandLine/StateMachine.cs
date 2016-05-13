@@ -225,9 +225,9 @@ namespace CookSmartCommandLine
                 operations.GetIngredientID(connectionString, userID, ing.getName());
                 operations.IngredientFromID(connectionString, userID, ing.getId());
             }
-            if(userInput=="11" || userInput == "Calender")
+            if(userInput=="11" || userInput == "Calendar")
             {
-                calenderMenu(connectionString, operations, userID);
+                calendarMenu(connectionString, operations, userID);
             }
             if(userInput=="12")
             {
@@ -287,7 +287,7 @@ namespace CookSmartCommandLine
                 mealMenu(connection, operations, userID);
             }
         }
-        public void calenderMenu(string connection, Operator operations, int userID)
+        public void calendarMenu(string connection, Operator operations, int userID)
         {
             Console.WriteLine(" ");
             Console.WriteLine("Calender Menu");
@@ -303,13 +303,12 @@ namespace CookSmartCommandLine
             }
             if(userInput == "1")
             {
-                Console.WriteLine("Finney State Machine 263");
-                operations.UserMeals(connection, UserID);
-                acted = true;
+                CalendarBuilder myBuilder = new CalendarBuilder();
+                myBuilder.startUp(userID, connection, operations);
             }
             if (!acted)
             {
-                calenderMenu(connection, operations, userID);
+                calendarMenu(connection, operations, userID);
             }
         }
         public void CreateMenu(Operator operations, string connectionString)

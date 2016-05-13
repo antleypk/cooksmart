@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Actions.cs" />
     <Compile Include="Calendar.cs" />
+    <Compile Include="CalendarBuilder.cs" />
     <Compile Include="CookSmart.cs" />
     <Compile Include="Ingredient.cs" />
     <Compile Include="Instruction.cs" />

@@ -2455,7 +2455,7 @@ namespace CookSmartCommandLine
                 if (parse)
                 {
                     conn.Open();
-                    string Action = "InstructionNRecipe";
+                    string Action = "InstructionsInRecipe";
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@recipeid", recipeID);

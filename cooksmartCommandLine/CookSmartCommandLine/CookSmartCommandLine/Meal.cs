@@ -21,7 +21,7 @@ namespace CookSmartCommandLine
 
         }
 
-        public Meal(int UserID,int MealID,string conn)
+        public Meal(int UserID, int MealID, string conn)
         {
             Connection = conn;
             userid = UserID;
