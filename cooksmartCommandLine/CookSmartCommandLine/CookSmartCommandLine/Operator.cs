@@ -1145,7 +1145,12 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
 
             List<Meal> meals = firstAct.AllMeals(conn);
-           
+
+            //populate
+            //for (int i = 0; i < meals.Count; i++)
+            //{
+            //    meals.ElementAt(i).populateRecipe(connection);
+            //}
             return meals;
 
         }

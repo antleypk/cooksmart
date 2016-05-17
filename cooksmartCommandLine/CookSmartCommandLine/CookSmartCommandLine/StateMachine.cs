@@ -1,94 +1,132 @@
-﻿using System;
+﻿// Include dependencies needed for the class
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// namespace: collection of classes which make up a module
 namespace CookSmartCommandLine
 {
-   public class StateMachine
+    public class StateMachine
     {
+        // Classwide objects 
         private List<Ingredient> Ingredients = new List<Ingredient>();
         private string userName;
         private int UserID = 420;
         private List<Recipe> Recipes = new List<Recipe>();
         private List<User> Users = new List<User>();
-        private List<Calendar> calendar = new List<Calendar>();
+        private List<Calendar> Calendar = new List<Calendar>();
         private List<Kitchen> Kitchen = new List<Kitchen>();
         private List<Kitchen> ShoppingList = new List<Kitchen>();
         private List<Kitchen> TodaysShopping = new List<Kitchen>();
         private List<Ingredient> createdIngredients = new List<Ingredient>();
         private List<Instruction> createdInstruction = new List<Instruction>();
         private List<DateTime> loginAttempts = new List<DateTime>();
-        
         private int validationkount = 0;
 
+        // Blank constructor
         public StateMachine()
         {
-           
-            }
+            // Empty StateMachine
+        }
+
+        // Asks user to either sign in or create a new login
         public void createOrNot(string connection)
         {
             Console.WriteLine("'1' to sign in '2' to create new login");
             string userInput = Console.ReadLine();
-            if(userInput!="1" && userInput != "2")
+            // Trim() function removes spaces from string
+            userInput = userInput.Trim();
+            if (userInput != "1" && userInput != "2")
             {
+                // If the user does not input valid parameters, the menu restarts, recursion
                 createOrNot(connection);
             }
             if (userInput == "2")
             {
+                // Call createNewLogin() function, send a connection as a parameter
                 createNewLogin(connection);
             }
         }
+
         public void createNewLogin(string connection)
         {
+            // Prompt the user for their desired username, error: does not check to see whether username is unique
             Console.WriteLine("Enter User Name:");
             string userName = Console.ReadLine();
+            // Prompt the user for their desired password
             Console.WriteLine("Enter Password");
             string password1 = Console.ReadLine();
+            // Prompt the user to enter their password again
             Console.WriteLine("Re-enter Password");
             string password2 = Console.ReadLine();
+            // Check to see if the user entered the same password twice
             if (password1 != password2)
             {
+                // If the two passwords are not the same, writes an message to the console and then recursion happens
                 Console.WriteLine("Password MissMatch please try again");
                 createNewLogin(connection);
             }
+            // Create a new object of type Operator called from operator.cs
             Operator newUser = new Operator();
+            // Call the insertUser() function on object newUser, pass connection, userName, and password1 as parameters
             newUser.insertUser(connection, userName, password1);
         }
         public void validation(string connectionString)
         {
-
+            // Provide option to create a new login using createOrNot() function
             createOrNot(connectionString);
+            // Create a new object of type Operator called from operator.cs
             Operator operations = new Operator();
+            // Prmpt the user for their username
             Console.WriteLine("Input UserName:");
             userName = Console.ReadLine();
+            // Trim spaces from user input
+            userName = userName.Trim();
+            // Prompt the user for their password
             Console.WriteLine("Please enter your password: ");
             string password = Console.ReadLine();
+            // Trim spaces from user input
+            password = password.Trim();
+            // Check to see if the supplied username exists in the database
             bool usernamecheck = operations.checkusername(connectionString, userName);
+            // Check to see if the password supplied matches the password associated with the username in the database
             bool passwordcheck = operations.checkuser(connectionString, userName, password);
+
             if (usernamecheck)
             {
+                // If username exists, proceed
                 if (passwordcheck)
                 {
-
+                    // If the password matches the username, login is successful
+                    // If login is successful, find the userID
                     int id = operations.GetUserID(connectionString, userName, password);
+                    // User is logged in, and UserID is set to global
                     UserID = id;
                 }
                 else
                 {
+                    // Create a new object of type DateTime, set equal to the current date and time
                     DateTime now = DateTime.Now;
+                    // 
                     List<DateTime> logintimes = operations.userloginattempts(connectionString, userName);
+                    // Insert the most recent login attempt to database
                     logintimes.Insert(0, now);
+                    // Remove temporary fifth login
                     logintimes.RemoveAt(logintimes.Count - 1);
+                    // Update the number of login attempts in the database
                     operations.updatelogins(connectionString, logintimes, userName);
+                    // Add a login attempt to validationkount
                     validationkount++;
+                    // Write the number of failed login attempts, number of tries remaining, and most recent login attempt
                     Console.WriteLine("Number of wrong tries: " + validationkount);
                     Console.WriteLine("Number of tries remaining: " + (5 - validationkount));
                     Console.WriteLine(Convert.ToString(logintimes[0]));
-                    if(validationkount >= 5)
+                    // If validationkount is greater than 4, write "Access is denied" to the console and exit
+                    if (validationkount >= 5)
                     {
-                        Console.WriteLine("Access fail");
+                        Console.WriteLine("Access is denied");
                         Environment.Exit(0);
                     }
                     validation(connectionString);
@@ -96,7 +134,7 @@ namespace CookSmartCommandLine
 
             }
 
-            if(validationkount >= 5)
+            if (validationkount >= 5)
             {
                 Console.WriteLine("Access fail");
                 Environment.Exit(0);
@@ -108,36 +146,41 @@ namespace CookSmartCommandLine
                 validation(connectionString);
             }
         }
+        // StateMachine.cs is the grandfather of the app CookSmart
+
+
+        // Startup() is the first function called to set up the app
         public void startUp()
         {
             string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
-
-            int userID = UserID;
             Console.Write("Welcome to CookSmart" + "\n");
-            Console.WriteLine("CookSmartClassic1.0+");
-            Console.Write("Thanks for choosing Traction Systems"+"\n"+"\n");
-
+            Console.WriteLine("CookSmartClassic1.01+");
+            Console.Write("Thanks for choosing Traction Systems" + "\n" + "\n");
+            // Checks to see if user has a valid username and password combination (Authentication)
             validation(connectionString);
-
+            // Create a boolean called acted
             bool acted = false;
-            if (userName == "" || userName.Length<5)
+            // Check to see if the username supplied by the user is empty or less than 5 characters long
+            if (userName == "" || userName.Length < 5)
             {
                 Console.WriteLine("User Name must be greater than 5 characters");
-           
+                // If it is, recursively call startUp() to begin the process again
                 startUp();
                 acted = true;
             }
-            Console.WriteLine("Thanks for choosing CookSmart: " + userName );
+            // Display a welcome message and the UserID
+            Console.WriteLine("Thanks for choosing CookSmart: " + userName);
             Console.WriteLine("UserID: " + UserID);
             Console.WriteLine();
             if (acted == false)
             {
-                startMenu(UserID,connectionString);
+                // Call the startMenu() function and pass UserID and connectionString as parameters
+                startMenu(UserID, connectionString);
             }
-            
+
         }
 
-        public void startMenu(int userID,string connectionString)
+        public void startMenu(int userID, string connectionString)
         {
 
             Operator operations = new Operator();
@@ -149,32 +192,29 @@ namespace CookSmartCommandLine
             Console.WriteLine("User Menu '5' ");
             Console.WriteLine("Recipe Builder '6'");
             Console.WriteLine("Create menu '7'");
-            //not what it does below
-            Console.WriteLine("RecipeID by Name and user ID '8'"); // returns Recipe ID, with its a name and a userID as input
+            Console.WriteLine("RecipeID by Name and user ID '8'");
             Console.WriteLine("IngredientID by Name and user ID '9'");
             Console.WriteLine("GOD MODE '10'");
             Console.WriteLine("Calendar '11'");
             Console.WriteLine("Build Meal '12'");
-            Console.WriteLine("Meal Menu '13' ");
+            Console.WriteLine("Meal Menu '13'");
             Console.WriteLine("Enter 'exit' to quit");
             Console.WriteLine("");
 
             string userInput = Console.ReadLine();
             bool acted = false;
-            if (userInput == "1" || userInput== "Ingredients")
+            if (userInput == "1" || userInput == "Ingredients")
             {
                 IngredientMenu(operations, connectionString, userID);
-                
+
             }
-            if(userInput=="2" || userInput == "Recipes")
+            if (userInput == "2" || userInput == "Recipes")
             {
                 Console.WriteLine("Recipes Menu");
-                RecipeMenu(operations,connectionString, userID);
-                
-                
+                RecipeMenu(operations, connectionString, userID);
             }
 
-            if (userInput=="3" || userInput == "Instructions")
+            if (userInput == "3" || userInput == "Instructions")
             {
                 Console.WriteLine("Instructions menu");
                 InstructionMenu(operations, connectionString, userID);
@@ -182,19 +222,19 @@ namespace CookSmartCommandLine
             if (userInput == "4" || userInput == "CookSmart")
             {
                 Console.WriteLine();
-                operations.cookSmart(connectionString,UserID);
+                operations.cookSmart(connectionString, UserID);
             }
-            if(userInput == "5" || userInput == "Users")
+            if (userInput == "5" || userInput == "Users")
             {
-                Console.WriteLine("User menu"); 
+                Console.WriteLine("User menu");
                 UserMenu(operations, connectionString, userID);
             }
             if (userInput == "6")
             {
                 Console.WriteLine("New Recipe");
-                RecipeGuide myGuide= new RecipeGuide("Test Recipe", UserID);
+                RecipeGuide myGuide = new RecipeGuide("Test Recipe", UserID);
                 Recipe newRecipe = myGuide.startUpRecipeGuide(connectionString, UserID);
-               
+
             }
             if (userInput == "7")
             {
@@ -203,21 +243,17 @@ namespace CookSmartCommandLine
             }
             if (userInput == "8")
             {
-
-                Console.WriteLine("Note that you can only view recipe primary keys of recipes you created");
-                Console.WriteLine("Please Enter Recipe Title");
-                string recipeTitle = Console.ReadLine();
-                int recipeID = operations.GetRecipeID(connectionString, userID, recipeTitle);
-                Console.WriteLine("recipeID: " + recipeID);
+                int test = operations.GetRecipeID(connectionString, 420, "Tomtest829");
+                Console.WriteLine("ultimate puzzlement");
+                Console.WriteLine("primary key: " + test);
 
             }
             if (userInput == "9")
             {
-
                 int test = operations.GetIngredientID(connectionString, 69, "ginger tears");
                 Console.WriteLine(test);
             }
-            if(userInput == "10")
+            if (userInput == "10")
             {
                 Console.WriteLine("Insert Ingredient here");
                 Ingredient ing = operations.storeIngredient(connectionString, userID);
@@ -225,18 +261,20 @@ namespace CookSmartCommandLine
                 operations.GetIngredientID(connectionString, userID, ing.getName());
                 operations.IngredientFromID(connectionString, userID, ing.getId());
             }
-            if(userInput=="11" || userInput == "Calendar")
+            if (userInput == "11" || userInput == "Calender")
             {
-                calendarMenu(connectionString, operations, userID);
+                calenderMenu(connectionString, operations, userID);
             }
-            if(userInput=="12")
+            if (userInput == "12")
             {
                 MealBuilder newMeal = new MealBuilder();
-                newMeal.StartBuilder(connectionString,UserID);
+                newMeal.StartBuilder(connectionString,userID);
             }
             if (userInput == "13")
             {
-                mealMenu(connectionString, operations, UserID);
+                Console.WriteLine("Meal Menu");
+                mealMenu(connectionString, operations, userID);
+
             }
 
             if (userInput == "exit")
@@ -244,82 +282,57 @@ namespace CookSmartCommandLine
                 acted = true;
             }
 
-
             if (acted == false)
             {
-                startMenu(userID,connectionString);
+                startMenu(userID, connectionString);
             }
 
         }
         public void mealMenu(string connection, Operator operations, int userID)
         {
-            Console.WriteLine();
-            Console.WriteLine("Welcome to the Meal Menu");
-            Console.WriteLine("All Meals (1)");
-            Console.WriteLine("menu for main Menu");
-
-            bool acted = false;
+            bool act = false;
+            Console.WriteLine("Meal Menu");
+            Console.WriteLine("All meals '1'");
+            Console.WriteLine("menu for main");
             string userInput = Console.ReadLine();
-
-
             if (userInput == "1")
             {
-                List<Meal> allmeals = operations.allMeals(connection);
-                for (int i = 0; i < allmeals.Count; i++)
+              List<Meal> allmeals=  operations.allMeals(connection);
+                for (int i=0; i < allmeals.Count; i++)
                 {
-                    Meal temp = allmeals.ElementAt(i);
-                    string title = temp.getName();
-                    int author = temp.getUserID();
-                    Console.WriteLine(title + " created by " + author);
+                    Meal temp = new Meal();
+                    temp = allmeals.ElementAt(i);
+                  temp.populateRecipe(connection);
+                    temp.printMeal();
+                    Console.WriteLine();
                 }
-                acted = true;
+                act = true;
             }
-
-
-
             if (userInput == "menu")
             {
-                acted = true;
+                act = true;
             }
 
-            if (!acted)
+
+           if (!act)
             {
                 mealMenu(connection, operations, userID);
-            }
-        }
-        public void calendarMenu(string connection, Operator operations, int userID)
-        {
-            Console.WriteLine(" ");
-            Console.WriteLine("Calender Menu");
-            Console.WriteLine("Add meal to calendar (1)");
-            Console.WriteLine("Type 'Menu' for main menu.");
-            string userInput = Console.ReadLine();
-            userInput.Trim().ToLower();
-            bool acted = false;
+            }        
 
-            if (userInput == "menu")
-            {
-                acted = true;
-            }
-            if(userInput == "1")
-            {
-                CalendarBuilder myBuilder = new CalendarBuilder();
-                myBuilder.startUp(userID, connection, operations);
-            }
-            if (!acted)
-            {
-                calendarMenu(connection, operations, userID);
-            }
+        }
+        public void calenderMenu(string connection, Operator operations, int userID)
+        {
+            Console.WriteLine("Calender Menu");
         }
         public void CreateMenu(Operator operations, string connectionString)
         {
             Console.WriteLine("Created Ingredients");
-            foreach(Ingredient blah in createdIngredients)
+            foreach (Ingredient blah in createdIngredients)
             {
                 blah.printIngredient();
             }
             Console.WriteLine("Created Instructions");
-            foreach(Instruction meh in createdInstruction)
+            foreach (Instruction meh in createdInstruction)
             {
                 meh.printInstructionToConsole();
             }
@@ -328,7 +341,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Create new: \n");
             Console.WriteLine("Recipe '1'");
             Console.WriteLine("Ingredient '2'");
- 
+
             Console.WriteLine("Show All Created ingredients/instructions '4'");
             Console.WriteLine("Insert Created Ingredient '5'");
             Console.WriteLine("Insert Created Instruction '6'");
@@ -336,35 +349,35 @@ namespace CookSmartCommandLine
 
             string userInput = Console.ReadLine();
 
-            
+
 
             bool acted = false;
-            if(userInput == "1")
+            if (userInput == "1")
             {
                 RecipeGuide myGuide = new RecipeGuide("Test Recipe", UserID);
-                Recipe myrecipe = myGuide.startUpRecipeGuide(connectionString,UserID);
+                Recipe myrecipe = myGuide.startUpRecipeGuide(connectionString, UserID);
                 myGuide.previewRecipe(myrecipe);
             }
-            if(userInput == "2")
+            if (userInput == "2")
             {
                 Ingredient myingredient = operations.storeIngredient(connectionString, UserID);
                 createdIngredients.Add(myingredient);
             }
-         
-            if(userInput == "4")
+
+            if (userInput == "4")
             {
                 Console.WriteLine("Created ingredients:");
-                foreach(Ingredient temp in createdIngredients)
+                foreach (Ingredient temp in createdIngredients)
                 {
                     temp.printIngredient();
                 }
                 Console.WriteLine("Created instructions:");
-                foreach(Instruction temp in createdInstruction)
+                foreach (Instruction temp in createdInstruction)
                 {
                     temp.printInstruction();
                 }
             }
-            if(userInput == "5")
+            if (userInput == "5")
             {
                 Console.WriteLine("Created ingredients:");
                 foreach (Ingredient temp in createdIngredients)
@@ -373,15 +386,15 @@ namespace CookSmartCommandLine
                 }
                 Console.WriteLine("Select Created Ingredient By Name");
                 string ingname = Console.ReadLine();
-                foreach(Ingredient temp in createdIngredients)
+                foreach (Ingredient temp in createdIngredients)
                 {
-                    if(temp.getName() == ingname)
+                    if (temp.getName() == ingname)
                     {
                         operations.insertIngredient(connectionString, temp, UserID);
                     }
                 }
             }
-            if(userInput == "6")
+            if (userInput == "6")
             {
                 Console.WriteLine("Created instructions:");
                 foreach (Instruction temp in createdInstruction)
@@ -390,19 +403,19 @@ namespace CookSmartCommandLine
                 }
                 Console.WriteLine("Select Created Instruction By Name");
                 string insname = Console.ReadLine();
-                foreach(Instruction temp in createdInstruction)
+                foreach (Instruction temp in createdInstruction)
                 {
-                    if(temp.getTitle() == insname)
+                    if (temp.getTitle() == insname)
                     {
-                        operations.insertInstruction(connectionString, temp,UserID);
+                        operations.insertInstruction(connectionString, temp, UserID);
                     }
                 }
             }
-            if(userInput == "menu")
+            if (userInput == "menu")
             {
                 acted = true;
             }
-            if(acted == false)
+            if (acted == false)
             {
                 CreateMenu(operations, connectionString);
             }
@@ -426,39 +439,40 @@ namespace CookSmartCommandLine
 
             bool acted = false;
 
-            
-                Ingredients = operations.allIngredients(connectionString, userID);
-            
+
+            Ingredients = operations.allIngredients(connectionString, userID);
+
             if (userInput == "1")
             {
-                foreach (Ingredient tempIngredient in Ingredients){
+                foreach (Ingredient tempIngredient in Ingredients)
+                {
                     tempIngredient.printIngredient();
                 }
             }
-            if(userInput == "2")
+            if (userInput == "2")
             {
                 createingredient(connectionString, operations, userID);
             }
-            if(userInput == "3")
+            if (userInput == "3")
             {
-                Ingredient temping = operations.IngredientByID(connectionString,userID);
+                Ingredient temping = operations.IngredientByID(connectionString, userID);
                 temping.printIngredient();
 
             }
-            if(userInput == "4")
+            if (userInput == "4")
             {
                 Ingredient temping = operations.IngredientByName(connectionString, userID);
                 temping.printIngredient();
             }
-            if(userInput == "Menu")
+            if (userInput == "Menu")
             {
                 acted = true;
             }
-            if(acted == false)
+            if (acted == false)
             {
                 IngredientMenu(operations, connectionString, userID);
             }
-           
+
         }
         public void createingredient(string connectionString, Operator operations, int userID)
         {
@@ -497,20 +511,20 @@ namespace CookSmartCommandLine
 
             bool acted = false;
 
-            if(userInput == "1")
+            if (userInput == "1")
             {
                 Console.WriteLine();
-                List<Instruction> MyInstructions = operations.allInstructions(connectionString, userID); 
+                List<Instruction> MyInstructions = operations.allInstructions(connectionString, userID);
                 int count = 0;
                 foreach (Instruction tempIns in MyInstructions)
                 {
                     tempIns.printInstruction();
-                    Console.WriteLine(tempIns.getTitle()+" "+tempIns.getID());
+                    Console.WriteLine(tempIns.getTitle() + " " + tempIns.getID());
                     count++;
                 }
                 MyInstructions.Clear();
                 Console.WriteLine();
-                
+
             }
             if (userInput == "2")
             {
@@ -518,13 +532,13 @@ namespace CookSmartCommandLine
                 operations.allInstructions(connectionString, userID);
                 operations.allIngredientInInstruction(connectionString);
             }
-            if(userInput == "3")
+            if (userInput == "3")
             {
                 Console.WriteLine();
                 operations.allInstructions(connectionString, userID);
                 Console.WriteLine("Select Instruction by ID");
                 Instruction ins = operations.InstructionByID(connectionString, userID);
-               
+
                 if (ins.getUserID() == userID)
                 {
                     if (ins.getInstructionIngredients().Any<Ingredient>())
@@ -536,10 +550,10 @@ namespace CookSmartCommandLine
                         operations.DeleteInstructionWithoutIngredient(connectionString, ins, userID);
                     }
                 }
-               
+
 
             }
-            if(userInput == "4")
+            if (userInput == "4")
             {
                 Instruction ins = operations.InstructionByID(connectionString, userID);
                 if (ins.getUserID() == userID)
@@ -581,7 +595,7 @@ namespace CookSmartCommandLine
 
                 }
             }
-               
+
         }
         public void UserMenu(Operator operations, string connectionString, int userID)
         {
@@ -605,36 +619,37 @@ namespace CookSmartCommandLine
 
             bool acted = false;
 
-            if(userInput == "1")
+            if (userInput == "1")
             {
-                foreach(User tempuser in Users)
+                foreach (User tempuser in Users)
                 {
                     tempuser.printUser();
                 }
             }
-            if(userInput == "2"){
-                //all meals created by the current user
-                operations.UserMeals(connectionString, UserID);
-            }
-            if(userInput == "3")
+            if (userInput == "2")
             {
-                    Kitchen = operations.UserKitchen(connectionString, userID);
+                //all meals created by the current user
+                operations.UserMeals(connectionString,userID);
+            }
+            if (userInput == "3")
+            {
+                Kitchen = operations.UserKitchen(connectionString, userID);
 
-                foreach(Kitchen tempkitchen in Kitchen)
+                foreach (Kitchen tempkitchen in Kitchen)
                 {
                     tempkitchen.printKitchen();
-                    
+
                 }
                 Kitchen.Clear();
             }
-            if(userInput == "4")
+            if (userInput == "4")
             {
-                    calendar = operations.UserCalendar(connectionString, userID);
+                Calendar = operations.UserCalendar(connectionString, userID);
             }
-            if(userInput == "5")
+            if (userInput == "5")
             {
 
-                    ShoppingList = operations.ShoppingList(connectionString, userID);
+                ShoppingList = operations.ShoppingList(connectionString, userID);
 
                 foreach (Kitchen tempkitchen in ShoppingList)
                 {
@@ -642,13 +657,13 @@ namespace CookSmartCommandLine
                 }
                 ShoppingList.Clear();
             }
-            if(userInput == "6")
+            if (userInput == "6")
             {
 
-                    ShoppingList = operations.ShoppingList(connectionString, userID);
+                ShoppingList = operations.ShoppingList(connectionString, userID);
 
 
-                    Kitchen = operations.UserKitchen(connectionString, userID);
+                Kitchen = operations.UserKitchen(connectionString, userID);
 
                 List<Kitchen> TodaysShopping = new List<Kitchen>();
                 foreach (Kitchen tempkitchen1 in ShoppingList)
@@ -672,7 +687,7 @@ namespace CookSmartCommandLine
                 Kitchen.Clear();
                 TodaysShopping.Clear();
             }
-            if(userInput == "7")
+            if (userInput == "7")
             {
                 List<Recipe> Recipes = operations.RecipesByUser(connectionString);
                 foreach (Recipe temp in Recipes)
@@ -680,45 +695,39 @@ namespace CookSmartCommandLine
                     temp.printRecipe();
                 }
             }
-            if(userInput == "8")
+            if (userInput == "8")
             {
                 List<Instruction> Instructions = operations.InstructionsByUser(connectionString);
-                foreach(Instruction temp in Instructions)
+                foreach (Instruction temp in Instructions)
                 {
                     temp.printInstructionToConsole();
                 }
             }
-            if(userInput == "9")
+            if (userInput == "9")
             {
                 List<Ingredient> Ingredients = operations.IngredientsByUser(connectionString);
-                foreach(Ingredient temp in Ingredients)
+                foreach (Ingredient temp in Ingredients)
                 {
                     temp.printIngredient();
                 }
             }
-            if(userInput == "menu")
+            if (userInput == "menu")
             {
                 acted = true;
             }
-            if(acted == false)
+            if (acted == false)
             {
                 UserMenu(operations, connectionString, userID);
             }
         }
 
-        /// <summary>
-        /// Returns the menu that a user would use to navigate the recipe class
-        /// </summary>
-        /// <param name="operations">send an operator</param>
-        /// <param name="connectionString">a connection string</param>
-        /// <param name="userID">the current user's unique Identifier</param>
         public void RecipeMenu(Operator operations, string connectionString, int userID)
         {
-
-            if (Recipes.Any<Recipe>() == false)
-            {
-                Recipes = operations.allRecipes(connectionString);
-            }
+            //i would like you to explain this to me
+            //if (Recipes.Any<Recipe>() == false)
+            //{
+            Recipes = operations.allRecipes(connectionString);
+            //}
 
             Console.WriteLine("\n \n Recipe Menu!  Options: \n ");
             Console.Write("All Recipes (recipe or 1)" + "\n");
@@ -731,17 +740,23 @@ namespace CookSmartCommandLine
             Console.Write("'menu' for main menu" + "\n");
             Console.WriteLine();
 
+
+
+
+            //  Console.Write("all Ingredients in a receipe" + "\n");
+
             string userInput = Console.ReadLine();
-             
+
+            //  operations.allIngredientInRecipe(connectionString);
             bool acted = false;
 
-            if (userInput == "1" || userInput == "recipe")
-            {
-                foreach (Recipe temprecipe in Recipes)
-                {
-                    temprecipe.printRecipe();
-                }
-            }
+            //if(userInput=="1" || userInput == "recipe")
+            //{
+            //    foreach(Recipe temprecipe in Recipes)
+            //    {
+            //        temprecipe.printRecipe();
+            //    }
+            //}
 
             if (userInput == "2")
             {
@@ -753,9 +768,12 @@ namespace CookSmartCommandLine
             }
             if (userInput == "4")
             {
-                Recipe myRecipe = operations.RecipeByID(connectionString,userID);
+                Recipe myRecipe = operations.RecipeByID(connectionString, userID);
+                // myrecipe.printRecipe();
+                // RecipeGuide myGuide = new RecipeGuide(UserID);
+                //  myGuide.previewRecipe(myRecipe);
             }
-            if(userInput == "5")
+            if (userInput == "5")
             {
                 operations.allRecipes(connectionString);
                 Console.WriteLine("Select Recipe By ID");
@@ -769,9 +787,10 @@ namespace CookSmartCommandLine
                     operations.DeleteRecipeWithoutInstruction(connectionString, userID, Rec);
                 }
             }
-            if(userInput == "6")
+            if (userInput == "6")
             {
                 Recipe myrecipe = operations.RecipeByID(connectionString, userID);
+
 
                 string title = "";
                 string description = "";
@@ -780,7 +799,7 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Description is: " + myrecipe.getDescription());
                 Console.WriteLine("Serving Size is: " + myrecipe.getServingSize());
                 Console.WriteLine("Update?  Y/N");
-                if(Console.ReadLine() == "Y")
+                if (Console.ReadLine() == "Y")
                 {
                     Console.WriteLine("New title: ");
                     title = Console.ReadLine();

@@ -33,6 +33,12 @@ namespace CookSmartCommandLine
             setIngredientsInRecipes(Connection);
           //  check();
         }
+        public void populateRecipe(string connection)
+        {
+            setRecipesInMeal(Connection);
+            setInstructionsInRecipe(Connection);
+            setIngredientsInRecipes(Connection);
+        }
 
         public void check()
         {
@@ -49,6 +55,7 @@ namespace CookSmartCommandLine
         {
             return userid;
         }
+
         public void setRecipesInMeal(string connection)
         {
             Operator operation = new Operator();
@@ -160,6 +167,16 @@ namespace CookSmartCommandLine
         public int getID()
         {
             return mealid;
+        }
+        public void printMeal()
+        {
+            Console.WriteLine(mealName);
+            
+            for (int i = 0; i < recipesInMeal.Count; i++)
+            {
+                Recipe temp = new Recipe();
+                temp.printRecipe();
+            }
         }
     }
 }

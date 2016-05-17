@@ -744,7 +744,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
-                Console.Write("Reader failed for ingredients!" + "\n");
+               
             }
             return meals;
         }
