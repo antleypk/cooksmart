@@ -24,13 +24,14 @@ namespace CookSmartCommandLine
         {
             bool acted = false;
             mealDate.SetUserID(userID);
-            Console.WriteLine("Name:");
-            string mdName = Console.ReadLine();
-            mealDate.setName(mdName);
+            //Console.WriteLine("Name:");
+            //string mdName = Console.ReadLine();
+            //mealDate.setName(mdName);
+            //operations.allMeals(connection);
+            //Console.WriteLine("Description:");
+            //string mdDescription = Console.ReadLine();
+            //mealDate.setDescription(mdDescription);
             operations.allMeals(connection);
-            Console.WriteLine("Description:");
-            string mdDescription = Console.ReadLine();
-            mealDate.setDescription(mdDescription);
             Console.WriteLine("Choose your meal by id");
             string stringInput = Console.ReadLine();
             int mealId = 666666666;
