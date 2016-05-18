@@ -11,7 +11,7 @@ namespace CookSmartCommandLine
     {
         private string Connection;
         private int userid;
-        private int mealid;
+        private int mealid = 765683921;
         private string mealName;
         private string mealDescription;
         private List<Recipe> recipesInMeal = new List<Recipe>();
@@ -32,12 +32,6 @@ namespace CookSmartCommandLine
             //works
             setIngredientsInRecipes(Connection);
           //  check();
-        }
-        public void populateRecipe(string connection)
-        {
-            setRecipesInMeal(Connection);
-            setInstructionsInRecipe(Connection);
-            setIngredientsInRecipes(Connection);
         }
 
         public void check()

@@ -698,7 +698,6 @@ namespace CookSmartCommandLine
             List<Meal> meals = new List<Meal>();
             try
             {
-                //finny fail
                 conn.Open();
             }
             catch (Exception ex)
@@ -709,14 +708,13 @@ namespace CookSmartCommandLine
             string Action = "AllMeal";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
-            //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
             try
             {
                 int userID = 1;
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Console.WriteLine("ID: " + reader["MealID"].ToString() + " " + reader["Name"].ToString() + " " + reader["Description"].ToString() + " " + reader["DateTimeAdded"].ToString());
+                    //Console.WriteLine("ID: " + reader["MealID"].ToString() + " " + reader["Name"].ToString() + " " + reader["Description"].ToString() + " " + reader["DateTimeAdded"].ToString());
                     string mealString = reader["MealID"].ToString();
                     Meal temp = new Meal();
                     string userString = reader["UserID"].ToString();
@@ -726,14 +724,12 @@ namespace CookSmartCommandLine
                     if (parse)
                     {
                         temp.setName(reader["Name"].ToString());
-                        temp.setID(userID);
                         temp.setDescription(reader["Description"].ToString());
                         temp.setUserID(userID);
                     }
                     if (!parse)
                     {
                         temp.setName(reader["Name"].ToString());
-                        temp.setID(userID);
                         temp.setDescription(reader["Description"].ToString());
                         temp.setUserID(userID);
                     }
@@ -747,12 +743,6 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex.ToString());
                
             }
-            for(int i = 0; i < meals.Count(); i++)
-            {
-                meals[i].printMeal();
-            }
-            Console.WriteLine("Test:");
-            Console.ReadLine();
             return meals;
         }
         public List<Recipe> AllRecipesInMeal(MySqlConnection conn,int mealID,int userID)
