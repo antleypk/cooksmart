@@ -347,9 +347,10 @@ namespace CookSmartCommandLine
                 Console.WriteLine("all meals count: " + allmeals.Count);
                 Console.WriteLine("primary key of the meal: " + mealID);
                 Console.WriteLine("index: " + index);
-            
-                 Meal petersTest = allmeals[index];
-                petersTest.printMeal();
+
+                //   Meal petersTest = allmeals[index];
+                Meal petersTest = new Meal(userID, mealID, connection);
+                 petersTest.printMeal();
 
 
             }
@@ -525,7 +526,7 @@ namespace CookSmartCommandLine
             Console.WriteLine();
 
             //List<Ingredient> Ingredients = operations.allIngredients(connectionString);
-            Ingredient newIngredient = operations.storeIngredient(connectionString, userID);
+            Ingredient newIngredient = new Ingredient(userID);
             newIngredient.printIngredient();
             Console.WriteLine("Accept 'A' Restart 'R'");
             string userinput = Console.ReadLine();
