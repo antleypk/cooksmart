@@ -362,7 +362,7 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
             return firstAct.GetRecipeByID(conn, userID);
         }
-        public int MealByID(string connection, int userID, string name)
+        public int getMealID(string connection, int userID, string name)
         {
             MySqlConnection conn;
             conn = new MySqlConnection(connection);
@@ -1190,7 +1190,6 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
-            Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
             Actions firstAct = new Actions();
 
             List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID,userID);
@@ -1200,7 +1199,6 @@ namespace CookSmartCommandLine
 
                 temprec.printRecipe();
                 recipesGlobal.Add(temprec);
-                Console.WriteLine("temp id inside operations 1040 " + temprecipeid);
             }
             return recipes;
 
@@ -1213,7 +1211,6 @@ namespace CookSmartCommandLine
             List<Instruction> instructions = new List<Instruction>();
             MySqlConnection conn;
 
-            //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
             conn = new MySqlConnection(connection);
             try
             {

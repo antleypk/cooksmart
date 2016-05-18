@@ -45,7 +45,7 @@ namespace CookSmartCommandLine
         {
             Operator operation = new Operator();
             operation.insertMeal(connection, myMeal, userID);
-            int mealID = operation.MealByID(connection, userID, myMeal.getName());
+            int mealID = operation.getMealID(connection, userID, myMeal.getName());
             myMeal.setID(mealID);
             Console.WriteLine("meal primary key: " + mealID);
             Console.WriteLine("recipes in meal: " + myMeal.recipeCount());

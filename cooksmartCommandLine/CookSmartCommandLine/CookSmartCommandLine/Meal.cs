@@ -57,8 +57,11 @@ namespace CookSmartCommandLine
             int temp = recipesInMeal.Count;
             for (int i = 0; i < recipesInMeal.Count; i++)
             {
+                Operator operations = new Operator();
+                Recipe tempRecipe = recipesInMeal[i];
+
                 Console.WriteLine("Instruction list");
-                List<Instruction> myinstructions = recipesInMeal.ElementAt(i).getInstructionList();
+                List<Instruction> myinstructions = operations.allInstructionsInRecipe(connection, userid, tempRecipe.getId());
                 int instructionCount = myinstructions.Count;
                 Console.WriteLine("instruction count " + instructionCount);
             }
