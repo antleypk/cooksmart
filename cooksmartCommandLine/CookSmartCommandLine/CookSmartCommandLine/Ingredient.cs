@@ -91,16 +91,13 @@ namespace CookSmartCommandLine
             string IngDesc = Console.ReadLine();
             Console.WriteLine("Input Ingredient Quantity Type");
             string IngType = Console.ReadLine();
-            int IngCount = 0;
-         //  Ingredient newing = new Ingredient(IngCount, IngName, IngDesc, IngType, userid);
+      //    int IngCount = 0;
+         // Ingredient newing = new Ingredient(IngCount, IngName, IngDesc, IngType, userid);
             id = 897897897;
             name = IngName;
             description = IngDesc;
             quantitytype = IngType;
             userid=userID;
-
-
-
     }
 
     public string getQuantityType()
@@ -114,10 +111,7 @@ namespace CookSmartCommandLine
 
         public void printIngredient()
         {
-            //      private int id = 0;
-            //private string name = "Ingredient name failed c#";
-            //public string description = "Description failed c#";
-            //private string quantitytype = "QuantityType failed at c#";
+
             Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity " + quantity + "\n Quantity Type " + quantitytype + "\n");
         }
     }
