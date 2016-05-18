@@ -308,11 +308,11 @@ namespace CookSmartCommandLine
                         }
                         Console.WriteLine("Select the quantity of the ingredient");
                         userInput = Console.ReadLine();
-                        int quantity;
-                        bool parse = int.TryParse(userInput, out quantity);
+                        decimal quantity;
+                        bool parse = Decimal.TryParse(userInput, out quantity);
                         if (parse==false)
                         {
-                            quantity = 999999;
+                            quantity = 99999987;
                         }
                         ingredient.setQuantity(quantity);
                         currentInstruction.addIngredient(ingredient);
