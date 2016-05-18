@@ -8,11 +8,11 @@ namespace CookSmartCommandLine
 {
     public class Kitchen
     {
-        string title = "C# Name Fail";
-        string description = "C# Description fail";
+        string title = "C# Name Fail kitchen";
+        string description = "C# Description fail kitchen";
         decimal quantity = -1;
-        string quantitytype = "C# QuantityType fail";
-        DateTime putonshelf = new DateTime(2000,01,01);
+        string quantitytype = "C# QuantityType fail kitech";
+        DateTime putonshelf;
         int userid = 0;
     public Kitchen()
             {

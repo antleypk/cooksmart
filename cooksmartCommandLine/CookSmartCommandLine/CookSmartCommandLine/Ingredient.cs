@@ -8,7 +8,7 @@ namespace CookSmartCommandLine
 {
    public class Ingredient
     {
-        private int id=0;
+        private int id=897897897;
         private string name = "Ingredient name failed c#";
         public string description = "Description failed c#";
         private string quantitytype = "QuantityType failed at c#";

@@ -8,7 +8,7 @@ namespace CookSmartCommandLine
 {
     public class Instruction
     {
-        private int id=999999999;
+        private int id=999999997;
         private string title = "failed @ c#";
         private string description="failed @ c#";
         private List<Ingredient> instructionIngredients = new List<Ingredient>();

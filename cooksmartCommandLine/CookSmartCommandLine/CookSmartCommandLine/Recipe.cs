@@ -9,7 +9,7 @@ namespace CookSmartCommandLine
 {
     public class Recipe
     {
-       private int id = 99999999;
+       private int id = 919999979;
        private  string name = "Fail to name";
         private string description = "Fail to Describe";
         private List<Instruction> instructionRecipe = new List<Instruction>();

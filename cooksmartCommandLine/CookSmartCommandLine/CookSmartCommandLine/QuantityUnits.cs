@@ -8,7 +8,7 @@ namespace CookSmartCommandLine
 {
     public class QuantityUnits
     {
-        private int id = 0;
+        private int id = 98687;
         private string name = "QuantityUnitsName C# Fail";
         private string description = "QuantityUnitsDescription C# Fail";
         public QuantityUnits(int QuantityUnitsID, string Title, string Description)

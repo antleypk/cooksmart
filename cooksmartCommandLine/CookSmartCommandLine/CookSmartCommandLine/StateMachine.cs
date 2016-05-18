@@ -298,7 +298,7 @@ namespace CookSmartCommandLine
             if (userInput == "1")
             {
               List<Meal> allmeals=  operations.allMeals(connection);
-                for (int i=0; i < allmeals.Count; i++)
+                for (int i = 0; i < allmeals.Count; i++)
                 {
                     Meal temp = new Meal();
                     temp = allmeals.ElementAt(i);
@@ -307,10 +307,17 @@ namespace CookSmartCommandLine
                     //temp.populateRecipe(connection);
                     Console.WriteLine("Current recipies in meal: " + currentRecipesInMeal.Count());
                     temp.setRecipesInMeal(connection);
+                    for (int b = 0; b < temp.recipeCount(); b++)
+                    {
+                        operations.AllUsers(connection);
+                    }
+                    
                     temp.printMeal();
-                    Console.WriteLine();
+
                 }
                 act = true;
+                Console.WriteLine("Why in the world did we play these games statemachine316");
+                Console.ReadLine();
             }
             if (userInput == "menu")
             {

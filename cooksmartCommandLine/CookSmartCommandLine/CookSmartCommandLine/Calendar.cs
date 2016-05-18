@@ -14,8 +14,8 @@ namespace CookSmartCommandLine
         private string description = "C# Description Fail";
         private DateTime timetobeserved = DateTime.MaxValue;
         public DateTime inputdate = DateTime.MaxValue;
-        private int userid = 99999;
-        private int mealid = 99999;
+        private int userid = 89874645;
+        private int mealid = 863789179;
         private Meal myMeal;
         private string connection;
         public Calendar()
