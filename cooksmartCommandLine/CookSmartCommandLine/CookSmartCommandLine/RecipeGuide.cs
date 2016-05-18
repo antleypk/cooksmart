@@ -177,7 +177,7 @@ namespace CookSmartCommandLine
             {
                 //If ingredient is new, id = 8888888
                 int id = MyIngredients[i].getId();
-                if(id == 897897897)
+                if(id == 8888888)
                 {
                     Console.WriteLine(MyIngredients[i].getName());
                     //Insert Ingredient into Database
