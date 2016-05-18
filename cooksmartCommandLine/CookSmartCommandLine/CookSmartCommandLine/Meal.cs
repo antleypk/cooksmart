@@ -170,7 +170,7 @@ namespace CookSmartCommandLine
         }
         public void printMeal()
         {
-            Console.WriteLine(mealName);
+            Console.WriteLine(mealName + " " + mealid);
             
             for (int i = 0; i < recipesInMeal.Count; i++)
             {

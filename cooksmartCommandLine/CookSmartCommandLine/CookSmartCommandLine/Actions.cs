@@ -706,7 +706,7 @@ namespace CookSmartCommandLine
                 Console.Write(ex + "\n");
                 Console.Write("connection failed, zoroAster says: Check that your IP is validated" + "\n");
             }
-            string Action = "AllMeals";
+            string Action = "AllMeal";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
             //command.Parameters["?RecipeInput"].Direction = ParameterDirection.Input;
@@ -716,11 +716,12 @@ namespace CookSmartCommandLine
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                //    Console.WriteLine("ID: " + reader["MealID"].ToString() + " " + reader["Name"].ToString() + " " + reader["Description"].ToString() + " " + reader["DateTimeAdded"].ToString());
+                    Console.WriteLine("ID: " + reader["MealID"].ToString() + " " + reader["Name"].ToString() + " " + reader["Description"].ToString() + " " + reader["DateTimeAdded"].ToString());
                     string mealString = reader["MealID"].ToString();
                     Meal temp = new Meal();
                     string userString = reader["UserID"].ToString();
                     int mealID = Convert.ToInt32(mealString);
+                    temp.setID(mealID);
                     bool parse = Int32.TryParse(userString, out userID);
                     if (parse)
                     {
@@ -746,6 +747,12 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex.ToString());
                
             }
+            for(int i = 0; i < meals.Count(); i++)
+            {
+                meals[i].printMeal();
+            }
+            Console.WriteLine("Test:");
+            Console.ReadLine();
             return meals;
         }
         public List<Recipe> AllRecipesInMeal(MySqlConnection conn,int mealID,int userID)
@@ -2436,7 +2443,69 @@ namespace CookSmartCommandLine
             return myIngredients;
 
         }
-        static List<string> GetDataReaderColumnNames(IDataReader rdr)
+
+        public List<Recipe> RecipesInMeal(MySqlConnection connn, int mealID, int userID)
+        {
+            List<Recipe> currentRecipes = new List<Recipe>();
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "RecipeNMeal";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@mealid", mealID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    List<String> columnNames = GetDataReaderColumnNames(reader);
+                    for (int b = 0; b < columnNames.Count; b++)
+                    {
+
+                        //Console.Write(columnNames.ElementAt(b) + " ");
+                    }
+                    Console.WriteLine();
+                    while (reader.Read())
+                    {
+                        int id = Int32.Parse(reader["RecipeID"].ToString());
+                        string title = reader["Title"].ToString();
+                        string description = reader["Description"].ToString();
+                        int servingSize = Int32.Parse(reader["ServingSize"].ToString());
+                        string userids = reader["UserID"].ToString();
+                        int userid = 9999;
+                        bool parse2 = int.TryParse(userids, out userid);
+                        Recipe temp = new Recipe();
+                        if(parse2)
+                        {
+                            temp = new Recipe(id, title, description, servingSize, userid);
+                        }
+                        if(!parse2)
+                        {
+                            temp = new Recipe(id, title, description, servingSize, 0);
+                        }
+                        currentRecipes.Add(temp);
+                    }
+                    reader.Close();
+                }
+                if (parse == false)
+                {
+                    Console.WriteLine("failed to parse your input sorry" + "\n");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+            conn.Close();
+            return currentRecipes;
+        }
+
+            static List<string> GetDataReaderColumnNames(IDataReader rdr)
         {
             var columnNames = new List<string>();
             for (int i = 0; i < rdr.FieldCount; i++)

@@ -302,7 +302,11 @@ namespace CookSmartCommandLine
                 {
                     Meal temp = new Meal();
                     temp = allmeals.ElementAt(i);
-                  temp.populateRecipe(connection);
+                    //List<Recipe> currentRecipesInMeal = new List<Recipe>();
+                    //currentRecipesInMeal = operations.RecipesInMealById(connection, allmeals[i].getID(), userID);
+                    //temp.populateRecipe(connection);
+                    //Console.WriteLine("Current recipies in meal: " + currentRecipesInMeal.Count());
+                    Console.WriteLine("Meal Id:" + temp.getID());
                     temp.printMeal();
                     Console.WriteLine();
                 }
