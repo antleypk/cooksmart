@@ -303,23 +303,10 @@ namespace CookSmartCommandLine
                 {
                     Meal temp = new Meal();
                     temp = allmeals.ElementAt(i);
-                    List<Recipe> currentRecipesInMeal = new List<Recipe>();
-                    currentRecipesInMeal = operations.RecipesInMealById(connection, allmeals[i].getID(), userID);
-                    //temp.populateRecipe(connection);
-                    Console.WriteLine("Current recipies in meal: " + currentRecipesInMeal.Count());
-                    temp.setRecipesInMeal(connection);
-                    for (int b = 0; b < temp.recipeCount(); b++)
-                    {
-                        // operations.AllUsers(connection);
-                    }
-
                     temp.printMeal();
-
-                    Console.ReadLine(); // Ask user for input\pause the program
                 }
                 act = true;
-                Console.WriteLine("Why in the world did we play these games statemachine316");
-                Console.ReadLine();
+                Console.WriteLine();
             }
             if (userInput == "2")
             {
@@ -343,14 +330,14 @@ namespace CookSmartCommandLine
                         index = d;
                     }
                 }
-                Console.WriteLine("peter being durnk");
-                Console.WriteLine("all meals count: " + allmeals.Count);
-                Console.WriteLine("primary key of the meal: " + mealID);
-                Console.WriteLine("index: " + index);
+               
+                //Console.WriteLine("all meals count: " + allmeals.Count);
+                //Console.WriteLine("primary key of the meal: " + mealID);
+                //Console.WriteLine("index: " + index);
 
                 //   Meal petersTest = allmeals[index];
-                Meal petersTest = new Meal(userID, mealID, connection);
-                 petersTest.printMeal();
+                 Meal petersTest = new Meal(userID, mealID, connection);
+             //    petersTest.printMeal();
 
 
             }
@@ -796,13 +783,14 @@ namespace CookSmartCommandLine
             //  operations.allIngredientInRecipe(connectionString);
             bool acted = false;
 
-            //if(userInput=="1" || userInput == "recipe")
-            //{
-            //    foreach(Recipe temprecipe in Recipes)
-            //    {
-            //        temprecipe.printRecipe();
-            //    }
-            //}
+            if (userInput == "1" || userInput == "recipe")
+            {
+                List<Recipe> myRecipes=operations.allRecipes(connectionString);
+                foreach (Recipe temprecipe in myRecipes)
+                {
+                    temprecipe.printRecipe();
+                }
+            }
 
             if (userInput == "2")
             {

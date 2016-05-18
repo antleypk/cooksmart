@@ -663,7 +663,7 @@ namespace CookSmartCommandLine
             List<Recipe> recipes = new List<Recipe>();
             try
             {
-                //finny fail
+                
                 conn.Open();
             }
             catch (Exception ex)
@@ -678,9 +678,22 @@ namespace CookSmartCommandLine
             try
             {
                 MySqlDataReader reader = command.ExecuteReader();
+            //    printColumnNames(reader);
                 while (reader.Read())
                 {
-                    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                //    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                    int id = Convert.ToInt32(reader["RecipeID"].ToString());
+                    string title = reader["Title"].ToString();
+                    string description = reader["Description"].ToString();
+                    string servingsiz = reader["ServingSize"].ToString();
+                    int servingsize = 998877666;
+                    bool parse = Int32.TryParse(servingsiz, out servingsize);
+                    string userString = reader["UserID"].ToString();
+                    int userid = 0;
+                    bool parse2 = Int32.TryParse(userString, out userid);
+                    Recipe temp = new Recipe(id, title, description, servingsize, userid);
+                    recipes.Add(temp);
+                   
 
                 }
                 reader.Close();
@@ -761,13 +774,14 @@ namespace CookSmartCommandLine
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.Parameters.AddWithValue("@mealid", mealID);
             command.CommandType = CommandType.StoredProcedure;
-            Console.WriteLine("meal id: " + mealID);
+            Console.WriteLine("meal id (actions): " + mealID);
             try
             {
                 MySqlDataReader reader = command.ExecuteReader();
+             //   printColumnNames(reader);
                 while (reader.Read())
                 {
-                   // Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
                     string idstring = reader["RecipeID"].ToString();
                     string description = reader["Description"].ToString();
                     string title = reader["Title"].ToString();
@@ -2386,12 +2400,8 @@ namespace CookSmartCommandLine
                     MySqlCommand command = new MySqlCommand(Action, conn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@recipeid", recipeID);
-                     MySqlDataReader reader = command.ExecuteReader();
-                    List<String> columnNames = GetDataReaderColumnNames(reader);
-                    for (int b = 0; b < columnNames.Count; b++)
-                    {
-                      Console.Write(columnNames.ElementAt(b) + " ");
-                    }
+                     MySqlDataReader reader = command.ExecuteReader();                   
+                   // printColumnNames(reader);
                     Console.WriteLine();
                     while (reader.Read())
                     {
@@ -2399,7 +2409,7 @@ namespace CookSmartCommandLine
                         string idString = reader["IngredientID"].ToString();
                         int id = 9999;
                         bool parse2 = int.TryParse(idString, out id);
-                      Ingredient  MyIngredient = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString(), userID);
+                        Ingredient  MyIngredient = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString(), userID);
                         string quantityString = reader["Quantity"].ToString();
                         int quantity = 99999;
                         bool parse3 = int.TryParse(quantityString, out quantity);
@@ -2408,6 +2418,7 @@ namespace CookSmartCommandLine
                         MyIngredient.printIngredient();
                     }
                     reader.Close();
+                    conn.Close();
                 }
                 if (parse == false)
                 {
@@ -2422,14 +2433,9 @@ namespace CookSmartCommandLine
             }
 
 
-            //while (reader.Read())
-            //{
-            //    Console.WriteLine(reader["RecipeID"].ToString());
-            //    Console.WriteLine(reader["Title"].ToString());
-            //}
-            conn.Close();
-            Console.WriteLine("done");
-            Console.ReadLine();
+
+            
+
             return myIngredients;
 
         }
@@ -2519,12 +2525,9 @@ namespace CookSmartCommandLine
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@recipeid", recipeID);
                     MySqlDataReader reader = command.ExecuteReader();
-                    List<String> columnNames = GetDataReaderColumnNames(reader);
-                    for (int b = 0; b < columnNames.Count; b++)
-                    {
-                        Console.Write(columnNames.ElementAt(b) + " ");
-                    }
-                    Console.WriteLine();
+                    
+                   // printColumnNames(reader);
+                    
                     while (reader.Read())
                     {
 

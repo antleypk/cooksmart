@@ -60,10 +60,10 @@ namespace CookSmartCommandLine
                 Operator operations = new Operator();
                 Recipe tempRecipe = recipesInMeal[i];
 
-                Console.WriteLine("Instruction list");
+          //      Console.WriteLine("Instruction list");
                 List<Instruction> myinstructions = operations.allInstructionsInRecipe(connection, userid, tempRecipe.getId());
                 int instructionCount = myinstructions.Count;
-                Console.WriteLine("instruction count " + instructionCount);
+          //      Console.WriteLine("instruction count " + instructionCount);
             }
         }
 
@@ -135,7 +135,7 @@ namespace CookSmartCommandLine
                 {
                     int c = b + 1;
                     tempInstructionList.ElementAt(b).setOrder(c);
-                    Console.WriteLine("instruction "+c+" "+ tempInstructionList.ElementAt(b).printInstruction());
+              //      Console.WriteLine("instruction "+c+" "+ tempInstructionList.ElementAt(b).printInstruction());
                 }
                 recipesInMeal.ElementAt(i).setInstructions(tempInstructionList);
             }
@@ -146,7 +146,7 @@ namespace CookSmartCommandLine
             {
                 int temp=recipesInMeal.ElementAt(i).getId();
                 Operator operations = new Operator();
-                Console.WriteLine("temp recipe id number: " + temp);
+          //      Console.WriteLine("temp recipe id number: " + temp);
                 List<Ingredient> ingredients= operations.IngredientsInRecipeById(connection, temp,userid);
                 recipesInMeal.ElementAt(i).addIngredents(ingredients);
             }
@@ -169,11 +169,11 @@ namespace CookSmartCommandLine
         {
             Console.WriteLine(mealName + " " + mealid);
             
-            for (int i = 0; i < recipesInMeal.Count; i++)
-            {
-                Recipe temp = new Recipe();
-                temp.printRecipe();
-            }
+            //for (int i = 0; i < recipesInMeal.Count; i++)
+            //{
+            //    Recipe temp = new Recipe();
+            //    temp.printRecipe();
+            //}
         }
     }
 }

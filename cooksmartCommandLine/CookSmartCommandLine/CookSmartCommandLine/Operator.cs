@@ -1113,7 +1113,7 @@ namespace CookSmartCommandLine
 
             MySqlConnection conn;
 
-            //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+        
 
                 conn = new MySqlConnection(connection);
             
@@ -1131,14 +1131,7 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
 
             List<Recipe> recipes = firstAct.AllRecipes(conn);
-            foreach (Recipe temprec in recipes)
-            {
-                int temprecipeid = temprec.getId();
-       
-                temprec.printRecipe();
-                recipesGlobal.Add(temprec);
-
-            }
+            
             return recipes;
 
         }
@@ -1166,11 +1159,6 @@ namespace CookSmartCommandLine
 
             List<Meal> meals = firstAct.AllMeals(conn);
 
-            //populate
-            //for (int i = 0; i < meals.Count; i++)
-            //{
-            //    meals.ElementAt(i).populateRecipe(connection);
-            //}
             return meals;
 
         }
@@ -1179,7 +1167,7 @@ namespace CookSmartCommandLine
 
            MySqlConnection conn;
 
-            //    connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_Frank;password=Pa88word";
+        
             conn = new MySqlConnection(connection);
             try
             {
@@ -1193,13 +1181,14 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
 
             List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID,userID);
-            foreach (Recipe temprec in recipes)
-            {
-                int temprecipeid = temprec.getId();
+            //foreach (Recipe temprec in recipes)
+            //{
+            //    int temprecipeid = temprec.getId();
 
-                temprec.printRecipe();
-                recipesGlobal.Add(temprec);
-            }
+            //    temprec.printRecipe();
+            //    recipesGlobal.Add(temprec);
+            //}
+            Console.WriteLine("operator 1203: recipesNmealcount: " + recipes.Count);
             return recipes;
 
         }
@@ -1273,7 +1262,7 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+               // Console.WriteLine("Connecting to MySQL..." + "\n");
             }
             catch (Exception ex)
             {

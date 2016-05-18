@@ -52,6 +52,7 @@ namespace CookSmartCommandLine
             for(int i=0; i < myMeal.recipeCount(); i++)
             {
                 int recipeID = myMeal.getRecipeIDfromindex(i);
+                Console.WriteLine("recipe id in meal builder: " + recipeID);
                 operation.insertMealRecipe(connection, mealID, userID, recipeID);
             }
         }
