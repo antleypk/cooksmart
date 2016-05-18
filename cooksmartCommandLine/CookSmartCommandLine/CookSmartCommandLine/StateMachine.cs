@@ -293,6 +293,7 @@ namespace CookSmartCommandLine
             bool act = false;
             Console.WriteLine("Meal Menu");
             Console.WriteLine("All meals '1'");
+            Console.WriteLine("Chose meal by ID '2'");
             Console.WriteLine("menu for main");
             string userInput = Console.ReadLine();
             if (userInput == "1")
@@ -332,6 +333,25 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Choose your MealID");
                 string mealIDInput = Console.ReadLine();
                 mealIDInput = mealIDInput.Trim();
+                int mealID = 489037509;
+                 bool parse = Int32.TryParse(mealIDInput, out mealID);
+                int index = 0;
+                for(int d=0; d<allmeals.Count; d++)
+                {
+                    if (allmeals[d].getID() == mealID)
+                    {
+                        index = d;
+                    }
+                }
+                Console.WriteLine("peter being durnk");
+                Console.WriteLine("all meals count: " + allmeals.Count);
+                Console.WriteLine("primary key of the meal: " + mealID);
+                Console.WriteLine("index: " + index);
+            
+                 Meal petersTest = allmeals[index];
+                petersTest.printMeal();
+
+
             }
             if (userInput == "menu")
             {
