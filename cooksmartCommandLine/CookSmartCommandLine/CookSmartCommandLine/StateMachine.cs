@@ -291,10 +291,12 @@ namespace CookSmartCommandLine
         public void mealMenu(string connection, Operator operations, int userID)
         {
             bool act = false;
+            Console.WriteLine();
             Console.WriteLine("Meal Menu");
             Console.WriteLine("All meals '1'");
             Console.WriteLine("Chose meal by ID '2'");
             Console.WriteLine("menu for main");
+            Console.WriteLine();
             string userInput = Console.ReadLine();
             if (userInput == "1")
             {
@@ -317,7 +319,9 @@ namespace CookSmartCommandLine
                     Console.WriteLine(allmeals[c].getName() + " " + allmeals[c].getID());
                     //allmeals[c].printMeal();
                 }
+                Console.WriteLine();
                 Console.WriteLine("Choose your MealID");
+                Console.WriteLine();
                 string mealIDInput = Console.ReadLine();
                 mealIDInput = mealIDInput.Trim();
                 int mealID = 489037509;
@@ -329,20 +333,14 @@ namespace CookSmartCommandLine
                     {
                         index = d;
                     }
-                }
-               
-              
+                }            
                  Meal petersTest = new Meal(userID, mealID, connection);
-             //    petersTest.printMeal();
-
-
+                 petersTest.printMeal();
             }
             if (userInput == "menu")
             {
                 act = true;
             }
-
-
            if (!act)
             {
                 mealMenu(connection, operations, userID);

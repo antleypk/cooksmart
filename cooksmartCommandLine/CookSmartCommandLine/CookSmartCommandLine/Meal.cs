@@ -10,7 +10,8 @@ namespace CookSmartCommandLine
   public  class Meal
     {
         private string Connection;
-        private int userid;
+        private int userid=0;
+        private int cookid=0;
         private int mealid = 765683921;
         private string mealName;
         private string mealDescription;
@@ -26,6 +27,8 @@ namespace CookSmartCommandLine
             Connection = conn;
             userid = UserID;
             mealid = MealID;
+
+            setNameAutoMatic(Connection);
             //works
             setRecipesInMeal(Connection);
 
@@ -33,6 +36,31 @@ namespace CookSmartCommandLine
             //works
             setIngredientsInRecipes(Connection);
           //  check();
+        }
+        
+        public void setUPmealoffline(int MEALID, string NAME, string DESCRIPTION, int USERID)
+        {
+            mealName = NAME;
+            mealid = MEALID;
+            mealDescription = DESCRIPTION;
+            userid = USERID;
+        }
+      
+        public void setNameAutoMatic(string connection)
+        {
+            Operator operations = new Operator();
+            Meal mymeal = operations.getMealByID(connection, userid, mealid);
+            mealName = mymeal.getMealName();
+            mealDescription = mymeal.getDescription();
+            cookid = mymeal.getcook();
+        }
+        public string getDesction()
+        {
+            return mealDescription;
+        }
+        public string getMealName()
+        {
+            return mealName;
         }
 
         public void check()
@@ -50,7 +78,10 @@ namespace CookSmartCommandLine
         {
             return userid;
         }
-
+        public int getcook()
+        {
+            return cookid;
+        }
         public void setRecipesInMeal(string connection)
         {
             Operator operation = new Operator();
@@ -64,8 +95,15 @@ namespace CookSmartCommandLine
           //      Console.WriteLine("Instruction list");
                 List<Instruction> myinstructions = operations.allInstructionsInRecipe(connection, userid, tempRecipe.getId());
                 int instructionCount = myinstructions.Count;
-                Console.WriteLine("instruction count " + instructionCount);
+                //Console.WriteLine("instruction count " + instructionCount);
+                //for (int b = 0; b < myinstructions.Count; b++)
+                //{
+                //    string title = myinstructions[b].getTitle();
+                //    Console.WriteLine("Hello wont you tell me your name: " + b + " " + title);
+                //}
+                tempRecipe.setInstructions(myinstructions);
             }
+           
         }
 
         public void printRecipesInMealWhenIncomplete()

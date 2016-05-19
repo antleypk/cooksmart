@@ -400,6 +400,23 @@ namespace CookSmartCommandLine
 
 
         }
+        public Meal getMealByID(string connection, int userID,int mealid)
+        {
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
+            return firstAct.GetMealFromID(conn, userID,mealid);
+        }
 
         public Ingredient IngredientFromID(string connection, int userID, int ingID)
         {
@@ -1147,18 +1164,16 @@ namespace CookSmartCommandLine
 
             try
             {
-                Console.WriteLine("Connecting to MySQL..." + "\n");
+          //      Console.WriteLine("Connecting to MySQL..." + "\n");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("failed to connect" + "\n");
             }
-            Console.WriteLine("Connected to CookSmart DataBase all Recipes" + "\n");
+
             Actions firstAct = new Actions();
-
             List<Meal> meals = firstAct.AllMeals(conn);
-
             return meals;
 
         }
@@ -1171,7 +1186,7 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
-                Console.WriteLine("Connecting to MySQL..all recipesInMeal." + "\n");
+            //    Console.WriteLine("Connecting to MySQL..(all recipesInMeal)." + "\n");
             }
             catch (Exception ex)
             {
@@ -1181,14 +1196,7 @@ namespace CookSmartCommandLine
             Actions firstAct = new Actions();
 
             List<Recipe> recipes = firstAct.AllRecipesInMeal(conn,mealID,userID);
-            //foreach (Recipe temprec in recipes)
-            //{
-            //    int temprecipeid = temprec.getId();
 
-            //    temprec.printRecipe();
-            //    recipesGlobal.Add(temprec);
-            //}
-            Console.WriteLine("operator 1203: recipesNmealcount: " + recipes.Count);
             return recipes;
 
         }

@@ -774,14 +774,14 @@ namespace CookSmartCommandLine
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.Parameters.AddWithValue("@mealid", mealID);
             command.CommandType = CommandType.StoredProcedure;
-            Console.WriteLine("meal id (actions): " + mealID);
+          //  Console.WriteLine("meal id (actions): " + mealID);
             try
             {
                 MySqlDataReader reader = command.ExecuteReader();
              //   printColumnNames(reader);
                 while (reader.Read())
                 {
-                    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
+                //    Console.WriteLine("ID: " + reader["RecipeID"].ToString() + " " + reader["Title"].ToString() + " " + reader["Description"].ToString() + " " + reader["ServingSize"].ToString());
                     string idstring = reader["RecipeID"].ToString();
                     string description = reader["Description"].ToString();
                     string title = reader["Title"].ToString();
@@ -1794,6 +1794,43 @@ namespace CookSmartCommandLine
             }
             return MyIngredient;
             }
+        public Meal GetMealFromID(MySqlConnection connn, int userID, int mealid)
+        {
+            Meal tempMeal = new Meal();
+            MySqlConnection conn = connn;
+            try
+            {
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "MealByID";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@mealid", mealid);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        String mealidstring = reader["MealID"].ToString();
+                        String name = reader["Name"].ToString();
+                        String description = reader["Description"].ToString();
+                        String useridstring = reader["UserID"].ToString();
+                        int UserID = 0;
+                        int Mealid = Convert.ToInt32(mealidstring);
+                        bool parsed = Int32.TryParse(useridstring, out UserID);
+
+                       
+                        tempMeal.setUPmealoffline(Mealid, name, description, UserID);
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return tempMeal;
+        }
         public Ingredient GetIngredientByID(MySqlConnection connn, int userID)
         {
             Ingredient MyIngredient = new Ingredient();
@@ -2405,17 +2442,18 @@ namespace CookSmartCommandLine
                     Console.WriteLine();
                     while (reader.Read())
                     {
-                    //    Console.WriteLine(reader["Title"].ToString());
+                    
                         string idString = reader["IngredientID"].ToString();
                         int id = 9999;
                         bool parse2 = int.TryParse(idString, out id);
                         Ingredient  MyIngredient = new Ingredient(id, reader["Title"].ToString(), reader["Description"].ToString(), reader["QuantityType"].ToString(), userID);
                         string quantityString = reader["Quantity"].ToString();
-                        int quantity = 99999;
-                        bool parse3 = int.TryParse(quantityString, out quantity);
+                        decimal quantity = 99999;
+                        bool parse3 = Decimal.TryParse(quantityString, out quantity);
                         MyIngredient.setQuantity(quantity);
                         myIngredients.Add(MyIngredient);
-                        MyIngredient.printIngredient();
+                       // MyIngredient.printIngredient();
+                  //      Console.WriteLine(reader["Title"].ToString() + " quantity: " +quantityString);
                     }
                     reader.Close();
                     conn.Close();
@@ -2431,11 +2469,7 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine(ex.Message);
             }
-
-
-
-            
-
+       
             return myIngredients;
 
         }
