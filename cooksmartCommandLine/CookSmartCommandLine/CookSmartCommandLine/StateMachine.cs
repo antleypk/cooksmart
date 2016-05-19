@@ -331,11 +331,7 @@ namespace CookSmartCommandLine
                     }
                 }
                
-                //Console.WriteLine("all meals count: " + allmeals.Count);
-                //Console.WriteLine("primary key of the meal: " + mealID);
-                //Console.WriteLine("index: " + index);
-
-                //   Meal petersTest = allmeals[index];
+              
                  Meal petersTest = new Meal(userID, mealID, connection);
              //    petersTest.printMeal();
 

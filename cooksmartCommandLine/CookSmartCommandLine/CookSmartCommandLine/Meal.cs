@@ -28,6 +28,7 @@ namespace CookSmartCommandLine
             mealid = MealID;
             //works
             setRecipesInMeal(Connection);
+
             setInstructionsInRecipe(Connection);
             //works
             setIngredientsInRecipes(Connection);
@@ -63,7 +64,7 @@ namespace CookSmartCommandLine
           //      Console.WriteLine("Instruction list");
                 List<Instruction> myinstructions = operations.allInstructionsInRecipe(connection, userid, tempRecipe.getId());
                 int instructionCount = myinstructions.Count;
-          //      Console.WriteLine("instruction count " + instructionCount);
+                Console.WriteLine("instruction count " + instructionCount);
             }
         }
 
