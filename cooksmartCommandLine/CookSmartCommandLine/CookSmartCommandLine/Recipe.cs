@@ -10,7 +10,7 @@ namespace CookSmartCommandLine
     public class Recipe
     {
        private int id = 919999979;
-       private  string name = "Fail to name";
+       private  string name = "Fail to name recipe";
         private string description = "Fail to Describe";
         private List<Instruction> instructionRecipe = new List<Instruction>();
         private List<Ingredient> recipeIngredient = new List<Ingredient>();
@@ -95,6 +95,21 @@ namespace CookSmartCommandLine
             Console.WriteLine(relevent);
         
         }
+        public void printFullRecipe()
+        {
+            Console.WriteLine(name);
+            Console.WriteLine();
+            for (int i=0;i< instructionRecipe.Count; i++)
+            {
+                instructionRecipe[i].printInstructionToConsole();
+            }
+            Console.WriteLine();
+            for(int b = 0; b < recipeIngredient.Count; b++)
+            {
+                recipeIngredient[b].printIngredient();
+            }
+        }
+
         public List<Instruction> getInstructionList()
         {
             return instructionRecipe;

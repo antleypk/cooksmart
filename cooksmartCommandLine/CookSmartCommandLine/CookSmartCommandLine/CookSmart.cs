@@ -14,6 +14,7 @@ namespace CookSmartCommandLine
     {
         Operator operations = new Operator();
         public Actions actions = new Actions();
+        private Recipe myRecipe = new Recipe();
         public CookSmart()
         {
 
@@ -32,41 +33,41 @@ namespace CookSmartCommandLine
             Console.WriteLine();
             Console.WriteLine("Select a Recipe by ID");
             string userInput = Console.ReadLine();
-            //string idString = reader["IngredientID"].ToString();
             int id = 9999;
             bool parse = int.TryParse(userInput, out id);
-            
-            MySqlConnection conn;
-            conn = new MySqlConnection(connection);
-            try
+            if (id != 9999)
             {
-             //   Console.WriteLine("Connecting to MySQL..." + "\n");
+                AutoCookSmart(connection, userID, id);
             }
-            catch (Exception ex)
+            if (id == 9999)
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("failed to connect" + "\n");
+                startUpCookSmart(connection, userID);
             }
+        }
+        public Recipe AutoCookSmart(string connection, int userID, int id)
+        {
+            myRecipe=operations.recipeFromId(connection, userID, id);
             Console.WriteLine("Ingredient List:");
-            //     actions.ShoppingListFromRecipe(conn, id);
-           List<Ingredient> myIngredients=operations.IngredientsInRecipeById(connection, id, userID);
-           for (int c = 0; c < myIngredients.Count; c++)
+      
+            List<Ingredient> myIngredients = operations.IngredientsInRecipeById(connection, id, userID);
+            for (int c = 0; c < myIngredients.Count; c++)
             {
                 myIngredients[c].printIngredient();
             }
+            myRecipe.addIngredents(myIngredients);
             Console.WriteLine("Instruction List:");
-            //    actions.InstructionsInRecipe(conn, id,userID);
-            List<Instruction> myInstructions=operations.allInstructionsInRecipe(connection, userID, id);
-            int test= myInstructions.Count;
+            List<Instruction> myInstructions = operations.allInstructionsInRecipe(connection, userID, id);
+            int test = myInstructions.Count;
             Console.WriteLine("Instruction count from cook smart: " + test);
-            for(int d = 0; d < myInstructions.Count; d++)
+            for (int d = 0; d < myInstructions.Count; d++)
             {
                 myInstructions[d].printInstructionToConsole();
-                //string instructionName = myInstructions[d].getTitle();
-                //Console.WriteLine("Hello: " + d+" "+instructionName);
             }
-
+            myRecipe.setInstructions(myInstructions);
+            operations.recipeFromId(connection, userID, id);
+            
             Console.WriteLine();
+            return myRecipe;
         }
     }
 }

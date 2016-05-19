@@ -190,12 +190,7 @@ namespace CookSmartCommandLine
                 recipesInMeal.ElementAt(i).addIngredents(ingredients);
             }
         }
-        //public int getPrimaryfromIndex(int index)
-        //{
-        //    Recipe temp =recipesInMeal.ElementAt(index);
-        //    int primaryKey = temp.getId();
-        //    return primaryKey;
-        //}
+
         public void setID(int ID)
         {
             mealid = ID;
@@ -204,15 +199,17 @@ namespace CookSmartCommandLine
         {
             return mealid;
         }
-        public void printMeal()
+        public void printMeal(string connection)
         {
             Console.WriteLine(mealName + " " + mealid);
-            
-            //for (int i = 0; i < recipesInMeal.Count; i++)
-            //{
-            //    Recipe temp = new Recipe();
-            //    temp.printRecipe();
-            //}
+            Console.WriteLine("Recipe Count: " + recipesInMeal.Count);
+            CookSmart newCookSmart = new CookSmart();
+            for(int i=0; i < recipesInMeal.Count; i++)
+            {
+                int recipeID = recipesInMeal[i].getId();
+                newCookSmart.AutoCookSmart(connection, userid, recipeID);
+            }
+           
         }
     }
 }

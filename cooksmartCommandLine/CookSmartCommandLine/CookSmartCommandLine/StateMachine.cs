@@ -184,7 +184,7 @@ namespace CookSmartCommandLine
         {
 
             Operator operations = new Operator();
-            Console.WriteLine("Main Menu!  Submenu Options \n \n");
+            Console.WriteLine("Main Menu! \nOptions \n");
             Console.Write("Ingredients '1'" + "\n");
             Console.Write("Recipes '2'" + "\n");
             Console.Write("Instructions '3' " + "\n");
@@ -255,11 +255,15 @@ namespace CookSmartCommandLine
             }
             if (userInput == "10")
             {
-                Console.WriteLine("Insert Ingredient here");
-                Ingredient ing = operations.storeIngredient(connectionString, userID);
-                operations.insertIngredient(connectionString, ing, userID);
-                operations.GetIngredientID(connectionString, userID, ing.getName());
-                operations.IngredientFromID(connectionString, userID, ing.getId());
+                //Console.WriteLine("Insert Ingredient here");
+                //Ingredient ing = operations.storeIngredient(connectionString, userID);
+                //operations.insertIngredient(connectionString, ing, userID);
+                //operations.GetIngredientID(connectionString, userID, ing.getName());
+                //operations.IngredientFromID(connectionString, userID, ing.getId());
+                Console.WriteLine();
+                CookSmart newCookSmart = new CookSmart();
+                Recipe eightyeight= newCookSmart.AutoCookSmart(connectionString, userID, 88);
+                eightyeight.printFullRecipe();
             }
             if (userInput == "11" || userInput == "Calender")
             {
@@ -305,7 +309,7 @@ namespace CookSmartCommandLine
                 {
                     Meal temp = new Meal();
                     temp = allmeals.ElementAt(i);
-                    temp.printMeal();
+                    temp.printMeal(connection);
                 }
                 act = true;
                 Console.WriteLine();
@@ -335,7 +339,8 @@ namespace CookSmartCommandLine
                     }
                 }            
                  Meal petersTest = new Meal(userID, mealID, connection);
-                 petersTest.printMeal();
+                 petersTest.printMeal(connection);
+
             }
             if (userInput == "menu")
             {

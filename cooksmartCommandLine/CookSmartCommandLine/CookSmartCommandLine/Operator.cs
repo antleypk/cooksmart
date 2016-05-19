@@ -1253,12 +1253,28 @@ namespace CookSmartCommandLine
         }
 
 
-        public Recipe recipeFromId(string connection, int userID)
+        public Recipe recipeFromId(string connection, int userID, int recipeID)
         {
 
-            Operator operations = new Operator();
-            Recipe tempRecipe = operations.recipeFromId(connection, userID);
+            //Operator operations = new Operator();
+            //Recipe tempRecipe = operations.recipeFromId(connection, userID);
+            MySqlConnection conn;
+            conn = new MySqlConnection(connection);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+            Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+            Actions firstAct = new Actions();
 
+
+
+            Recipe tempRecipe=firstAct.RecipeByID(conn, userID, recipeID);
             return tempRecipe;
         }
 
