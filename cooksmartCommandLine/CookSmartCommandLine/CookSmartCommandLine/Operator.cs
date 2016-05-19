@@ -1122,7 +1122,28 @@ namespace CookSmartCommandLine
            
             
         }
-        
+
+        public List<Instruction> allInstructionInRecipe(string connection,int recipeid)
+        {
+            MySqlConnection conn;
+            List<Instruction> myInstructions = new List<Instruction>();
+            try
+            {
+                Console.WriteLine("Connecting to MySQL..." + "\n");
+                conn = new MySqlConnection(connection);
+                Console.WriteLine("Connected to CookSmart DataBase" + "\n");
+                Actions firstAct = new Actions();
+               myInstructions= firstAct.InstructionsByRecipe(conn,recipeid);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("failed to connect" + "\n");
+            }
+
+            return myInstructions;
+        }
+
 
 
         public List<Recipe> allRecipes(string connection)
@@ -1224,7 +1245,7 @@ namespace CookSmartCommandLine
             instructions = firstAct.allInstructions(conn, userID);
             foreach(Instruction temp in instructions)
             {
-                temp.printInstruction();
+                temp.instructionRelavant();
                 instructionsGlobal.Add(temp);
             }
             return instructions;

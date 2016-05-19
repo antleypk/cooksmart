@@ -1378,6 +1378,40 @@ namespace CookSmartCommandLine
             Console.WriteLine("done");
             return ReturnInstructions;
         }
+        public List<Instruction> InstructionsByRecipe(MySqlConnection connn,int recipeID)
+        {
+            List<Instruction> ReturnInstructions = new List<Instruction>();
+            MySqlConnection conn = connn;
+            try
+            {
+                int userID = 77777777;//test for shit
+                bool parse = true;
+                if (parse)
+                {
+                    conn.Open();
+                    string Action = "InstructionsInRecipe";
+                    MySqlCommand command = new MySqlCommand(Action, conn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@recipeid", recipeID);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    printColumnNames(reader);
+                    while (reader.Read())
+                    {
+                        string idstring = reader["InstructionID"].ToString();
+                        int id = Convert.ToInt32(idstring);
+                        Instruction temp = new Instruction(id, reader["Title"].ToString(), reader["Description"].ToString(), userID);
+                        ReturnInstructions.Add(temp);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            conn.Close();
+            Console.WriteLine("done");
+            return ReturnInstructions;
+        }
 
         public List<Recipe> RecipesByUser(MySqlConnection connn)
         {
@@ -2407,6 +2441,7 @@ namespace CookSmartCommandLine
                     }
                     while (reader.Read())
                     {
+
                         Console.WriteLine(reader["Title"].ToString() + " " + reader["Quantity"].ToString() + " " + reader["QuantityType"].ToString());
                     }
                     reader.Close();

@@ -401,7 +401,7 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Created instructions:");
                 foreach (Instruction temp in createdInstruction)
                 {
-                    temp.printInstruction();
+                    temp.instructionRelavant();
                 }
             }
             if (userInput == "5")
@@ -545,7 +545,7 @@ namespace CookSmartCommandLine
                 int count = 0;
                 foreach (Instruction tempIns in MyInstructions)
                 {
-                    tempIns.printInstruction();
+                    tempIns.instructionRelavant();
                     Console.WriteLine(tempIns.getTitle() + " " + tempIns.getID());
                     count++;
                 }
