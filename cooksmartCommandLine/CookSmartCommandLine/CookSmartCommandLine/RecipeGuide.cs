@@ -232,16 +232,51 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Print the Ingredient Name from the List: ");
                 string userInput = Console.ReadLine();
                 userInput = userInput.Trim();
+                Ingredient hold = new Ingredient();
+                List<Ingredient> tempList = new List<Ingredient>();
                 foreach (Ingredient temp in totalIngredients)
                 {
+                   
                     if (userInput == temp.getName())
                     {
-                        MyIngredients.Add(temp);
-                        //Console.WriteLine("Input Quantity needed for recipe");
-                        //decimal recipequantity = Convert.ToDecimal(Console.ReadLine());
-                        //MyIngredients.Last<Ingredient>().setQuantity(recipequantity);
+                        tempList.Add(temp);
+                        hold = temp;
+                     //   Console.WriteLine("duplicate");
+                        
+                    }
+                  
+                }
+               // Console.WriteLine("ingredient count" + tempList.Count);
+                if (tempList.Count > 1)
+                {
+
+                    for (int d = 0; d < tempList.Count; d++)
+                    {
+                        Console.WriteLine("Position: " + d);
+                        tempList[d].printIngredient();
+                    }
+                    Console.WriteLine("Please Select an ingredient by ID");
+                    string uInput=Console.ReadLine();
+                    int uInputInt = 0;
+                    bool par = Int32.TryParse(uInput, out uInputInt);
+                    int posistion = 0;
+                    for(int f = 0; f < tempList.Count(); f++)
+                    {
+                        if (tempList[f].getId() == uInputInt)
+                        {
+                            posistion = f;
+                        }
+                    }
+
+                    hold = tempList[posistion];
+                    if (!par)
+                    {
+                        Console.WriteLine("User Error, input non-int");
                     }
                 }
+
+                MyIngredients.Add(hold);
+                
             }
             if(userInput2 == "create")
             {
@@ -283,10 +318,11 @@ namespace CookSmartCommandLine
                     Console.WriteLine("Available Ingredients: ");
                     for (int e = 0; e < MyIngredients.Count(); e++)
                     {
+                        Console.WriteLine("Positition: "+e);
                         currentIngredient = MyIngredients[e];
                         currentIngredient.printIngredient();
                     }
-                    Console.WriteLine("Select the ingredient to go with the instruction by name or 'continue' to exit");
+                    Console.WriteLine("Select the ingredient to go with the instruction by position or 'continue' to exit");
                     string userInput = Console.ReadLine();
                     userInput = userInput.Trim();
                     if (userInput == "continue")
@@ -299,6 +335,8 @@ namespace CookSmartCommandLine
                         try
                         {
                             //ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
+                            //how do we deal with multiple things with the same name, b/c we dont have primary keys for 
+                            //all ingredients
                             ingredient = MyIngredients.Single(x => x.getName() == userInput);
                         }
                         catch
@@ -396,10 +434,7 @@ namespace CookSmartCommandLine
             
             
         }
-        public void setIngredientsInRecipe(string connectionString)
-        {
-            
-        }
+
 
     }
         }

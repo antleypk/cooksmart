@@ -112,7 +112,8 @@ namespace CookSmartCommandLine
         public void printIngredient()
         {
 
-            Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity " + quantity + "\n Quantity Type " + quantitytype + "\n");
+            //   Console.Write("ID: " + id + " \n Name: " + name + " \n Description: " + description + "\n Quantity " + quantity + "\n Quantity Type " + quantitytype + "\n");
+            Console.WriteLine(id + " " + name + " " + description + " " +quantity+" "+ quantitytype);
         }
     }
 }
