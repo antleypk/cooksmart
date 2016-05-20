@@ -51,10 +51,10 @@ namespace CookSmartCommandLine
 
            // List<Instruction> ListTempInstructions = operations.allInstructions(connection);
          //   Console.WriteLine("Instructions" + ListTempInstructions.Count);
-            foreach (Ingredient tempIngredient in ListTempIngredients)
-            {
-                tempIngredient.printIngredient();
-            }
+            //foreach (Ingredient tempIngredient in ListTempIngredients)
+            //{
+            //    tempIngredient.printIngredient();
+            //}
 
 
             setIngredientsInRecipe(ListTempIngredients, userID);
@@ -255,26 +255,18 @@ namespace CookSmartCommandLine
                         Console.WriteLine("Position: " + d);
                         tempList[d].printIngredient();
                     }
-                    Console.WriteLine("Please Select an ingredient by ID");
+                    Console.WriteLine("Please Select an ingredient by position");
                     string uInput=Console.ReadLine();
                     int uInputInt = 0;
                     bool par = Int32.TryParse(uInput, out uInputInt);
-                    int posistion = 0;
-                    for(int f = 0; f < tempList.Count(); f++)
-                    {
-                        if (tempList[f].getId() == uInputInt)
-                        {
-                            posistion = f;
-                        }
-                    }
 
-                    hold = tempList[posistion];
+                    hold = tempList[uInputInt];
                     if (!par)
                     {
                         Console.WriteLine("User Error, input non-int");
                     }
                 }
-
+                hold.printIngredient();
                 MyIngredients.Add(hold);
                 
             }
@@ -337,13 +329,19 @@ namespace CookSmartCommandLine
                             //ingredient = MyIngredients.Single(x => x.getId() == Convert.ToInt32(userInput));
                             //how do we deal with multiple things with the same name, b/c we dont have primary keys for 
                             //all ingredients
-                            ingredient = MyIngredients.Single(x => x.getName() == userInput);
+                            int userInputInt = 0;
+                            bool parse2 = Int32.TryParse(userInput, out userInputInt);
+                            if (parse2)
+                            {
+                                ingredient = MyIngredients[userInputInt];
+                            }
                         }
                         catch
                         {
                            // ingredient = new Ingredient();
                             Console.WriteLine("UserInput Error: ID=USERID != 2 reality");
                         }
+                        ingredient.printIngredient();
                         Console.WriteLine("Select the quantity of the ingredient");
                         userInput = Console.ReadLine();
                         decimal quantity;
