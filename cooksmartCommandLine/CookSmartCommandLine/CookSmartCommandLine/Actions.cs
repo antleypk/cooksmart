@@ -461,9 +461,9 @@ namespace CookSmartCommandLine
             }
             string Action = "InsertCalendar";
             MySqlCommand command = new MySqlCommand(Action, conn);
-
+            string name = cal.getMeal().getMealName();
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@title", cal.getName());
+            command.Parameters.AddWithValue("@title", name);
             command.Parameters.AddWithValue("@description", cal.getDescription());
             command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
             command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
@@ -2054,10 +2054,11 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine(ex.Message);
             }
+            string name = cal.getMeal().getMealName();
             String Action = "UpdateCalendar";
             MySqlCommand command = new MySqlCommand(Action, conn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@title", cal.getName());
+            command.Parameters.AddWithValue("@title", name);
             command.Parameters.AddWithValue("@description", cal.getDescription());
             command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
             command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
@@ -2092,8 +2093,8 @@ namespace CookSmartCommandLine
                         //  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
                         newDateTime = stringToDateTime(tempDateTimeString);
 
-                        Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, newDateTime.Date, userID,mealID);
-                        MealCalendar.Add(temp);
+                       //  Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, newDateTime.Date, userID,mealID);
+                        //    MealCalendar.Add(temp);
                         //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
                     }
                     reader.Close();

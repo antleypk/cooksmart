@@ -22,7 +22,7 @@ namespace CookSmartCommandLine
 
         public void startUp(int userID, string connection, Operator operations)
         {
-            bool acted = false;
+           
             mealDate.SetUserID(userID);
             //Console.WriteLine("Name:");
             //string mdName = Console.ReadLine();
@@ -49,6 +49,7 @@ namespace CookSmartCommandLine
             setAMPM();
             inputTime = DateTime.Now;
             buildCalendar(mealId, userID, connection);
+            check(userID, connection, operations);
         }
 
         public void makeDateString()
@@ -66,6 +67,7 @@ namespace CookSmartCommandLine
             if(userInput == "c" || userInput == "C")
             {
                 //insert
+                insertCalendar(userId, connection, operations);
             }
             if(userInput == "r" || userInput == "R")
             {

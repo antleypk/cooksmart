@@ -10,9 +10,9 @@ namespace CookSmartCommandLine
     public class Calendar
     {
         
-        private string name = "C# Name Fail";
+      
         private string description = "C# Description Fail";
-        private DateTime timetobeserved = DateTime.MaxValue;
+        private DateTime timetobeserved;
         public DateTime inputdate = DateTime.MaxValue;
         private int userid = 89874645;
         private int mealid = 863789179;
@@ -27,24 +27,20 @@ namespace CookSmartCommandLine
             return myMeal;
         }
 
-        public Calendar(string Name, string Description, DateTime TimeToBeServed, DateTime InputDate, int userID,int Mealid)
+       public Calendar(int userID, int MealID, DateTime TimetobeServed)
         {
-            name = Name;
-            description = Description;
-            timetobeserved = TimeToBeServed;
-            inputdate = InputDate;
             userid = userID;
-            mealid = Mealid;
+       //     mealid = Mealid;
+       //     timetobeserved = Timetobeserved;
         }
-        public Calendar( int userID, int Mealid, DateTime timetobeServed, string connectionS)
+
+        public Calendar( int userID, int Mealid, DateTime TimetobeServed, string connectionS)
         {
-       //     name = Name;
-       //     description = Description;
-        //    timetobeserved = TimeToBeServed;
-          //  inputdate = InputDate;
+
             userid = userID;
             mealid = Mealid;
             connection = connectionS;
+          //  timetobeserved = Timetobeserved;
             myMeal = new Meal(userid, mealid, connection);
             Console.WriteLine("recipe in meal count: "+myMeal.recipeCount());
             
@@ -93,14 +89,7 @@ namespace CookSmartCommandLine
             mealid = mealID;   
         }
 
-        public string getName()
-        {
-            return name;
-        }
-        public void setName(string newname)
-        {
-            name = newname;
-        }
+
         public string getDescription()
         {
             return description;
@@ -127,7 +116,7 @@ namespace CookSmartCommandLine
         }
         public void printCalendar()
         {
-            Console.Write("\n Name: " + name + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
+            Console.Write("\n Name: " +myMeal.getMealName() + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
         }
     }
 }

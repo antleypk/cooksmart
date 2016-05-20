@@ -154,7 +154,7 @@ namespace CookSmartCommandLine
         {
             string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Welcome to CookSmart" + "\n");
-            Console.WriteLine("CookSmartClassic1.01+");
+            Console.WriteLine("CookSmartClassic 1.02+");
             Console.Write("Thanks for choosing Traction Systems" + "\n" + "\n");
             // Checks to see if user has a valid username and password combination (Authentication)
             validation(connectionString);
@@ -355,6 +355,8 @@ namespace CookSmartCommandLine
         public void calenderMenu(string connection, Operator operations, int userID)
         {
             Console.WriteLine("Calender Menu");
+            CalendarBuilder petersBuilder = new CalendarBuilder();
+            petersBuilder.startUp(userID, connection, operations);
         }
         public void CreateMenu(Operator operations, string connectionString)
         {
