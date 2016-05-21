@@ -2476,8 +2476,6 @@ namespace CookSmartCommandLine
                         bool parse3 = Decimal.TryParse(quantityString, out quantity);
                         MyIngredient.setQuantity(quantity);
                         myIngredients.Add(MyIngredient);
-                       // MyIngredient.printIngredient();
-                  //      Console.WriteLine(reader["Title"].ToString() + " quantity: " +quantityString);
                     }
                     reader.Close();
                     conn.Close();
