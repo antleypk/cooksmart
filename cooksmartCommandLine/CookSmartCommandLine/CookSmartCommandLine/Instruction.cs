@@ -108,13 +108,14 @@ namespace CookSmartCommandLine
         }
         public string instructionRelavant()
         {
-            string relevant = title + "\n id: " + id + "\n Description: " + description + "\n Order: " + order;
+            string relevant =order+": "+title+"\n"+ "Description: " + description;
             return relevant;
         }
         public void printInstructionToConsole()
         {
             string tobePrinted = instructionRelavant();
             Console.WriteLine(tobePrinted);
+            Console.WriteLine();
         }
     }
     }

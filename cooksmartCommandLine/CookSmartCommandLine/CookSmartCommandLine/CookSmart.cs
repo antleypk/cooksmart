@@ -58,7 +58,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Instruction List:");
             List<Instruction> myInstructions = operations.allInstructionsInRecipe(connection, userID, id);
             int test = myInstructions.Count;
-            Console.WriteLine("Instruction count from cook smart: " + test);
+       //     Console.WriteLine("Instruction count from cook smart: " + test);
             for (int d = 0; d < myInstructions.Count; d++)
             {
                 myInstructions[d].printInstructionToConsole();
