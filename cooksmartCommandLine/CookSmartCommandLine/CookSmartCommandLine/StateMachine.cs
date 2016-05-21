@@ -148,7 +148,6 @@ namespace CookSmartCommandLine
         }
         // StateMachine.cs is the grandfather of the app CookSmart
 
-
         // Startup() is the first function called to set up the app
         public void startUp()
         {
@@ -202,29 +201,30 @@ namespace CookSmartCommandLine
             Console.WriteLine("");
 
             string userInput = Console.ReadLine();
+            userInput = userInput.ToLower();
             bool acted = false;
-            if (userInput == "1" || userInput == "Ingredients")
+            if (userInput == "1" || userInput == "ingredients")
             {
                 IngredientMenu(operations, connectionString, userID);
 
             }
-            if (userInput == "2" || userInput == "Recipes")
+            if (userInput == "2" || userInput == "recipes")
             {
-                Console.WriteLine("Recipes Menu");
+                Console.WriteLine("recipes menu");
                 RecipeMenu(operations, connectionString, userID);
             }
 
-            if (userInput == "3" || userInput == "Instructions")
+            if (userInput == "3" || userInput == "instructions")
             {
-                Console.WriteLine("Instructions menu");
+                Console.WriteLine("instructions menu");
                 InstructionMenu(operations, connectionString, userID);
             }
-            if (userInput == "4" || userInput == "CookSmart")
+            if (userInput == "4" || userInput == "cookSmart")
             {
                 Console.WriteLine();
                 operations.cookSmart(connectionString, UserID);
             }
-            if (userInput == "5" || userInput == "Users")
+            if (userInput == "5" || userInput == "users")
             {
                 Console.WriteLine("User menu");
                 UserMenu(operations, connectionString, userID);
@@ -243,29 +243,19 @@ namespace CookSmartCommandLine
             }
             if (userInput == "8")
             {
-                int test = operations.GetRecipeID(connectionString, 420, "Tomtest829");
-                Console.WriteLine("ultimate puzzlement");
-                Console.WriteLine("primary key: " + test);
+                Console.WriteLine("stub only");
 
             }
             if (userInput == "9")
             {
-                int test = operations.GetIngredientID(connectionString, 69, "ginger tears");
-                Console.WriteLine(test);
+                Console.WriteLine("Stub only");
             }
             if (userInput == "10")
             {
-                //Console.WriteLine("Insert Ingredient here");
-                //Ingredient ing = operations.storeIngredient(connectionString, userID);
-                //operations.insertIngredient(connectionString, ing, userID);
-                //operations.GetIngredientID(connectionString, userID, ing.getName());
-                //operations.IngredientFromID(connectionString, userID, ing.getId());
-                Console.WriteLine();
-                CookSmart newCookSmart = new CookSmart();
-                Recipe eightyeight= newCookSmart.AutoCookSmart(connectionString, userID, 88);
-                eightyeight.printFullRecipe();
+                Console.WriteLine("A quick spot for bebuggig");
+                Console.ReadLine();
             }
-            if (userInput == "11" || userInput == "Calender")
+            if (userInput == "11" || userInput == "calender")
             {
                 calenderMenu(connectionString, operations, userID);
             }
@@ -302,6 +292,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("menu for main");
             Console.WriteLine();
             string userInput = Console.ReadLine();
+            userInput = userInput.ToLower();
             if (userInput == "1")
             {
               List<Meal> allmeals =  operations.allMeals(connection);
@@ -512,19 +503,17 @@ namespace CookSmartCommandLine
         {
 
             Console.WriteLine();
-
-            //List<Ingredient> Ingredients = operations.allIngredients(connectionString);
             Ingredient newIngredient = new Ingredient(userID);
             newIngredient.printIngredient();
             Console.WriteLine("Accept 'A' Restart 'R'");
             string userinput = Console.ReadLine();
 
-            if (userinput == "A")
+            if (userinput.ToLower() == "a")
             {
                 //Insert Ingredient
                 operations.insertIngredient(connectionString, newIngredient, userID);
             }
-            if (userinput == "R")
+            if (userinput.ToLower() == "r")
             {
                 //restart
                 createingredient(connectionString, operations, userID);
@@ -532,7 +521,7 @@ namespace CookSmartCommandLine
         }
         public void InstructionMenu(Operator operations, string connectionString, int userID)
         {
-            Console.WriteLine("");
+            Console.WriteLine();
             Console.WriteLine("This is the instruction menu! \n Options: ");
             Console.WriteLine("All Instructions '1' ");
             Console.WriteLine("Ingredients from an Instruction '2' ");
@@ -542,7 +531,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Main Menu 'Menu'");
 
             string userInput = Console.ReadLine();
-
+            userInput = userInput.ToLower();
             bool acted = false;
 
             if (userInput == "1")
@@ -601,7 +590,7 @@ namespace CookSmartCommandLine
                     Console.WriteLine("Preptime is: " + ins.getPrepTime());
                     Console.WriteLine("Cooktime is: " + ins.getCookTime());
                     Console.WriteLine("Update?  Y/N");
-                    if (Console.ReadLine() == "Y")
+                    if (Console.ReadLine().ToLower() == "y")
                     {
                         Console.WriteLine("New Title: ");
                         title = Console.ReadLine();
@@ -619,7 +608,7 @@ namespace CookSmartCommandLine
                     }
                 }
 
-                if (userInput == "Menu")
+                if (userInput == "menu")
                 {
                     acted = true;
                 }
@@ -678,7 +667,7 @@ namespace CookSmartCommandLine
             }
             if (userInput == "4")
             {
-                Console.WriteLine("Peter Debugging SM 681");
+            //    Console.WriteLine("Peter Debugging SM 681");
                 Calendar = operations.UserCalendar(connectionString, userID);
                 for (int i = 0; i < Calendar.Count; i++)
                 {

@@ -88,7 +88,7 @@ namespace CookSmartCommandLine
         }
         public Meal AutoBuilder(string connection, int userID, Meal userMeal)
         {
-          
+          // we should be able to make meals build off id alone. i think we already can but just forgot what it was called
             
             CheckMeal(connection, userMeal, userID);
             return userMeal;
