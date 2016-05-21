@@ -42,9 +42,10 @@ namespace CookSmartCommandLine
             connection = connectionS;
           //  timetobeserved = Timetobeserved;
             myMeal = new Meal(userid, mealid, connection);
-            Console.WriteLine("recipe in meal count: "+myMeal.recipeCount());
+           
             
         }
+
         
 
         public DateTime DateServed()
@@ -84,11 +85,15 @@ namespace CookSmartCommandLine
             return ((timetobeserved.Date.Year == yearserved) & (timetobeserved.Date.Month == monthserved));
         }
 
-        public void setMeal(int mealID)
+        public void setMealID(int mealID)
         {
             mealid = mealID;   
         }
 
+        public void setMeal(Meal newMeal)
+        {
+            myMeal = newMeal;
+        }
 
         public string getDescription()
         {
@@ -116,7 +121,7 @@ namespace CookSmartCommandLine
         }
         public void printCalendar()
         {
-            Console.Write("\n Name: " +myMeal.getMealName() + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
+            Console.Write("\n"+mealid+" Name: " +myMeal.getMealName() + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
         }
     }
 }

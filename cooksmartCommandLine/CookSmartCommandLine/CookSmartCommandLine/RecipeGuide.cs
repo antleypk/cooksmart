@@ -20,7 +20,7 @@ namespace CookSmartCommandLine
         int userID=777777777;
         Recipe thisrecipe = new Recipe();
         Operator operations = new Operator();
-        private string name = "";
+        private string name = "Failed to name in recipe Guide";
         private string conn;
         public RecipeGuide(int UserID)
         {
@@ -42,23 +42,25 @@ namespace CookSmartCommandLine
             Console.WriteLine("Insert Recipe Description");
             userinput = Console.ReadLine();
             thisrecipe.setDescription(userinput);
-            Console.WriteLine("Set Serving Size (Should be integer)");
-            userinput = Console.ReadLine();
-            thisrecipe.setServingSize(Convert.ToInt32(userinput));
+            Console.WriteLine("Set Serving Size (Integer)");
+            string userinputServing = Console.ReadLine();
+            int servingize = 0;
+            bool par = Int32.TryParse(userinputServing, out servingize);
+            while (!par)
+            {
+                //Gives a second change
+                 Console.WriteLine("Set Serving Size (Integer)");
+                 userinputServing = Console.ReadLine();
+                 servingize = 0;
+                 par = Int32.TryParse(userinputServing, out servingize);
+            }
+
+            thisrecipe.setServingSize(servingize);
             List<Ingredient> ListTempIngredients = operations.allIngredients(connection,userID);
             Console.WriteLine("Ingredients" + ListTempIngredients.Count);
             Console.WriteLine();
-
-           // List<Instruction> ListTempInstructions = operations.allInstructions(connection);
-         //   Console.WriteLine("Instructions" + ListTempInstructions.Count);
-            //foreach (Ingredient tempIngredient in ListTempIngredients)
-            //{
-            //    tempIngredient.printIngredient();
-            //}
-
-
             setIngredientsInRecipe(ListTempIngredients, userID);
-            Console.WriteLine("Please set instructions:");
+            Console.WriteLine("Please set instructions in Recipe:");
             setInstructionsInRecipe(connection,userID);
             populateQuantities();
             
@@ -66,12 +68,6 @@ namespace CookSmartCommandLine
             {
                 thisrecipe.addInstruction(MyInstructions[i]);
             }
-            //Console.WriteLine("Instructions Should be here");
-            //foreach(Instruction temp in thisrecipe.getInstructionRecipe())
-            //{
-            //    temp.printInstructionToConsole();
-            //}
-
             //preview revi
             previewRecipe(thisrecipe);
             
@@ -80,15 +76,15 @@ namespace CookSmartCommandLine
             {
                 Console.WriteLine("Continue or Restart?  'C' or 'R'");
                 string userInput = Console.ReadLine();
-                if (userInput == "R")
+                userinput = userInput.ToLower();
+                if (userInput == "c")
                 {
                     startUpRecipeGuide(connection,userID);
                     acted = true;
                 }
-                if (userInput == "C")
+                if (userInput == "c")
                 {
                     insertRecipe(thisrecipe,connection, userID);
-                    
                     acted = true;
                 }
             }
@@ -143,8 +139,6 @@ namespace CookSmartCommandLine
             tempInstruction.setOrder(order);
             tempInstruction.setUserID(userID);
             MyInstructions.Add(tempInstruction);
-            
-
         }
         public void createIngredient(int userID)
         {
@@ -189,14 +183,9 @@ namespace CookSmartCommandLine
                 }
             }
 
-
-
-
             operations.InsertRecipeIngredient(conn, userID, recipetoinsert);
 
-
-            //this will not work because the recipeIDs are wrong
-            insertNewInstructions(connection,userID);//this will fix this
+            insertNewInstructions(connection,userID);
             operations.InsertInstructionRecipe(conn, userID, recipetoinsert);
 
 
@@ -215,9 +204,6 @@ namespace CookSmartCommandLine
                 int primarykey = operations.GetInstructionID(connection, userID, MyInstructions[i]);
                 MyInstructions[i].setID(primarykey);
             }
-
-            
-            
         }
 
 
@@ -412,16 +398,17 @@ namespace CookSmartCommandLine
             bool acted = false;
             Console.WriteLine("Add Instruction? (Add/No)");
             string userInput = Console.ReadLine();
+            userInput = userInput.ToLower();
 
            
-            if (userInput == "Add")
+            if (userInput == "add")
             {
                 createInstruction(userID);
             }
             Console.WriteLine("Done with Instructions? (Done/No)");
             userInput = Console.ReadLine();
             
-            if(userInput == "Done")
+            if(userInput == "done")
             {
                 acted = true;
             }
@@ -433,7 +420,40 @@ namespace CookSmartCommandLine
             
         }
 
+        public void updateRecipe(string connection, int userID)
+        {
+            Console.WriteLine("New title: ");
+            string title = Console.ReadLine();
+            Console.WriteLine("New Description: ");
+            string description = Console.ReadLine();
+            Console.WriteLine("New Serving Size");
+            int servingSize = 0;
+            string userServingString=Console.ReadLine();
+            bool parse = int.TryParse(userServingString, out servingSize);
 
-    }
+            Recipe myrecipe = new Recipe();
+
+            Console.WriteLine("Title is: " + myrecipe.getName());
+            Console.WriteLine("Description is: " + myrecipe.getDescription());
+            Console.WriteLine("Serving Size is: " + myrecipe.getServingSize());
+            Console.WriteLine("Update?  Y/N");
+
+            String userSaveInput = Console.ReadLine();
+            bool acted = false;
+            if (userSaveInput.ToLower() == "y")
+            {
+                acted = true;
+                myrecipe.setName(title);
+                myrecipe.setDescription(description);
+                myrecipe.setServingSize(servingSize);
+                operations.UpdateRecipe(connection, myrecipe, userID);
+            }
+
+            if (!acted)
+            {
+                updateRecipe(connection, userID);
+            }   
+        }
+        }
         }
 

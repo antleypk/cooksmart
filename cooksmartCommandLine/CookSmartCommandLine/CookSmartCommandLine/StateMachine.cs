@@ -645,7 +645,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("All Ingredients By User (9)");
             Console.WriteLine("'menu' for main menu");
             string userInput = Console.ReadLine();
-
+            userInput = userInput.ToLower();
             if (Users.Any<User>() == false)
             {
                 Users = operations.AllUsers(connectionString);
@@ -678,7 +678,20 @@ namespace CookSmartCommandLine
             }
             if (userInput == "4")
             {
+                Console.WriteLine("Peter Debugging SM 681");
                 Calendar = operations.UserCalendar(connectionString, userID);
+                for (int i = 0; i < Calendar.Count; i++)
+                {
+                    ////int mealid = Calendar[i].getMeal().getID();
+                    //var starmeal = new Meal();
+                    //starmeal.setName()
+                    
+                    //MealBuilder helper = new MealBuilder();
+                    //Meal populatedMeal= helper.AutoBuilder(connectionString, userID, userMeal);
+                    //Calendar[i].setMeal(populatedMeal);
+                    //Calendar[i].printCalendar();
+
+                }
             }
             if (userInput == "5")
             {
@@ -757,12 +770,13 @@ namespace CookSmartCommandLine
 
         public void RecipeMenu(Operator operations, string connectionString, int userID)
         {
-            //i would like you to explain this to me
-            //if (Recipes.Any<Recipe>() == false)
-            //{
-            Recipes = operations.allRecipes(connectionString);
-            //}
-
+            //this speeds up the process by bipassing the database interaction if its already local
+            // as a team we need to figure how to do this on a much bigger scale to minimize interactions that happen 
+            //in real time so that users feel like the app is fast
+            if (Recipes.Any<Recipe>() == false)
+            {
+                Recipes = operations.allRecipes(connectionString);
+             }
             Console.WriteLine("\nRecipe Menu!  Options: \n ");
             Console.Write("All Recipes (recipe or 1)" + "\n");
             Console.Write("See ingredients from a recipe '2' " + "\n");
@@ -773,14 +787,9 @@ namespace CookSmartCommandLine
             Console.WriteLine("Reorder Recipe '7'");
             Console.Write("'menu' for main menu" + "\n");
             Console.WriteLine();
-
-
-
-
             //  Console.Write("all Ingredients in a receipe" + "\n");
-
             string userInput = Console.ReadLine();
-
+            userInput = userInput.ToLower();
             //  operations.allIngredientInRecipe(connectionString);
             bool acted = false;
 
@@ -826,29 +835,8 @@ namespace CookSmartCommandLine
             {
                 Recipe myrecipe = operations.RecipeByID(connectionString, userID);
 
-
-                string title = "";
-                string description = "";
-                int servingsize = 0;
-                Console.WriteLine("Title is: " + myrecipe.getName());
-                Console.WriteLine("Description is: " + myrecipe.getDescription());
-                Console.WriteLine("Serving Size is: " + myrecipe.getServingSize());
-                Console.WriteLine("Update?  Y/N");
-                if (Console.ReadLine() == "Y")
-                {
-                    Console.WriteLine("New title: ");
-                    title = Console.ReadLine();
-                    Console.WriteLine("New Description: ");
-                    description = Console.ReadLine();
-                    Console.WriteLine("New Serving Size");
-                    servingsize = Convert.ToInt32(Console.ReadLine());
-                    myrecipe.setName(title);
-                    myrecipe.setDescription(description);
-                    myrecipe.setServingSize(servingsize);
-                    operations.UpdateRecipe(connectionString, myrecipe, userID);
-                }
-
-                //operations.UpdateRecipe(connection, );
+                RecipeGuide guide = new RecipeGuide(userID);
+                guide.updateRecipe(connectionString, userID);
             }
             if (userInput == "menu")
             {

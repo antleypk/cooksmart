@@ -2252,11 +2252,7 @@ namespace CookSmartCommandLine
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
-                    List<String> columnNames = GetDataReaderColumnNames(reader);
-                    for (int i=0; i < columnNames.Count; i++)
-                    {
-                        Console.Write(columnNames.ElementAt(i) + " ");
-                    }
+                    printColumnNames(reader);
                     Console.WriteLine();
                     while (reader.Read())
                     {
@@ -2271,7 +2267,8 @@ namespace CookSmartCommandLine
                         //    Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID,mealID);
                         Calendar temp = new Calendar(userID, mealID, newDateTime,connection);
                         UserCalendar.Add(temp);
-                        //Console.WriteLine(reader["Name"].ToString() + " \n" + reader["Description"].ToString() + " \n" + reader["TimeToBeServed"].ToString());
+                        temp.printCalendar();
+                        Console.WriteLine(reader["MealID"].ToString() + " " + reader["TimeToBeServed"].ToString());
                     }
                     conn.Close();
                     reader.Close();

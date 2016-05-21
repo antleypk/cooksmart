@@ -40,7 +40,7 @@ namespace CookSmartCommandLine
             {
                 startUp(userID, connection, operations);
             }
-            mealDate.setMeal(mealId);
+            mealDate.setMealID(mealId);
             setDay();
             setMonth();
             setYear();

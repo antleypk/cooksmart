@@ -86,5 +86,12 @@ namespace CookSmartCommandLine
             }
             CheckMeal(connection, userMeal,userID);
         }
+        public Meal AutoBuilder(string connection, int userID, Meal userMeal)
+        {
+          
+            
+            CheckMeal(connection, userMeal, userID);
+            return userMeal;
+        }
     }
 }
