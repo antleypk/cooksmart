@@ -370,7 +370,7 @@ namespace CookSmartCommandLine
             {
                 meh.printInstructionToConsole();
             }
-
+            Console.WriteLine("All who venture here be warnded");
             Console.WriteLine("This is the create/insert menu!  Please pick from these options");
             Console.WriteLine("Create new: \n");
             Console.WriteLine("Recipe '1'");
@@ -394,7 +394,7 @@ namespace CookSmartCommandLine
             }
             if (userInput == "2")
             {
-                Ingredient myingredient = operations.storeIngredient(connectionString, UserID);
+                Ingredient myingredient = new Ingredient();
                 createdIngredients.Add(myingredient);
             }
 
@@ -498,7 +498,7 @@ namespace CookSmartCommandLine
                 Ingredient temping = operations.IngredientByName(connectionString, userID);
                 temping.printIngredient();
             }
-            if (userInput == "Menu")
+            if (userInput.ToLower() == "menu")
             {
                 acted = true;
             }
@@ -763,7 +763,7 @@ namespace CookSmartCommandLine
             Recipes = operations.allRecipes(connectionString);
             //}
 
-            Console.WriteLine("\n \n Recipe Menu!  Options: \n ");
+            Console.WriteLine("\nRecipe Menu!  Options: \n ");
             Console.Write("All Recipes (recipe or 1)" + "\n");
             Console.Write("See ingredients from a recipe '2' " + "\n");
             Console.Write("See instructions from a recipe '3' " + "\n");

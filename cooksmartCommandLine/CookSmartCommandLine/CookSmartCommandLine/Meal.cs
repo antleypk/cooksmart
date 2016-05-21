@@ -203,11 +203,15 @@ namespace CookSmartCommandLine
         {
             Console.WriteLine(mealName + " " + mealid);
             Console.WriteLine("Recipe Count: " + recipesInMeal.Count);
+
             CookSmart newCookSmart = new CookSmart();
             for(int i=0; i < recipesInMeal.Count; i++)
             {
+            
                 int recipeID = recipesInMeal[i].getId();
+                Console.WriteLine(recipesInMeal[i].getName());
                 newCookSmart.AutoCookSmart(connection, userid, recipeID);
+
             }
            
         }
