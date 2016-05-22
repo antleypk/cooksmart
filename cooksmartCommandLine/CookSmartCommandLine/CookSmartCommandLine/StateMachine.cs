@@ -825,7 +825,7 @@ namespace CookSmartCommandLine
                 Recipe myrecipe = operations.RecipeByID(connectionString, userID);
 
                 RecipeGuide guide = new RecipeGuide(userID);
-                guide.updateRecipe(connectionString, userID);
+              
             }
             if (userInput == "menu")
             {
