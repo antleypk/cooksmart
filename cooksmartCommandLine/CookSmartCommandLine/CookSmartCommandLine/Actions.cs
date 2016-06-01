@@ -436,27 +436,32 @@ namespace CookSmartCommandLine
             try
             {
                 conn.Open();
+                string Action = "MealIDByUserIDandName";
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@name", name);
+                //  command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
+                command.Parameters.AddWithValue("@userid", userID);
+                command.ExecuteNonQuery();
+
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    mealID = Convert.ToInt32(reader["MealID"].ToString());
+                }
+                reader.Close();
+                conn.Close();
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                Console.WriteLine("InvalidOperationException: Connection must be open and valid");
+                Console.WriteLine(invalidOpEx.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
-            string Action = "MealIDByUserIDandName";
-            MySqlCommand command = new MySqlCommand(Action, conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@name", name);
-            //  command.Parameters.AddWithValue("@desciption", myMeal.getDescription());
-            command.Parameters.AddWithValue("@userid", userID);
-            command.ExecuteNonQuery();
-            
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                mealID = Convert.ToInt32(reader["MealID"].ToString());
-            }
-            reader.Close();
-            conn.Close();
             return mealID;
         }
 
@@ -470,7 +475,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                Console.WriteLine("connection failed, zoroAster says: Check that your IP is valudated");
+                Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
             string Action = "InsertCalendar";
             MySqlCommand command = new MySqlCommand(Action, conn);
@@ -491,19 +496,24 @@ namespace CookSmartCommandLine
             try
             {
                 conn.Open();
+                string Action = "InsertUser";
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@username", userName);
+                command.Parameters.AddWithValue("@password", password);
+                command.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                Console.WriteLine("InvalidOperationException: Connection must be open and valid");
+                Console.WriteLine(invalidOpEx.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
-            string Action = "InsertUser";
-            MySqlCommand command = new MySqlCommand(Action, conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@username", userName);
-            command.Parameters.AddWithValue("@password", password);
-            command.ExecuteNonQuery();
-            conn.Close();
         }
 
         public int GetInstructionID(MySqlConnection conn, int userID, Instruction Ins)

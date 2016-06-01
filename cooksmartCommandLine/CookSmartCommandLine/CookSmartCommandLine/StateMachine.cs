@@ -79,7 +79,7 @@ namespace CookSmartCommandLine
             createOrNot(connectionString);
             // Create a new object of type Operator called from operator.cs
             Operator operations = new Operator();
-            // Prmpt the user for their username
+            // Prompt the user for their username
             Console.WriteLine("Input UserName:");
             userName = Console.ReadLine();
             // Trim spaces from user input
@@ -142,7 +142,7 @@ namespace CookSmartCommandLine
             if (usernamecheck.ToString() == "False")
             {
                 validationkount++;
-                Console.WriteLine("validation count" + validationkount);
+                Console.WriteLine("\n" + "validation count" + validationkount);
                 validation(connectionString);
             }
         }
@@ -243,7 +243,7 @@ namespace CookSmartCommandLine
             }
             if (userInput == "8")
             {
-                Console.WriteLine("stub only");
+                Console.WriteLine("Stub only");
 
             }
             if (userInput == "9")
