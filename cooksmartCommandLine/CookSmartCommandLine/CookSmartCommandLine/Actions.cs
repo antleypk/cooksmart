@@ -159,50 +159,63 @@ namespace CookSmartCommandLine
 
         public bool checkuser(MySqlConnection conn, string username, string password)
         {
+            int userID = 987654321;
+            String Action = "CheckUser";
             try
             {
                 conn.Open();
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("username", username);
+                command.Parameters.AddWithValue("password", password);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    userID = Convert.ToInt32(reader["UserID"].ToString());
+                }
+                conn.Close();
+                //return (!(userID == 987654321));
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                Console.WriteLine("InvalidOperationException: Connection must be open and valid");
+                Console.WriteLine(invalidOpEx.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            int userID = 987654321;
-            String Action = "CheckUser";
-            MySqlCommand command = new MySqlCommand(Action, conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("username", username);
-            command.Parameters.AddWithValue("password", password);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                userID = Convert.ToInt32(reader["UserID"].ToString());
-            }
-            conn.Close();
             return (!(userID == 987654321));
         }
         public bool checkusername(MySqlConnection conn, string username)
         {
+            int userID = 987654321;
+            string Action = "CheckUserName";
             try
             {
                 conn.Open();
+                                MySqlCommand command = new MySqlCommand(Action, conn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("username", username);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    userID = Convert.ToInt32(reader["UserID"].ToString());
+                }
+                conn.Close();
+                //return (!(userID == 987654321));
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                Console.WriteLine("InvalidOperationException: Connection must be open and valid");
+                Console.WriteLine(invalidOpEx.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            int userID = 987654321;
-            string Action = "CheckUserName";
-            MySqlCommand command = new MySqlCommand(Action, conn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("username", username);
-            MySqlDataReader reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                userID = Convert.ToInt32(reader["UserID"].ToString());
-            }
-            conn.Close();
             return (!(userID == 987654321));
+
         }
 
         public void updatelogins(MySqlConnection conn, List<DateTime> logins, string username)
