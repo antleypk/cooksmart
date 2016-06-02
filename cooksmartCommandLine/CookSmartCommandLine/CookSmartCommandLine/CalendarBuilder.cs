@@ -47,8 +47,9 @@ namespace CookSmartCommandLine
             setHour();
             setMinutes();
             setAMPM();
+            makeDateString();
             inputTime = DateTime.Now;
-            buildCalendar(mealId, userID, connection);
+            buildCalendar(mealId, userID, connection, operations);
             check(userID, connection, operations);
         }
 
@@ -75,11 +76,11 @@ namespace CookSmartCommandLine
             }
         }
 
-        public void buildCalendar(int mealId, int userId, string connection)
+        public void buildCalendar(int mealId, int userId, string connection, Operator operations)
         {
             mealDate.setInputDate(inputTime);
             mealDate.setTimeToBeServed(timeToBeServed);
-            Meal thismeal = new Meal(userId, mealId, connection);
+            mealDate.setMeal(operations.getMealByID(connection, userId, mealId));
         }
 
         public void insertCalendar(int userId, string connection, Operator operations)

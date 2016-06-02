@@ -121,7 +121,7 @@ namespace CookSmartCommandLine
         }
         public void printCalendar()
         {
-            Console.Write("\n"+mealid+" Name: " +myMeal.getMealName() + "\n Description " + description + "\n TimeToBeServed " + timetobeserved + " \n");
+            Console.Write("\n"+mealid+" Name: " +myMeal.getMealName() + "\n TimeToBeServed " + timetobeserved + " \n");
         }
     }
 }
