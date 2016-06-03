@@ -477,13 +477,14 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex);
                 Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
-            string Action = "InsertCalendar";
+            string Action = "AddKalander";
             MySqlCommand command = new MySqlCommand(Action, conn);
             string name = cal.getMeal().getMealName();
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@title", name);
+            command.Parameters.AddWithValue("@mealid", cal.getMeal().getID());
             command.Parameters.AddWithValue("@description", cal.getDescription());
-            command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
+            command.Parameters.AddWithValue("@tbs", cal.getTimeToBeServed());
             command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
             command.Parameters.AddWithValue("@userid", cal.GetUserID());
             command.ExecuteNonQuery();
