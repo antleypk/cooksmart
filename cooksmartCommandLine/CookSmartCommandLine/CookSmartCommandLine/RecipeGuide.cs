@@ -266,7 +266,8 @@ namespace CookSmartCommandLine
             Console.WriteLine("MyIngredients count after " + MyIngredients.Count);
             Console.WriteLine("Done adding Ingredients?  (Y/N)");
             string userInput3 = Console.ReadLine();
-            if (userInput3 == "Y")
+            userInput3 = userInput3.ToLower();
+            if (userInput3 == "y")
             {
                 finish = true;
             }

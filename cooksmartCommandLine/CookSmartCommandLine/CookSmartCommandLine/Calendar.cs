@@ -18,6 +18,10 @@ namespace CookSmartCommandLine
         private int mealid = 863789179;
         private Meal myMeal;
         private string connection;
+        public int getMealID()
+        {
+            return mealid;
+        }
         public Calendar()
         {
             

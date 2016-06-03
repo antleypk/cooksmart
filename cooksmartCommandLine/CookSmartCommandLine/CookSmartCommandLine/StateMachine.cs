@@ -191,11 +191,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("User Menu '5' ");
             Console.WriteLine("Recipe Builder '6'");
             Console.WriteLine("Create menu '7'");
-            Console.WriteLine("RecipeID by Name and user ID '8'");
-            Console.WriteLine("IngredientID by Name and user ID '9'");
-            Console.WriteLine("GOD MODE '10'");
             Console.WriteLine("Calendar '11'");
-            Console.WriteLine("Build Meal '12'");
             Console.WriteLine("Meal Menu '13'");
             Console.WriteLine("Enter 'exit' to quit");
             Console.WriteLine("");
@@ -241,11 +237,6 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Create menu");
                 CreateMenu(operations, connectionString);
             }
-            if (userInput == "8")
-            {
-                Console.WriteLine("Stub only");
-
-            }
             if (userInput == "9")
             {
                 Console.WriteLine("Stub only");
@@ -259,11 +250,7 @@ namespace CookSmartCommandLine
             {
                 calenderMenu(connectionString, operations, userID);
             }
-            if (userInput == "12")
-            {
-                MealBuilder newMeal = new MealBuilder();
-                newMeal.StartBuilder(connectionString,userID);
-            }
+
             if (userInput == "13")
             {
                 Console.WriteLine("Meal Menu");
@@ -288,19 +275,22 @@ namespace CookSmartCommandLine
             Console.WriteLine();
             Console.WriteLine("Meal Menu");
             Console.WriteLine("All meals '1'");
-            Console.WriteLine("Chose meal by ID '2'");
+            Console.WriteLine("Choose meal by ID '2'");
+            Console.WriteLine("Build new Meal (3) ");
             Console.WriteLine("menu for main");
+
             Console.WriteLine();
             string userInput = Console.ReadLine();
             userInput = userInput.ToLower();
             if (userInput == "1")
+
             {
               List<Meal> allmeals =  operations.allMeals(connection);
                 for (int i = 0; i < allmeals.Count; i++)
                 {
                     Meal temp = new Meal();
                     temp = allmeals.ElementAt(i);
-                    temp.printMeal(connection);
+                    temp.printMealFull(connection);
                 }
                 act = true;
                 Console.WriteLine();
@@ -330,8 +320,13 @@ namespace CookSmartCommandLine
                     }
                 }            
                  Meal petersTest = new Meal(userID, mealID, connection);
-                 petersTest.printMeal(connection);
+                 petersTest.printMealFull(connection);
 
+            }
+            if (userInput == "3")
+            {
+                MealBuilder newMeal = new MealBuilder();
+                newMeal.StartBuilder(connection, userID);
             }
             if (userInput == "menu")
             {
@@ -347,16 +342,43 @@ namespace CookSmartCommandLine
         {
             Console.WriteLine("Calender Menu");
             //view all Calendar objects associated with user.
-            List<Calendar> UserCalendar = new List<Calendar>();
-            UserCalendar = operations.UserCalendar(connection, userID);
-            foreach(Calendar c in UserCalendar)
+            Console.WriteLine("View Your Calander (1)");
+            Console.WriteLine("Add to your Calander (2)");
+           bool act = false;
+            string userInput = Console.ReadLine();
+
+            if (userInput == "1")
             {
-                Console.WriteLine(c.getMeal().getName() + " " + c.getTimeToBeServed().ToString());
+                
+
+                List<Calendar> UserCalendar = new List<Calendar>();
+                UserCalendar = operations.UserCalendar(connection, userID);
+                foreach (Calendar c in UserCalendar)
+                {
+                    Console.WriteLine(c.getMeal().getName() + " " + c.getTimeToBeServed().ToString());
+                }
+
             }
-            //build a list of meals for user.
-            //iterate through and print meals.
-            CalendarBuilder petersBuilder = new CalendarBuilder();
-            petersBuilder.startUp(userID, connection, operations);
+            if (userInput == "2")
+            {
+                CalendarBuilder petersBuilder = new CalendarBuilder();
+                petersBuilder.startUp(userID, connection, operations);
+               
+            }
+
+            ////build a list of meals for user.
+            ////iterate through and print meals.
+       
+            if (userInput == "menu")
+            {
+                act = true;
+            }
+
+            if (act == false)
+            {
+                calenderMenu(connection, operations, userID);
+            }
+            
         }
         public void CreateMenu(Operator operations, string connectionString)
         {

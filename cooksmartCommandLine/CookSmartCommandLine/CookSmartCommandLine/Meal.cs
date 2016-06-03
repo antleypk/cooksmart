@@ -29,13 +29,10 @@ namespace CookSmartCommandLine
             mealid = MealID;
 
             setNameAutoMatic(Connection);
-            //works
             setRecipesInMeal(Connection);
-
             setInstructionsInRecipe(Connection);
-            //works
             setIngredientsInRecipes(Connection);
-          //  check();
+     
         }
         
         public void setUPmealoffline(int MEALID, string NAME, string DESCRIPTION, int USERID)
@@ -200,21 +197,37 @@ namespace CookSmartCommandLine
         {
             return mealid;
         }
-        public void printMeal(string connection)
+        public void printMealTop(string connection)
+        {
+            Console.WriteLine(mealName + " " + mealid);
+            Console.WriteLine("Recipe Count: " + recipesInMeal.Count);
+
+            //CookSmart newCookSmart = new CookSmart();
+            //for(int i=0; i < recipesInMeal.Count; i++)
+            //{
+            
+            //    int recipeID = recipesInMeal[i].getId();
+            //    Console.WriteLine(recipesInMeal[i].getName());
+            //    newCookSmart.AutoCookSmart(connection, userid, recipeID);
+
+            //}
+           
+        }
+        public void printMealFull(string connection)
         {
             Console.WriteLine(mealName + " " + mealid);
             Console.WriteLine("Recipe Count: " + recipesInMeal.Count);
 
             CookSmart newCookSmart = new CookSmart();
-            for(int i=0; i < recipesInMeal.Count; i++)
+            for (int i = 0; i < recipesInMeal.Count; i++)
             {
-            
+
                 int recipeID = recipesInMeal[i].getId();
                 Console.WriteLine(recipesInMeal[i].getName());
                 newCookSmart.AutoCookSmart(connection, userid, recipeID);
 
             }
-           
+
         }
     }
 }

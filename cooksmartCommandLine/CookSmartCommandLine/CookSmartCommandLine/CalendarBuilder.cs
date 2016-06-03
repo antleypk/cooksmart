@@ -24,14 +24,11 @@ namespace CookSmartCommandLine
         {
            
             mealDate.SetUserID(userID);
-            //Console.WriteLine("Name:");
-            //string mdName = Console.ReadLine();
-            //mealDate.setName(mdName);
-            //operations.allMeals(connection);
-            //Console.WriteLine("Description:");
-            //string mdDescription = Console.ReadLine();
-            //mealDate.setDescription(mdDescription);
-            operations.allMeals(connection);
+            List<Meal> allMeals=operations.allMeals(connection);
+            for (int i = 0; i < allMeals.Count; i++)
+            {
+                allMeals[i].printMealTop(connection);
+            }
             Console.WriteLine("Choose your meal by id");
             string stringInput = Console.ReadLine();
             int mealId = 666666666;
@@ -55,7 +52,8 @@ namespace CookSmartCommandLine
 
         public void makeDateString()
         {
-            string DateString = day + "/" + month + "/" + year + " " + hours + ":" + minutes + ":00 " + AMPM;
+            string DateString = month + "/" + day + "/" + year + " " + hours + ":" + minutes + ":00 " + AMPM;
+            Console.WriteLine("Date String inside CalanderBuider datestring: " + DateString);
             Actions act = new Actions();
             timeToBeServed = act.stringToDateTime(DateString);
         }
@@ -116,6 +114,10 @@ namespace CookSmartCommandLine
             }
             if (Parse && tempMonth < 13)
             {
+                if (tempMonth < 10)
+                {
+                 //   tempMonth = '0' + tempMonth;
+                }
                 month = tempMonth;
             }
         }
@@ -148,6 +150,10 @@ namespace CookSmartCommandLine
             }
             if (Parse && tempHour < 13)
             {
+                if (tempHour < 10)
+                {
+                //    tempHour = '0' + tempHour;
+                }  
                 hours = tempHour;
             }
         }

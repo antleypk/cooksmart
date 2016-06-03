@@ -477,18 +477,30 @@ namespace CookSmartCommandLine
                 Console.WriteLine(ex);
                 Console.WriteLine("connection failed, zoroAster says: Check that your IP is validated");
             }
-            string Action = "AddKalander";
-            MySqlCommand command = new MySqlCommand(Action, conn);
-            string name = cal.getMeal().getMealName();
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.AddWithValue("@title", name);
-            command.Parameters.AddWithValue("@description", cal.getDescription());
-            command.Parameters.AddWithValue("@timetobeserved", cal.getTimeToBeServed());
-            command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
-            command.Parameters.AddWithValue("@userid", cal.GetUserID());
-            command.ExecuteNonQuery();
-            conn.Close();
-            command.CommandType = CommandType.StoredProcedure;
+         
+
+
+            try
+            {
+                string Action = "AddKalander";
+                MySqlCommand command = new MySqlCommand(Action, conn);
+                string name = cal.getMeal().getMealName();
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@title", name);
+                command.Parameters.AddWithValue("@description", cal.getDescription());
+                command.Parameters.AddWithValue("@tbs", cal.getTimeToBeServed());
+                command.Parameters.AddWithValue("@inputdate", cal.getInputDate());
+                command.Parameters.AddWithValue("@userid", cal.GetUserID());
+                command.Parameters.AddWithValue("@mealid", cal.getMealID());
+                command.ExecuteNonQuery();
+                command.CommandType = CommandType.StoredProcedure;
+                conn.Close();
+            }
+            catch (InvalidOperationException invalidOpEx)
+            {
+                Console.WriteLine("InvalidOperationException: Connection must be open and valid");
+                Console.WriteLine(invalidOpEx.Message);
+            }
         }
 
         public void InsertUser(MySqlConnection conn, string userName, string password)
@@ -1574,7 +1586,7 @@ namespace CookSmartCommandLine
 
         public DateTime stringToDateTime(string stringIN)
         {
-            // Console.WriteLine("Date string: " + stringIN);
+             Console.WriteLine("Date string: " + stringIN);
             string tempDateTimeString = stringIN;
             string month = "";
             string day = "";
@@ -1610,6 +1622,10 @@ namespace CookSmartCommandLine
             string hours = "";
             string minutes = "";
             string seconds = "";
+            if (seconds == "")
+            {
+                seconds = "00";
+            }
             bool am = true;
             int spaceCount = 0;
             int colonCount = 0;
@@ -2281,7 +2297,7 @@ namespace CookSmartCommandLine
                     {
                         string mealIDstring = reader["MealID"].ToString();
                         int mealID = Convert.ToInt32(mealIDstring);
-                    //    Console.WriteLine("meal id: " + mealIDstring);
+                       Console.WriteLine("meal id: " + mealIDstring);
                         //string tempDateTimeString = reader["DateToBeServered"].ToString();
                         //DateTime newDateTime;
                         ////  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
