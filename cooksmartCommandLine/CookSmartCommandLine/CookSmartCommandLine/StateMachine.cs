@@ -346,6 +346,15 @@ namespace CookSmartCommandLine
         public void calenderMenu(string connection, Operator operations, int userID)
         {
             Console.WriteLine("Calender Menu");
+            //view all Calendar objects associated with user.
+            List<Calendar> UserCalendar = new List<Calendar>();
+            UserCalendar = operations.UserCalendar(connection, userID);
+            foreach(Calendar c in UserCalendar)
+            {
+                Console.WriteLine(c.getMeal().getName() + " " + c.getTimeToBeServed().ToString());
+            }
+            //build a list of meals for user.
+            //iterate through and print meals.
             CalendarBuilder petersBuilder = new CalendarBuilder();
             petersBuilder.startUp(userID, connection, operations);
         }
