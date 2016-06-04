@@ -1586,7 +1586,7 @@ namespace CookSmartCommandLine
 
         public DateTime stringToDateTime(string stringIN)
         {
-             Console.WriteLine("Date string: " + stringIN);
+            //Console.WriteLine("Date string: " + stringIN);
             string tempDateTimeString = stringIN;
             string month = "";
             string day = "";
@@ -1619,6 +1619,8 @@ namespace CookSmartCommandLine
                     count++;
                 }
             }
+            if(day.Length < 2) { day = "0" + day; }
+            if(month.Length < 2) { month = "0" + month; }
             string hours = "";
             string minutes = "";
             string seconds = "";
@@ -2297,17 +2299,18 @@ namespace CookSmartCommandLine
                     {
                         string mealIDstring = reader["MealID"].ToString();
                         int mealID = Convert.ToInt32(mealIDstring);
-                       Console.WriteLine("meal id: " + mealIDstring);
-                        //string tempDateTimeString = reader["DateToBeServered"].ToString();
-                        //DateTime newDateTime;
-                        ////  Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
-                       
-                        //newDateTime = stringToDateTime(tempDateTimeString);
-                        ////    Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID,mealID);
-                        //Calendar temp = new Calendar(userID, mealID, newDateTime,connection);
-                        //UserCalendar.Add(temp);
-                        //temp.printCalendar();
-                        //Console.WriteLine(reader["MealID"].ToString() + " " + reader["DateToBeServered"].ToString());
+                        Console.WriteLine("meal id: " + mealIDstring);
+                        string tempDateTimeString = reader["DateToBeServered"].ToString();
+                        DateTime newDateTime;
+                        Console.WriteLine("tbs: " + tempDateTimeString);
+                       // Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
+
+                        newDateTime = stringToDateTime(tempDateTimeString);
+                        //    Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID,mealID);
+                        Console.WriteLine("DateTime object: " + newDateTime);
+                        Calendar temp = new Calendar(userID, mealID, newDateTime, connection);
+                        UserCalendar.Add(temp);
+                        temp.printCalendar();
                     }
                     conn.Close();
                     reader.Close();

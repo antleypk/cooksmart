@@ -349,8 +349,6 @@ namespace CookSmartCommandLine
 
             if (userInput == "1")
             {
-                
-
                 List<Calendar> UserCalendar = new List<Calendar>();
                 UserCalendar = operations.UserCalendar(connection, userID);
                 foreach (Calendar c in UserCalendar)

@@ -52,8 +52,25 @@ namespace CookSmartCommandLine
 
         public void makeDateString()
         {
-            string DateString = month + "/" + day + "/" + year + " " + hours + ":" + minutes + ":00 " + AMPM;
-            Console.WriteLine("Date String inside CalanderBuider datestring: " + DateString);
+            string monthstr = month.ToString();
+            string daystr = day.ToString();
+            string yearstr = year.ToString();
+            string hoursstr = hours.ToString();
+            string minutesstr = hours.ToString();
+            if(daystr.Length < 2)
+            {
+                daystr = "0" + daystr;
+            }
+            if(hoursstr.Length < 2)
+            {
+                hoursstr = "0" + hoursstr;
+            }
+            if(minutesstr.Length < 2)
+            {
+                minutesstr = "0" + minutesstr;
+            }
+            string DateString = monthstr + "/" + daystr + "/" + yearstr + " " + hoursstr + ":" + minutesstr + ":00 " + AMPM;
+            //Console.WriteLine("Date String inside CalanderBuider datestring: " + DateString);
             Actions act = new Actions();
             timeToBeServed = act.stringToDateTime(DateString);
         }
