@@ -96,6 +96,9 @@ namespace CookSmartCommandLine
 
             if (usernamecheck)
             {
+                bool fail = false;
+                //opperations to find distance between first and forth if less than 5 minutes do not continue
+              
                 // If username exists, proceed
                 if (passwordcheck)
                 {
@@ -104,8 +107,18 @@ namespace CookSmartCommandLine
                     int id = operations.GetUserID(connectionString, userName, password);
                     // User is logged in, and UserID is set to global
                     UserID = id;
+                    double timeSpread= operations.valdiationInSeconds(connectionString, UserID);
+                    Console.WriteLine("timeSpread: " + timeSpread);
+
+                    if (timeSpread < 100)
+                    {
+                        fail = true;
+                        validationkount = 5;
+                        Console.WriteLine("Madness");
+                    }
+                    Console.WriteLine("security: " + fail);
                 }
-                else
+                if(fail)
                 {
                     // Create a new object of type DateTime, set equal to the current date and time
                     DateTime now = DateTime.Now;
@@ -153,7 +166,7 @@ namespace CookSmartCommandLine
         {
             string connectionString = "Server= 108.167.137.112;Port=3306;Database=tractio2_CookSmart;uid=tractio2_generic;password=Pa88word;Convert Zero Datetime=True";
             Console.Write("Welcome to CookSmart" + "\n");
-            Console.WriteLine("CookSmartClassic 1.02+");
+            Console.WriteLine("CookSmartClassic 1.0201+");
             Console.Write("Thanks for choosing Traction Systems" + "\n" + "\n");
             // Checks to see if user has a valid username and password combination (Authentication)
             validation(connectionString);
@@ -276,7 +289,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("Meal Menu");
             Console.WriteLine("All meals '1'");
             Console.WriteLine("Choose meal by ID '2'");
-            Console.WriteLine("Build new Meal (3) ");
+            Console.WriteLine("Build new Meal '3' ");
             Console.WriteLine("menu for main");
 
             Console.WriteLine();

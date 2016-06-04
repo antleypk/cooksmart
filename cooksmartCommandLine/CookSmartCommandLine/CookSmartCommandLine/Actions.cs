@@ -51,6 +51,43 @@ namespace CookSmartCommandLine
             command.ExecuteNonQuery();
             conn.Close();
         }
+        public double getValdiationSpread(MySqlConnection conn, int userId)
+        {
+            double time = 0;
+
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            int userID = 987654321;
+            String Action = "UserByID";
+            MySqlCommand command = new MySqlCommand(Action, conn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue("userid", userId);
+            string first="fail to read";
+            string fourth="fail to read";
+            MySqlDataReader reader = command.ExecuteReader();
+         //   printColumnNames(reader);
+            while (reader.Read())
+            {
+                first = reader["first"].ToString();
+                fourth = reader["forth"].ToString();
+            }
+            DateTime firstDate = stringToDateTime(first);
+            DateTime forthDate = stringToDateTime(fourth);
+
+            //Console.WriteLine("first: " + firstDate + " fourth: " + forthDate);
+            TimeSpan ts = firstDate - forthDate;
+         //   Console.WriteLine("ts Seconds:" + ts.TotalSeconds);
+            //Console.WriteLine("ts Minutes: " + ts.TotalMinutes);
+            time = ts.TotalSeconds;
+            return time;
+
+        }
 
         public void DeleteRecipeWithInstruction(MySqlConnection conn, Recipe rec, int userID)
         {
@@ -432,9 +469,10 @@ namespace CookSmartCommandLine
 
         public int GetMealID(MySqlConnection conn, string name, int userID)
         {
-            int mealID = 99999999;
+            int mealID = 0;
             try
             {
+                Console.WriteLine("name: " + name + " " + " userid " + userID);
                 conn.Open();
                 string Action = "MealIDByUserIDandName";
                 MySqlCommand command = new MySqlCommand(Action, conn);
@@ -447,7 +485,12 @@ namespace CookSmartCommandLine
                 MySqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    mealID = Convert.ToInt32(reader["MealID"].ToString());
+                   int mealIDtemp = Convert.ToInt32(reader["MealID"].ToString());
+                   if (mealIDtemp > mealID)
+                    {
+                        mealID = mealIDtemp;
+                    } 
+                    Console.WriteLine("Meal ID: in actions " + mealID);
                 }
                 reader.Close();
                 conn.Close();
@@ -1572,11 +1615,7 @@ namespace CookSmartCommandLine
             }
 
 
-            //while (reader.Read())
-            //{
-            //    Console.WriteLine(reader["RecipeID"].ToString());
-            //    Console.WriteLine(reader["Title"].ToString());
-            //}
+
             conn.Close();
             Console.WriteLine("done q");
             Console.ReadLine();
@@ -1585,7 +1624,7 @@ namespace CookSmartCommandLine
 
         public DateTime stringToDateTime(string stringIN)
         {
-          //  Console.WriteLine("Date string: " + stringIN);
+ 
             string tempDateTimeString = stringIN;
             string month = "";
             string day = "";
@@ -1604,12 +1643,21 @@ namespace CookSmartCommandLine
                     if (count == 1)
                     {
                         day = day + tempDateTimeString.ElementAt(i);
+                        int tempday = Convert.ToInt32(day);
+                        if (tempday < 10)
+                        {
+                            day = "0" + day;
+                        }
 
                     }
                     if (count == 2)
                     {
-                        year = year + tempDateTimeString.ElementAt(i);
 
+                        year = year + tempDateTimeString.ElementAt(i);
+                        if(year.Length>2 && tempDateTimeString.ElementAt(i)==' ')
+                        {
+                            count++;
+                        }
                     }
 
                 }
@@ -1618,12 +1666,12 @@ namespace CookSmartCommandLine
                     count++;
                 }
             }
-            Console.WriteLine("day before: " + day);
+ //           Console.WriteLine("day before: " + day);
             if(day.Length < 2) { day = "0" + day; }
-            Console.WriteLine("day after: " + day);
-            Console.WriteLine("month before: " + month);
+    //        Console.WriteLine("day after: " + day);
+    //        Console.WriteLine("month before: " + month);
             if(month.Length < 2) { month = "0" + month; }
-            Console.WriteLine("month after: " + month);
+   //         Console.WriteLine("month after: " + month);
             string hours = "";
             string minutes = "";
             string seconds = "";
@@ -1689,17 +1737,13 @@ namespace CookSmartCommandLine
                 }
             }
 
-            int yearint = Convert.ToInt32(year);
+            int yearint = 9999;
+            bool yearBol = Int32.TryParse(year, out yearint);
             int monthint = Convert.ToInt32(month);
             int dayint = Convert.ToInt32(day);
-            // DateTime Outputdate = new DateTime(yearint, monthint, dayint, hoursInt,minInt,secondsInt);
+            
             DateTime Outputdate = new DateTime(yearint, monthint, dayint, hoursInt, minInt, secondsInt);
-            DateTime newoutput = Outputdate.AddHours(hoursInt);
-            int temphour = Outputdate.Hour;
 
-            //Outputdate.AddHours(hoursInt);
-
-            Console.WriteLine(Outputdate);
             return Outputdate;
         }
         public List<Kitchen> UserKitchen(MySqlConnection connn, int userID)

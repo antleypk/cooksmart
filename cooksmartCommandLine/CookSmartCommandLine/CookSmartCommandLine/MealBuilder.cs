@@ -67,9 +67,16 @@ namespace CookSmartCommandLine
             string mealDescription = Console.ReadLine();
             userMeal.setDescription(mealDescription);
             bool stop = true;
+            PrintRecipies(connection);
+            Operator operations = new Operator();
+            List<Recipe> allrecipes=operations.allRecipes(connection);
+            for (int i = 0; i < allrecipes.Count; i++)
+            {
+                allrecipes[i].printRecipe();
+            }
             while (stop)
             {
-                PrintRecipies(connection);
+                
                 Console.WriteLine("Recipes in meal " + numberOfRecipes.ToString());
                 Console.WriteLine("Choose recipie by ID type 'continue' to continue.");
                 string recipieID = Console.ReadLine();
@@ -79,7 +86,7 @@ namespace CookSmartCommandLine
                 }
                 else
                 {
-                    int recipieId = Int32.Parse(recipieID.Trim());
+                    int recipieId = int.Parse(recipieID.Trim());
                     userMeal.addRecipesInMeal(connection, recipieId);
                     numberOfRecipes += 1;
                 }
