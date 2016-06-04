@@ -47,12 +47,12 @@ namespace CookSmartCommandLine
             operation.insertMeal(connection, myMeal, userID);
             int mealID = operation.getMealID(connection, userID, myMeal.getName());
             myMeal.setID(mealID);
-            Console.WriteLine("meal primary key: " + mealID);
+        //    Console.WriteLine("meal primary key: " + mealID);
             Console.WriteLine("recipes in meal: " + myMeal.recipeCount());
             for(int i=0; i < myMeal.recipeCount(); i++)
             {
                 int recipeID = myMeal.getRecipeIDfromindex(i);
-                Console.WriteLine("recipe id in meal builder: " + recipeID);
+         //       Console.WriteLine("recipe id in meal builder: " + recipeID);
                 operation.insertMealRecipe(connection, mealID, userID, recipeID);
             }
         }
