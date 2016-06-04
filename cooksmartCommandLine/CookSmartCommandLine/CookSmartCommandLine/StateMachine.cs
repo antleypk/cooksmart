@@ -203,6 +203,7 @@ namespace CookSmartCommandLine
             Console.WriteLine("User Menu '5' ");
             Console.WriteLine("Recipe Builder '6'");
             Console.WriteLine("Create menu '7'");
+            Console.WriteLine("Kitchen '8'");
             Console.WriteLine("Calendar '11'");
             Console.WriteLine("Meal Menu '13'");
             Console.WriteLine("Enter 'exit' to quit");
@@ -240,8 +241,8 @@ namespace CookSmartCommandLine
             if (userInput == "6")
             {
                 Console.WriteLine("New Recipe");
-                RecipeGuide myGuide = new RecipeGuide("Test Recipe", UserID);
-                Recipe newRecipe = myGuide.startUpRecipeGuide(connectionString, UserID);
+                RecipeGuide myGuide = new RecipeGuide("Test Recipe", userID);
+                Recipe newRecipe = myGuide.startUpRecipeGuide(connectionString, userID);
 
             }
             if (userInput == "7")
@@ -249,9 +250,10 @@ namespace CookSmartCommandLine
                 Console.WriteLine("Create menu");
                 CreateMenu(operations, connectionString);
             }
-            if (userInput == "9")
+            if (userInput == "8")
             {
-                Console.WriteLine("Stub only");
+                Console.WriteLine("Kitchen Menu");
+                kitchenMenu(connectionString,operations,userID);
             }
             if (userInput == "10")
             {
@@ -280,6 +282,38 @@ namespace CookSmartCommandLine
                 startMenu(userID, connectionString);
             }
 
+        }
+        public void kitchenMenu(string connection, Operator operations, int userID)
+        {
+            bool act = false;
+            Console.WriteLine("View Kitchen '1'");
+            Console.WriteLine("menu for menu");
+
+            string userInput = Console.ReadLine();
+            userInput = userInput.ToLower();
+            if (userInput == "1")
+            {
+                act = true;
+                Kitchen = operations.UserKitchen(connection, userID);
+
+                foreach (Kitchen tempkitchen in Kitchen)
+                {
+                    tempkitchen.printKitchen();
+                    Console.WriteLine("Hello");
+
+                }
+               
+
+            }
+            if (userInput == "menu")
+            {
+                act = true;
+            }
+
+            if (!act)
+            {
+                kitchenMenu(connection, operations, userID);
+            }
         }
         public void mealMenu(string connection, Operator operations, int userID)
         {

@@ -1762,17 +1762,21 @@ namespace CookSmartCommandLine
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
-                    List<String> columnNames = GetDataReaderColumnNames(reader);
                     printColumnNames(reader);
+                   // Console.WriteLine("Madness");
                     while (reader.Read())
                     {
                         //string ingid = reader
-                        string quantitystring = reader["quantity"].ToString();
+                        string quantitystring = reader["Quantity"].ToString();
                         decimal newquantity = Convert.ToDecimal(quantitystring);
                         string tempDateTimeString = reader["PutOnShelf"].ToString();
-
-                        DateTime Outputdate = stringToDateTime(tempDateTimeString);
-
+                        string userid = reader["UserID"].ToString();
+                        string expiration = reader["Expiration"].ToString();
+                        string ingrediendid = reader["IngredientID"].ToString();
+                        Console.WriteLine("Userid: " + userid + " IngID" + ingrediendid);
+                        DateTime purchased = stringToDateTime(tempDateTimeString);
+                        DateTime expired = stringToDateTime(expiration);
+                        Console.WriteLine("Purchased: " + purchased + " Expires: " + expired);
                         //Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
                         //UserKitchen.Add(temp);
                     }
