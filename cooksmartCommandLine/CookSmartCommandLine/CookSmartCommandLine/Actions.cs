@@ -912,8 +912,8 @@ namespace CookSmartCommandLine
                 string tempDateTimeString = reader["InputDate"].ToString();
                 Console.WriteLine(tempDateTimeString + "Tom & Pete");
                 DateTime Outputdate = stringToDateTime(tempDateTimeString);
-                Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
-                ShoppingList.Add(temp);
+                //Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
+                //ShoppingList.Add(temp);
             }
             reader.Close();
             conn.Close();
@@ -966,8 +966,8 @@ namespace CookSmartCommandLine
                         string tempDateTimeString = reader["InputDate"].ToString();
                         Console.WriteLine(tempDateTimeString + "Tom & Pete");
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
-                        ShoppingList.Add(temp);
+                        //Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
+                        //ShoppingList.Add(temp);
                     }
                     reader.Close();
                     conn.Close();
@@ -1011,9 +1011,8 @@ namespace CookSmartCommandLine
                     decimal newquantity = Convert.ToDecimal(quantitystring);
                     string tempDateTimeString = reader["InputDate"].ToString();
                     DateTime Outputdate = stringToDateTime(tempDateTimeString);
-                    Console.WriteLine(tempDateTimeString + "Tom & Pete");
-                    Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
-                    ShoppingList.Add(temp);
+                    //Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
+                    //ShoppingList.Add(temp);
                 }
                 reader.Close();
                 conn.Close();
@@ -1622,7 +1621,9 @@ namespace CookSmartCommandLine
             Console.WriteLine("day before: " + day);
             if(day.Length < 2) { day = "0" + day; }
             Console.WriteLine("day after: " + day);
+            Console.WriteLine("month before: " + month);
             if(month.Length < 2) { month = "0" + month; }
+            Console.WriteLine("month after: " + month);
             string hours = "";
             string minutes = "";
             string seconds = "";
@@ -1698,7 +1699,7 @@ namespace CookSmartCommandLine
 
             //Outputdate.AddHours(hoursInt);
 
-
+            Console.WriteLine(Outputdate);
             return Outputdate;
         }
         public List<Kitchen> UserKitchen(MySqlConnection connn, int userID)
@@ -1718,21 +1719,18 @@ namespace CookSmartCommandLine
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
                     List<String> columnNames = GetDataReaderColumnNames(reader);
-                    for (int b = 0; b < columnNames.Count; b++)
-                    {
-                        Console.Write(columnNames.ElementAt(b) + " ");
-                    }
-                    Console.WriteLine();
+                    printColumnNames(reader);
                     while (reader.Read())
                     {
+                        //string ingid = reader
                         string quantitystring = reader["quantity"].ToString();
                         decimal newquantity = Convert.ToDecimal(quantitystring);
                         string tempDateTimeString = reader["PutOnShelf"].ToString();
 
                         DateTime Outputdate = stringToDateTime(tempDateTimeString);
 
-                        Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
-                        UserKitchen.Add(temp);
+                        //Kitchen temp = new Kitchen(reader["Title"].ToString(), reader["Description"].ToString(), newquantity, reader["QuantityType"].ToString(), Outputdate, userID);
+                        //UserKitchen.Add(temp);
                     }
                     reader.Close();
                     if (parse == false)

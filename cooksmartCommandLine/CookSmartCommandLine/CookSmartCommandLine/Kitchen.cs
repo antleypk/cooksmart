@@ -8,23 +8,19 @@ namespace CookSmartCommandLine
 {
     public class Kitchen
     {
+        List<Ingredient> Ingredients = new List<Ingredient>();
         string title = "C# Name Fail kitchen";
         string description = "C# Description fail kitchen";
         decimal quantity = -1;
         string quantitytype = "C# QuantityType fail kitech";
         DateTime putonshelf;
         int userid = 0;
-    public Kitchen()
-            {
-      
-            }
-    public Kitchen(string Title, string Description, decimal TotalQuantity, string QuantityType, DateTime PutOnShelf, int userID)
+        public Kitchen()
         {
-            title = Title;
-            description = Description;
-            quantity = TotalQuantity;
-            quantitytype = QuantityType;
-            putonshelf = PutOnShelf;
+
+        }
+        public Kitchen(int userID, string connection)
+        {
             userid = userID;
         }
 
@@ -37,9 +33,6 @@ namespace CookSmartCommandLine
         {
             userid = newuserid;
         }
-
-
-
 
         public string getTitle()
         {
