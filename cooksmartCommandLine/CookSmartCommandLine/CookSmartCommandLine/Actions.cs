@@ -1619,7 +1619,9 @@ namespace CookSmartCommandLine
                     count++;
                 }
             }
+            Console.WriteLine("day before: " + day);
             if(day.Length < 2) { day = "0" + day; }
+            Console.WriteLine("day after: " + day);
             if(month.Length < 2) { month = "0" + month; }
             string hours = "";
             string minutes = "";
