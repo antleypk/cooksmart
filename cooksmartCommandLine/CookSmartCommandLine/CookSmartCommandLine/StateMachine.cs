@@ -97,7 +97,7 @@ namespace CookSmartCommandLine
             if (usernamecheck)
             {
                 bool fail = false;
-                //opperations to find distance between first and forth if less than 5 minutes do not continue
+               
               
                 // If username exists, proceed
                 if (passwordcheck)
@@ -114,9 +114,8 @@ namespace CookSmartCommandLine
                     {
                         fail = true;
                         validationkount = 5;
-                        Console.WriteLine("Madness");
                     }
-                    Console.WriteLine("security: " + fail);
+                    
                 }
                 if(fail)
                 {
