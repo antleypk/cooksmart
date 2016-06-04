@@ -34,17 +34,16 @@ namespace CookSmartCommandLine
        public Calendar(int userID, int MealID, DateTime TimetobeServed)
         {
             userid = userID;
-       //     mealid = Mealid;
-       //     timetobeserved = Timetobeserved;
+    
         }
 
         public Calendar( int userID, int Mealid, DateTime TimetobeServed, string connectionS)
         {
-
+            timetobeserved = TimetobeServed;
             userid = userID;
             mealid = Mealid;
             connection = connectionS;
-          //  timetobeserved = Timetobeserved;
+         
             myMeal = new Meal(userid, mealid, connection);
            
             

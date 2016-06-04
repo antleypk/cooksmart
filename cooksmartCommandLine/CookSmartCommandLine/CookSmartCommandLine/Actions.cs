@@ -1586,7 +1586,7 @@ namespace CookSmartCommandLine
 
         public DateTime stringToDateTime(string stringIN)
         {
-            //Console.WriteLine("Date string: " + stringIN);
+          //  Console.WriteLine("Date string: " + stringIN);
             string tempDateTimeString = stringIN;
             string month = "";
             string day = "";
@@ -2293,28 +2293,32 @@ namespace CookSmartCommandLine
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@userid", userID);
                     MySqlDataReader reader = command.ExecuteReader();
-                    printColumnNames(reader);
-                    Console.WriteLine();
+                 //   printColumnNames(reader);
+                //    Console.WriteLine();
                     while (reader.Read())
                     {
                         string mealIDstring = reader["MealID"].ToString();
                         int mealID = Convert.ToInt32(mealIDstring);
-                        Console.WriteLine("meal id: " + mealIDstring);
+                  //      Console.WriteLine("meal id: " + mealIDstring);
                         string tempDateTimeString = reader["DateToBeServered"].ToString();
                         DateTime newDateTime;
-                        Console.WriteLine("tbs: " + tempDateTimeString);
+                 //       Console.WriteLine("tbs: " + tempDateTimeString);
+                        //conver to propper
                        // Console.WriteLine(reader["Name"].ToString()+" "+tempDateTimeString);
 
                         newDateTime = stringToDateTime(tempDateTimeString);
                         //    Calendar temp = new Calendar(reader["Name"].ToString(), reader["Description"].ToString(), newDateTime, DateTime.Now, userID,mealID);
-                        Console.WriteLine("DateTime object: " + newDateTime);
+                     //  Console.WriteLine("DateTime object: " + newDateTime);
                         Calendar temp = new Calendar(userID, mealID, newDateTime, connection);
+                   //    Console.WriteLine("temp date: "+ temp.DateServed());
                         UserCalendar.Add(temp);
-                        temp.printCalendar();
+                       // temp.printCalendar();   
+                        //Console.WriteLine();
                     }
+                    //int hold=UserCalendar.Count();
+                    //Console.WriteLine("count = " + hold);
                     conn.Close();
                     reader.Close();
-                    Console.ReadLine();
                     if (parse == false)
                     {
                         Console.WriteLine("failed to parse your input sorry" + "\n");
@@ -2329,7 +2333,7 @@ namespace CookSmartCommandLine
 
 
             conn.Close();
-            Console.WriteLine("done user calender");
+      //      Console.WriteLine("done user calender");
          //   Console.ReadLine();
             return UserCalendar;
         }

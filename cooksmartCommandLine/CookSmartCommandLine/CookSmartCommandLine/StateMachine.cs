@@ -344,8 +344,10 @@ namespace CookSmartCommandLine
             //view all Calendar objects associated with user.
             Console.WriteLine("View Your Calander (1)");
             Console.WriteLine("Add to your Calander (2)");
+            Console.WriteLine("menu for menu");
            bool act = false;
             string userInput = Console.ReadLine();
+            userInput = userInput.ToLower();
 
             if (userInput == "1")
             {
@@ -353,9 +355,9 @@ namespace CookSmartCommandLine
                 UserCalendar = operations.UserCalendar(connection, userID);
                 foreach (Calendar c in UserCalendar)
                 {
-                    Console.WriteLine(c.getMeal().getName() + " " + c.getTimeToBeServed().ToString());
+                    Console.WriteLine(c.getMeal().getName() + " " + c.getTimeToBeServed());
                 }
-
+                Console.WriteLine();
             }
             if (userInput == "2")
             {
