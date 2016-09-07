@@ -484,7 +484,7 @@ namespace CookSmartCommandLine
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Console.WriteLine("failed to connect" + "\n");
+          //      Console.WriteLine("failed to connect" + "\n");
             }
    //         Console.WriteLine("Connected to CookSmart DataBase" + "\n");
             Actions firstAct = new Actions();
