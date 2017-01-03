@@ -332,6 +332,7 @@ namespace CookSmartCommandLine
             conn = new MySqlConnection(connection);
             try
             {
+                Console.Write("peter");
                 //            Console.WriteLine("Connecting to MySQL..." + "\n");
             }
             catch (Exception ex)
