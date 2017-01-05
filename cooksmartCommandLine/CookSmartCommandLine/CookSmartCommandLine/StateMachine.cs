@@ -843,11 +843,21 @@ namespace CookSmartCommandLine
             {
                 Recipes = operations.allRecipes(connectionString);
              }
+
+           // if (userInput == "1" || userInput == "recipe")
+            {
+                List<Recipe> myRecipes = operations.allRecipes(connectionString);
+                foreach (Recipe temprecipe in myRecipes)
+                {
+                    temprecipe.printRecipe();
+                }
+            }
+
             Console.WriteLine("\nRecipe Menu!  Options: \n ");
-            Console.Write("All Recipes (recipe or 1)" + "\n");
+     //       Console.Write("All Recipes (recipe or 1)" + "\n");
             Console.Write("See ingredients from a recipe '2' " + "\n");
             Console.Write("See instructions from a recipe '3' " + "\n");
-            Console.WriteLine("Print recipe by ID '4' ");
+            Console.WriteLine("Print Recipe by ID '4' ");
             Console.WriteLine("Delete Recipe '5'");
             Console.WriteLine("Update Recipe '6'");
             Console.WriteLine("Reorder Recipe '7'");
@@ -859,29 +869,26 @@ namespace CookSmartCommandLine
             //  operations.allIngredientInRecipe(connectionString);
             bool acted = false;
 
-            if (userInput == "1" || userInput == "recipe")
-            {
-                List<Recipe> myRecipes=operations.allRecipes(connectionString);
-                foreach (Recipe temprecipe in myRecipes)
-                {
-                    temprecipe.printRecipe();
-                }
-            }
+           
 
+           
             if (userInput == "2")
             {
                 operations.allIngredientInRecipe(connectionString);
+                
             }
             if (userInput == "3")
             {
                 operations.allInstructionInRecipe(connectionString);
+                string wait = Console.ReadLine();
             }
             if (userInput == "4")
             {
                 Recipe myRecipe = operations.RecipeByID(connectionString, userID);
-                // myrecipe.printRecipe();
-                // RecipeGuide myGuide = new RecipeGuide(UserID);
-                //  myGuide.previewRecipe(myRecipe);
+                 myRecipe.printRecipe();
+                 RecipeGuide myGuide = new RecipeGuide(UserID);
+                 myGuide.previewRecipe(myRecipe);
+                string wait = Console.ReadLine();
             }
             if (userInput == "5")
             {
@@ -896,13 +903,15 @@ namespace CookSmartCommandLine
                 {
                     operations.DeleteRecipeWithoutInstruction(connectionString, userID, Rec);
                 }
+                string wait = Console.ReadLine();
             }
             if (userInput == "6")
             {
                 Recipe myrecipe = operations.RecipeByID(connectionString, userID);
 
                 RecipeGuide guide = new RecipeGuide(userID);
-              
+                string wait = Console.ReadLine();
+
             }
             if (userInput == "menu")
             {
@@ -910,6 +919,7 @@ namespace CookSmartCommandLine
             }
 
             if (acted == false)
+       
             {
                 RecipeMenu(operations, connectionString, userID);
             }

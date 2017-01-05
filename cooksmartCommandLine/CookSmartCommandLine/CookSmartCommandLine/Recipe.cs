@@ -33,6 +33,10 @@ namespace CookSmartCommandLine
             userid = userID;
 
         }
+        public int instructionCount()
+        {
+            return instructionRecipe.Count();
+        }
         public int getUserID()
         {
             return userid;

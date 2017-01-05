@@ -1255,6 +1255,7 @@ namespace CookSmartCommandLine
                     }
                     reader.Close();
                     conn.Close();
+                 
                 }
                 if (parse == false)
                 {

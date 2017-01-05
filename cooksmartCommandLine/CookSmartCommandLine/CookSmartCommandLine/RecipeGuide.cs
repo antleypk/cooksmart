@@ -102,7 +102,10 @@ namespace CookSmartCommandLine
             string name = thisrecipe.getName();
             string description = thisrecipe.getDescription();
             int servingsize = thisrecipe.getServingSize();
+            int instructionCount = thisrecipe.instructionCount();
+           
             Console.WriteLine("\n + id + \n: " + id + "\n + Title \n" + name + "\n + Description + \n" + description + "\n + Serving Size \n" + servingsize);
+            Console.WriteLine("instruction count:" + instructionCount);
             List<Instruction> previewinstructions = thisrecipe.getInstructionRecipe();
             for (int i = 0; i < previewinstructions.Count(); i++)
             {
